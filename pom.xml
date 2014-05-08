@@ -11,7 +11,7 @@
         <dependency>
             <groupId>com.netflix.rxjava</groupId>
             <artifactId>rxjava-core</artifactId>
-            <version>0.17.4</version>
+            <version>0.18.3</version>
         </dependency>
         <dependency>
             <groupId>org.rxtudelft.reactiveui</groupId>
