@@ -19,6 +19,10 @@ public class ObservableShape extends Shape {
         return this.model;
     }
 
+    public void setModel(Observable<MarbleModel> model) {
+        this.model = model;
+    }
+
     @Override
     public com.sun.javafx.geom.Shape impl_configShape() {
         return null;
