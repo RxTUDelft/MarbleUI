@@ -3,10 +3,10 @@ package org.rxtudelft.marbleui.diagram;
 /**
  * Created by ferdy on 5/8/14.
  */
-public class Marble {
+public class MarbleModel {
     private String name;
 
-    public Marble(String name) {
+    public MarbleModel(String name) {
         this.name = name;
     }
 

@@ -1,24 +1,22 @@
 package org.rxtudelft.marbleui.diagram.initOperator;
 
-import org.rxtudelft.marbleui.diagram.Marble;
+import org.rxtudelft.marbleui.diagram.MarbleModel;
 import rx.Observable;
 import rx.functions.Func1;
-
-import java.util.List;
 
 /**
  * Created by ferdy on 5/16/14.
  */
 public class InitFilter implements InitOperator1 {
 
-    private Func1<Marble, Boolean> filter;
+    private Func1<MarbleModel, Boolean> filter;
 
-    public InitFilter(Func1<Marble, Boolean> filter) {
+    public InitFilter(Func1<MarbleModel, Boolean> filter) {
         this.filter = filter;
     }
 
     @Override
-    public Observable<Marble> call1(Observable<Marble> toFilter) {
+    public Observable<MarbleModel> call1(Observable<MarbleModel> toFilter) {
         return toFilter.filter(filter);
     }
 }
