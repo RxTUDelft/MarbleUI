@@ -16,8 +16,8 @@ import javafx.scene.shape.StrokeType;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-import org.rxtudelft.reactiveui.FXRX;
 import rx.Observable;
+import rx.observables.JavaFxObservable;
 import rx.subjects.PublishSubject;
 
 import java.util.ArrayList;
@@ -59,8 +59,8 @@ public class MarbleUI extends Application {
 
 
 
-        Observable.combineLatest( FXRX.fromObservableValue(stage.widthProperty())
-                                , FXRX.fromObservableValue(stage.heightProperty())
+        Observable.combineLatest( JavaFxObservable.fromObservableValue(stage.widthProperty())
+                                , JavaFxObservable.fromObservableValue(stage.heightProperty())
                                 , marbles[0]
                                 , marbles[1]
                                 , marbles[2]
@@ -73,18 +73,18 @@ public class MarbleUI extends Application {
             root.setSpacing(0);
 
             Node n = observable(width, h, m1);
-            FXRX.subscribeNode(MouseEvent.MOUSE_CLICKED, n, obs[0]);
+            JavaFxObservable.fromNodeEvents(n, MouseEvent.MOUSE_CLICKED).subscribe(obs[0]);
             root.getChildren().addAll(n);
 
             n = observable(width, h, m2);
-            FXRX.subscribeNode(MouseEvent.MOUSE_CLICKED, n, obs[1]);
+            JavaFxObservable.fromNodeEvents(n, MouseEvent.MOUSE_CLICKED).subscribe(obs[1]);
             root.getChildren().addAll(n);
 
             n = operator(width, h, "Test");
             root.getChildren().add(n);
 
             n = observable(width, h, m3);
-            FXRX.subscribeNode(MouseEvent.MOUSE_CLICKED, n, obs[2]);
+            JavaFxObservable.fromNodeEvents(n, MouseEvent.MOUSE_CLICKED).subscribe(obs[2]);
             root.getChildren().addAll(n);
 
             return root;

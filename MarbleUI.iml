@@ -9,8 +9,8 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Maven: com.netflix.rxjava:rxjava-core:0.18.3" level="project" />
-    <orderEntry type="module" module-name="ReactiveUI" />
+    <orderEntry type="module" module-name="RxJava-core" />
+    <orderEntry type="module" module-name="RxJava-JavaFX" />
   </component>
 </module>
 
