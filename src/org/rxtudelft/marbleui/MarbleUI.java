@@ -16,6 +16,7 @@ import javafx.scene.shape.StrokeType;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
+import org.rxtudelft.marbleui.diagram.GhostMarble;
 import rx.Observable;
 import rx.observables.JavaFxObservable;
 import rx.subjects.PublishSubject;
@@ -42,29 +43,45 @@ public class MarbleUI extends Application {
 
         stage.setScene(new Scene(new Group(), width, height, Color.WHITE));
         @SuppressWarnings("unchecked")
-        PublishSubject<MouseEvent>[] obs = (PublishSubject<MouseEvent>[]) new PublishSubject[] {
+        PublishSubject<MouseEvent>[] clicks = (PublishSubject<MouseEvent>[]) new PublishSubject[] {
             PublishSubject.create(), PublishSubject.create(), PublishSubject.create()
         };
 
-        @SuppressWarnings("unchecked")
-        Observable<List<Double>>[] marbles = Arrays.stream(obs)
-                .map((PublishSubject<MouseEvent> ps) ->
-                        ps.asObservable()
-                                .map(MouseEvent::getX)
-                                .scan(new ArrayList<Double>(), (l, d) -> {
-                                    l.add(d);
-                                    return l;
-                                }))
-                .collect(Collectors.toList()).toArray(new Observable[0]);
+        Observable<List<Double>[]> marbles ; {
+            @SuppressWarnings("unchecked")
+            Observable<List<Double>>[] m = Arrays.stream(clicks)
+                    .map((PublishSubject<MouseEvent> ps) ->
+                            ps.asObservable()
+                                    .map(MouseEvent::getX)
+                                    .scan(new ArrayList<Double>(), (l, d) -> {
+                                        l.add(d);
+                                        return l;
+                                    }))
+                    .collect(Collectors.toList()).toArray(new Observable[0]);
 
+            marbles = Observable.combineLatest(m[0], m[1], m[2], (a, b, c) -> (List<Double>[]) new List[]{a, b, c});
+        }
 
+        PublishSubject<MouseEvent>[] hovers = (PublishSubject<MouseEvent>[]) new PublishSubject[] {
+                PublishSubject.create(), PublishSubject.create(), PublishSubject.create()
+        };
+
+        Observable<GhostMarble> ghosts;
+        {
+            Observable<Double>[] g = Arrays.stream(hovers)
+                    .map((PublishSubject<MouseEvent> ps) ->
+                            ps.asObservable().map(MouseEvent::getX))
+                    .collect(Collectors.toList()).toArray(new Observable[0]);
+            ghosts = Observable.merge( g[0].map(x -> new GhostMarble(0,x))
+                                     , g[1].map(x -> new GhostMarble(1,x))
+                                     , g[2].map(x -> new GhostMarble(2,x))).startWith(new GhostMarble(-1,0));
+        }
 
         Observable.combineLatest( JavaFxObservable.fromObservableValue(stage.widthProperty())
                                 , JavaFxObservable.fromObservableValue(stage.heightProperty())
-                                , marbles[0]
-                                , marbles[1]
-                                , marbles[2]
-                                , (numW,numH,m1,m2,m3) -> {
+                                , marbles
+                                , ghosts
+                                , (numW,numH,m,g) -> {
             double width   = numW.doubleValue();
             double height  = numH.doubleValue();
             double h       = height / 5;
@@ -72,19 +89,35 @@ public class MarbleUI extends Application {
             VBox root = new VBox();
             root.setSpacing(0);
 
-            Node n = observable(width, h, m1);
-            JavaFxObservable.fromNodeEvents(n, MouseEvent.MOUSE_CLICKED).subscribe(obs[0]);
+            Node n;
+            if(g.getObs() == 0) {
+                n = observable(width, h, m[0], g.getX());
+            } else {
+                n = observable(width, h, m[0]);
+            }
+            JavaFxObservable.fromNodeEvents(n, MouseEvent.MOUSE_CLICKED).subscribe(clicks[0]);
+            JavaFxObservable.fromNodeEvents(n, MouseEvent.MOUSE_MOVED).subscribe(hovers[0]);
             root.getChildren().addAll(n);
 
-            n = observable(width, h, m2);
-            JavaFxObservable.fromNodeEvents(n, MouseEvent.MOUSE_CLICKED).subscribe(obs[1]);
+            if(g.getObs() == 1) {
+                n = observable(width, h, m[1], g.getX());
+            } else {
+                n = observable(width, h, m[1]);
+            }
+            JavaFxObservable.fromNodeEvents(n, MouseEvent.MOUSE_CLICKED).subscribe(clicks[1]);
+            JavaFxObservable.fromNodeEvents(n, MouseEvent.MOUSE_MOVED).subscribe(hovers[1]);
             root.getChildren().addAll(n);
 
             n = operator(width, h, "Test");
             root.getChildren().add(n);
 
-            n = observable(width, h, m3);
-            JavaFxObservable.fromNodeEvents(n, MouseEvent.MOUSE_CLICKED).subscribe(obs[2]);
+            if(g.getObs() == 2) {
+                n = observable(width, h, m[2], g.getX());
+            } else {
+                n = observable(width, h, m[2]);
+            }
+            JavaFxObservable.fromNodeEvents(n, MouseEvent.MOUSE_CLICKED).subscribe(clicks[2]);
+            JavaFxObservable.fromNodeEvents(n, MouseEvent.MOUSE_MOVED).subscribe(hovers[2]);
             root.getChildren().addAll(n);
 
             return root;
@@ -124,13 +157,32 @@ public class MarbleUI extends Application {
             pentagon.setStrokeWidth(2);
             pentagon.setFill(Color.TRANSPARENT);
 
-            pentagon.setTranslateX(x);
+            pentagon.setTranslateX(Math.min(width-padding,Math.max(padding,x)));
 
             return pentagon;
         }).collect(Collectors.toList());
 
         observable.getChildren().addAll(background, line);
         observable.getChildren().addAll(pentagons);
+
+        return observable;
+    }
+
+    public static Node observable(double width, double height, List<Double> marbles, double ghost) {
+        Group observable = (Group) observable(width,height,marbles);
+
+        double padding = height/2;
+
+        Polygon ghostPentagon = NGon.pointUp(0, padding, 5, 0.8 * padding);
+
+        ghostPentagon.setStrokeType(StrokeType.INSIDE);
+        ghostPentagon.setStroke(Color.GRAY);
+        ghostPentagon.setStrokeWidth(2);
+        ghostPentagon.setFill(Color.TRANSPARENT);
+
+        ghostPentagon.setTranslateX(Math.min(width-padding,Math.max(padding,ghost)));
+
+        observable.getChildren().add(ghostPentagon);
 
         return observable;
     }
