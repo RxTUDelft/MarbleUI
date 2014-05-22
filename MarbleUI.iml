@@ -12,6 +12,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="RxJava-core" />
     <orderEntry type="module" module-name="RxJava-JavaFX" />
+    <orderEntry type="library" name="Maven: com.netflix.rxjava:rxjava-core:0.18.3" level="project" />
   </component>
 </module>
 
