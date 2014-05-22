@@ -1,24 +1,22 @@
 package org.rxtudelft.marbleui.diagram.initOperator;
 
-import org.rxtudelft.marbleui.diagram.Marble;
+import org.rxtudelft.marbleui.diagram.MarbleModel;
 import rx.Observable;
 import rx.functions.Func1;
-
-import java.util.List;
 
 /**
  * Created by ferdy on 5/16/14.
  */
 public class InitMap implements InitOperator1 {
 
-    private Func1<Marble, Marble> mapping;
+    private Func1<MarbleModel, MarbleModel> mapping;
 
-    public InitMap(Func1<Marble, Marble> mapping) {
+    public InitMap(Func1<MarbleModel, MarbleModel> mapping) {
         this.mapping = mapping;
     }
 
     @Override
-    public Observable<Marble> call1(Observable<Marble> toMap) {
+    public Observable<MarbleModel> call1(Observable<MarbleModel> toMap) {
         return toMap.map(mapping);
     }
 }
