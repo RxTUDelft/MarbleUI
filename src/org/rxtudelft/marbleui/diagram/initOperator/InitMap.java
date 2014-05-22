@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by ferdy on 5/16/14.
  */
-public class InitMap extends InitOperator {
+public class InitMap implements InitOperator1 {
 
     private Func1<Marble, Marble> mapping;
 
@@ -18,8 +18,7 @@ public class InitMap extends InitOperator {
     }
 
     @Override
-    public Observable<Marble> call(List<Observable<Marble>> observables) {
-        Observable<Marble> from = observables.get(0);
-        return from.map(mapping);
+    public Observable<Marble> call1(Observable<Marble> toMap) {
+        return toMap.map(mapping);
     }
 }

@@ -9,5 +9,5 @@ import java.util.List;
 /**
  * Created by ferdy on 5/16/14.
  */
-abstract public class InitOperator implements Func1<List<Observable<Marble>>, Observable<Marble>> {
+public interface InitOperator extends Func1<List<Observable<Marble>>, Observable<Marble>> {
 }
