@@ -15,16 +15,28 @@ import static java.lang.Math.sin;
  * Created by ferdy on 5/22/14.
  */
 public class SimpleMarbleShape extends MarbleShape {
+    public MarbleModel model;
+
+    public MarbleModel getModel() {
+        return this.model;
+    }
+
+    public void setModel(MarbleModel model) {
+        this.model = model;
+    }
+
     public SimpleMarbleShape(MarbleModel model, double x, double y, int n, double r) {
-        super(model);
-            Polygon polygon = new Polygon();
-            if (n <= 2) throw new IllegalArgumentException("n should be larger than 2");
-            double t = 2 * PI / n;
+        super();
 
-            ObservableList<Double> points = polygon.getPoints();
+        this.model = model;
+        Polygon polygon = new Polygon();
+        if (n <= 2) throw new IllegalArgumentException("n should be larger than 2");
+        double t = 2 * PI / n;
 
-            Stream.iterate(0, (m) -> m + 1).limit(n)
-                    .flatMapToDouble((i) -> DoubleStream.of(x + r * sin(t * i), y - r * cos(t * i)))
-                    .forEach(points::add);
+        ObservableList<Double> points = polygon.getPoints();
+
+        Stream.iterate(0, (m) -> m + 1).limit(n)
+                .flatMapToDouble((i) -> DoubleStream.of(x + r * sin(t * i), y - r * cos(t * i)))
+                .forEach(points::add);
     }
 }
