@@ -23,8 +23,10 @@ import rx.subjects.PublishSubject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  *
@@ -42,40 +44,32 @@ public class MarbleUI extends Application {
         stage.setTitle("MarbleUI");
 
         stage.setScene(new Scene(new Group(), width, height, Color.WHITE));
+
         @SuppressWarnings("unchecked")
-        PublishSubject<MouseEvent>[] clicks = (PublishSubject<MouseEvent>[]) new PublishSubject[] {
+        PublishSubject<Double>[] clicks = (PublishSubject<Double>[]) new PublishSubject[] {
             PublishSubject.create(), PublishSubject.create(), PublishSubject.create()
         };
 
         Observable<List<Double>[]> marbles ; {
-            @SuppressWarnings("unchecked")
-            Observable<List<Double>>[] m = Arrays.stream(clicks)
-                    .map((PublishSubject<MouseEvent> ps) ->
-                            ps.asObservable()
-                                    .map(MouseEvent::getX)
-                                    .scan(new ArrayList<Double>(), (l, d) -> {
-                                        l.add(d);
-                                        return l;
-                                    }))
-                    .collect(Collectors.toList()).toArray(new Observable[0]);
+            Stream<Observable<ArrayList<Double>>> sm = Arrays.stream(clicks).map(ps ->
+                    ps.<ArrayList<Double>>scan(new ArrayList<>(), (ArrayList<Double> l, Double d) -> {
+                        l.add(d);
+                        return l;
+                    }));
 
-            marbles = Observable.combineLatest(m[0], m[1], m[2], (a, b, c) -> (List<Double>[]) new List[]{a, b, c});
+            List<Observable<ArrayList<Double>>> m = sm.collect(Collectors.toList());
+
+            marbles = Observable.combineLatest(m, args -> (List<Double>[]) new List[]{(List)args[0], (List)args[1], (List)args[2]});
         }
 
-        PublishSubject<MouseEvent>[] hovers = (PublishSubject<MouseEvent>[]) new PublishSubject[] {
+        @SuppressWarnings("unchecked")
+        PublishSubject<Double>[] hovers = (PublishSubject<Double>[]) new PublishSubject[] {
                 PublishSubject.create(), PublishSubject.create(), PublishSubject.create()
         };
 
-        Observable<GhostMarble> ghosts;
-        {
-            Observable<Double>[] g = Arrays.stream(hovers)
-                    .map((PublishSubject<MouseEvent> ps) ->
-                            ps.asObservable().map(MouseEvent::getX))
-                    .collect(Collectors.toList()).toArray(new Observable[0]);
-            ghosts = Observable.merge( g[0].map(x -> new GhostMarble(0,x))
-                                     , g[1].map(x -> new GhostMarble(1,x))
-                                     , g[2].map(x -> new GhostMarble(2,x))).startWith(new GhostMarble(-1,0));
-        }
+        Observable<GhostMarble> ghosts = Observable.merge(hovers[0].map(x -> new GhostMarble(0, x))
+            , hovers[1].map(x -> new GhostMarble(1, x))
+            , hovers[2].map(x -> new GhostMarble(2, x))).startWith(new GhostMarble(-1, 0));
 
         Observable.combineLatest( JavaFxObservable.fromObservableValue(stage.widthProperty())
                                 , JavaFxObservable.fromObservableValue(stage.heightProperty())
@@ -90,34 +84,16 @@ public class MarbleUI extends Application {
             root.setSpacing(0);
 
             Node n;
-            if(g.getObs() == 0) {
-                n = observable(width, h, m[0], g.getX());
-            } else {
-                n = observable(width, h, m[0]);
-            }
-            JavaFxObservable.fromNodeEvents(n, MouseEvent.MOUSE_CLICKED).subscribe(clicks[0]);
-            JavaFxObservable.fromNodeEvents(n, MouseEvent.MOUSE_MOVED).subscribe(hovers[0]);
+            n = observable(width, h, m, g, 0, clicks, hovers);
             root.getChildren().addAll(n);
 
-            if(g.getObs() == 1) {
-                n = observable(width, h, m[1], g.getX());
-            } else {
-                n = observable(width, h, m[1]);
-            }
-            JavaFxObservable.fromNodeEvents(n, MouseEvent.MOUSE_CLICKED).subscribe(clicks[1]);
-            JavaFxObservable.fromNodeEvents(n, MouseEvent.MOUSE_MOVED).subscribe(hovers[1]);
+            n = observable(width, h, m, g, 1, clicks, hovers);
             root.getChildren().addAll(n);
 
             n = operator(width, h, "Test");
             root.getChildren().add(n);
 
-            if(g.getObs() == 2) {
-                n = observable(width, h, m[2], g.getX());
-            } else {
-                n = observable(width, h, m[2]);
-            }
-            JavaFxObservable.fromNodeEvents(n, MouseEvent.MOUSE_CLICKED).subscribe(clicks[2]);
-            JavaFxObservable.fromNodeEvents(n, MouseEvent.MOUSE_MOVED).subscribe(hovers[2]);
+            n = observable(width, h, m, g, 2, clicks, hovers);
             root.getChildren().addAll(n);
 
             return root;
@@ -130,6 +106,24 @@ public class MarbleUI extends Application {
         stage.show();
     }
 
+    private static Node observable(double width, double h, List<Double>[] m, GhostMarble g, int i, PublishSubject<Double>[] clicks, PublishSubject<Double>[] hovers) {
+        Node n;
+        if(g.getObs() == i) {
+            n = observable(width, h, m[i], g.getX());
+        } else {
+            n = observable(width, h, m[i]);
+        }
+        JavaFxObservable.fromNodeEvents(n, MouseEvent.MOUSE_CLICKED)
+                .map(MouseEvent::getX)
+                .map(x -> Math.min(width - h / 2, Math.max(h / 2, x)))
+                .subscribe(clicks[i]);
+        JavaFxObservable.fromNodeEvents(n, MouseEvent.MOUSE_MOVED)
+                .map(MouseEvent::getX)
+                .map(x -> Math.min(width - h / 2, Math.max(h / 2, x)))
+                .subscribe(hovers[i]);
+        return n;
+    }
+
     public static Node observable(double width, double height, List<Double> marbles) {
         Group observable = new Group();
 
@@ -139,7 +133,8 @@ public class MarbleUI extends Application {
         Rectangle background = new Rectangle(0, 0, width, height);
         background.setFill(Color.TRANSPARENT);
 
-        Line line = new Line(0, 0, width-2*padding, 0);
+        Double m = marbles.stream().max(Comparator.<Double>naturalOrder()).orElseGet(() -> 0d);
+        Line line = new Line(0, 0, Math.max(width - 2 * padding, m), 0);
 
         line.setStrokeType(StrokeType.CENTERED);
         line.setStroke(Color.BLACK);
@@ -148,8 +143,7 @@ public class MarbleUI extends Application {
         line.setTranslateX(padding);
         line.setTranslateY(padding);
 
-        List<Polygon> pentagons = marbles.stream()
-                .map((x) -> {
+        List<Polygon> pentagons = marbles.stream().map((x) -> {
             Polygon pentagon = NGon.pointUp(0, padding, 5, 0.8 * padding);
 
             pentagon.setStrokeType(StrokeType.INSIDE);
@@ -157,7 +151,7 @@ public class MarbleUI extends Application {
             pentagon.setStrokeWidth(2);
             pentagon.setFill(Color.TRANSPARENT);
 
-            pentagon.setTranslateX(Math.min(width-padding,Math.max(padding,x)));
+            pentagon.setTranslateX(x);
 
             return pentagon;
         }).collect(Collectors.toList());
@@ -180,7 +174,7 @@ public class MarbleUI extends Application {
         ghostPentagon.setStrokeWidth(2);
         ghostPentagon.setFill(Color.TRANSPARENT);
 
-        ghostPentagon.setTranslateX(Math.min(width-padding,Math.max(padding,ghost)));
+        ghostPentagon.setTranslateX(ghost);
 
         observable.getChildren().add(ghostPentagon);
 
