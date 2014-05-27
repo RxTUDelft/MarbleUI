@@ -1,4 +1,4 @@
-package org.rxtudelft.marbleui;
+package org.rxtudelft.marbleui.shape;
 
 import javafx.scene.Group;
 import javafx.scene.input.MouseEvent;
@@ -7,6 +7,7 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
+import org.rxtudelft.marbleui.NGon;
 import rx.Observer;
 import rx.observables.JavaFxObservable;
 
@@ -33,7 +34,7 @@ public class NodeObservable extends Group {
 
         JavaFxObservable.fromNodeEvents(this, MouseEvent.MOUSE_CLICKED)
                 .map(MouseEvent::getX)
-                .map(x -> Math.min(width - height / 2, Math.max(height / 2, x)))
+                .map(x -> Math.min(width - height / 2, Math.max( height / 2, x)))
                 .subscribe(clicks[id]);
         JavaFxObservable.fromNodeEvents(this, MouseEvent.MOUSE_MOVED)
                 .map(MouseEvent::getX)
