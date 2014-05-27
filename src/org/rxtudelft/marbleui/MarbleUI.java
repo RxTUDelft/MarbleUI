@@ -3,10 +3,12 @@ package org.rxtudelft.marbleui;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
+import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -14,6 +16,8 @@ import javafx.scene.shape.StrokeType;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
+import org.rxtudelft.marbleui.diagram.GhostMarble;
+import org.rxtudelft.marbleui.shape.NodeOperator;
 import rx.Observable;
 import rx.observables.JavaFxObservable;
 import rx.subjects.PublishSubject;
@@ -85,11 +89,13 @@ public class MarbleUI extends Application {
             n = new NodeObservable(1, width, h, m, g[1], clicks, hovers);
             root.getChildren().addAll(n);
 
-            n = operator(width, h, "Test");
+            n = new NodeOperator(width, h, "Test");
             root.getChildren().add(n);
 
             n = new NodeObservable(2, width, h, m, g[2], clicks, hovers);
             root.getChildren().addAll(n);
+
+            root.setPadding(new Insets(h / 2));
 
             return root;
 
@@ -99,23 +105,5 @@ public class MarbleUI extends Application {
         });
 
         stage.show();
-    }
-
-    public static Node operator(double w, double h, String name) {
-        double p = h/2; // padding
-
-        Rectangle rectangle = new Rectangle(p, p, w-2*p, h);
-
-        rectangle.setStrokeType(StrokeType.INSIDE);
-        rectangle.setStroke(Color.BLACK);
-        rectangle.setStrokeWidth(2);
-        rectangle.setFill(Color.TRANSPARENT);
-
-        Text text = new Text(name);
-
-        text.setTextAlignment(TextAlignment.CENTER);
-        text.setTextOrigin(VPos.CENTER);
-
-        return new StackPane(rectangle, text);
     }
 }
