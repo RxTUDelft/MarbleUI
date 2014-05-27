@@ -1,6 +1,7 @@
 package org.rxtudelft.marbleui;
 
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -92,6 +93,8 @@ public class MarbleUI extends Application {
 
             n = observable(width, h, m, g, 2, clicks, hovers);
             root.getChildren().addAll(n);
+
+            root.setPadding(new Insets(h / 2));
 
             return root;
 
