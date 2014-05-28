@@ -20,18 +20,25 @@ import static java.lang.Math.sin;
  * Jeff's awesome NGon used as a simple marble
  */
 public class NodeSimpleMarble extends NodeMarble {
+    private Polygon stroke;
 
     public NodeSimpleMarble(int n, double r) {
         super();
 
-        Polygon polygon = new Polygon();
+        this.stroke = new Polygon();
         if (n <= 2) throw new IllegalArgumentException("n should be larger than 2");
         double t = 2 * PI / n;
 
-        ObservableList<Double> points = polygon.getPoints();
+        ObservableList<Double> points = stroke.getPoints();
 
         Stream.iterate(0, (m) -> m + 1).limit(n)
                 .flatMapToDouble((i) -> DoubleStream.of(r * sin(t * i), r * cos(t * i)))
                 .forEach(points::add);
+
+        this.getChildren().add(stroke);
+    }
+
+    protected Polygon getStroke() {
+        return stroke;
     }
 }
