@@ -3,14 +3,14 @@ package org.rxtudelft.marbleui.diagram;
 /**
  * Created by jeff on 22-5-14.
  */
-public final class GhostMarble {
+public final class NodeGhostMarble {
     private double x;
 
     public double getX() {
         return x;
     }
 
-    public GhostMarble(double x) {
+    public NodeGhostMarble(double x) {
         this.x = x;
     }
 }
