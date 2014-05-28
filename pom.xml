@@ -18,6 +18,12 @@
             <artifactId>FXRX</artifactId>
             <version>1.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.liferay.portal</groupId>
+            <artifactId>util-java</artifactId>
+            <version>6.2.1</version>
+        </dependency>
+
     </dependencies>
     <build>
         <plugins>
