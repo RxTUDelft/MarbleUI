@@ -24,7 +24,7 @@ public class NodeObservable extends Group {
     private double width;
     private double height;
 
-    NodeObservable(int id, double width, double height, List<Double>[] marbles, Double ghost, Observer<Double>[] clicks, Observer<Double>[] hovers) {
+    public NodeObservable(int id, double width, double height, List<Double>[] marbles, Double ghost, Observer<Double>[] clicks, Observer<Double>[] hovers) {
         this.ghost   = ghost;
         this.width   = width;
         this.height  = height;
