@@ -1,4 +1,4 @@
-package org.rxtudelft.marbleui.shape;
+package org.rxtudelft.marbleui.node;
 
 import javafx.scene.Group;
 import javafx.scene.input.MouseEvent;

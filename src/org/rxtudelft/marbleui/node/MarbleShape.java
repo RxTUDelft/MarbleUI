@@ -1,7 +1,6 @@
-package org.rxtudelft.marbleui.shape;
+package org.rxtudelft.marbleui.node;
 
 import javafx.scene.shape.Shape;
-import org.rxtudelft.marbleui.diagram.MarbleModel;
 
 /**
  * Created by ferdy on 5/22/14.

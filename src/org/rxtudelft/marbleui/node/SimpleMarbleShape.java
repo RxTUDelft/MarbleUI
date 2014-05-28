@@ -1,4 +1,4 @@
-package org.rxtudelft.marbleui.shape;
+package org.rxtudelft.marbleui.node;
 
 import javafx.collections.ObservableList;
 import javafx.scene.shape.Polygon;

@@ -1,4 +1,4 @@
-package org.rxtudelft.marbleui.shape;
+package org.rxtudelft.marbleui.node;
 
 /**
  * Created by ferdy on 5/22/14.
