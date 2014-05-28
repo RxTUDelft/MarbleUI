@@ -1,16 +1,15 @@
 package org.rxtudelft.marbleui.diagram;
 
+import javafx.scene.paint.Color;
+import org.rxtudelft.marbleui.node.NodeSimpleMarble;
+
 /**
- * Created by jeff on 22-5-14.
+ * Transparent marble
  */
-public final class NodeGhostMarble {
-    private double x;
-
-    public double getX() {
-        return x;
-    }
-
-    public NodeGhostMarble(double x) {
-        this.x = x;
+public final class NodeGhostMarble extends NodeSimpleMarble {
+    public NodeGhostMarble(int n, double r) {
+        super(n, r);
+        this.getStroke().setStroke(Color.GRAY);
+        this.getStroke().setFill(Color.TRANSPARENT);
     }
 }
