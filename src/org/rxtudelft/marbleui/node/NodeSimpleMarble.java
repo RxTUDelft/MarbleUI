@@ -20,20 +20,10 @@ import static java.lang.Math.sin;
  * Jeff's awesome NGon used as a simple marble
  */
 public class NodeSimpleMarble extends NodeMarble {
-    public MarbleModel model;
 
-    public MarbleModel getModel() {
-        return this.model;
-    }
-
-    public void setModel(MarbleModel model) {
-        this.model = model;
-    }
-
-    public NodeSimpleMarble(MarbleModel model, double x, double y, int n, double r) {
+    public NodeSimpleMarble(double x, double y, int n, double r) {
         super();
 
-        this.model = model;
         Polygon polygon = new Polygon();
         if (n <= 2) throw new IllegalArgumentException("n should be larger than 2");
         double t = 2 * PI / n;
