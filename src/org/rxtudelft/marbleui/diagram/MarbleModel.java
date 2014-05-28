@@ -3,7 +3,7 @@ package org.rxtudelft.marbleui.diagram;
 /**
  * Created by ferdy on 5/8/14.
  */
-public class MarbleModel {
+abstract public class MarbleModel {
 
     private double t;
 

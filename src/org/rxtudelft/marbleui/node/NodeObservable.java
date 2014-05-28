@@ -7,21 +7,14 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Group;
-import javafx.scene.Node;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
-import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
-import org.rxtudelft.marbleui.NGon;
-import org.rxtudelft.marbleui.diagram.NodeGhostMarble;
-import org.rxtudelft.marbleui.diagram.MarbleModel;
-import rx.Observer;
+import org.rxtudelft.marbleui.diagram.initOperator.SimpleMarbleModel;
 import rx.observables.JavaFxObservable;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * A javafx.scene.Node (really a Group) that represents a whole observable, including marbles.
@@ -35,10 +28,10 @@ public class NodeObservable extends Group {
     private NodeGhostMarble ghostMarble;
 
     //all the models that I need to draw a marble for
-    private ListProperty<MarbleModel> marbles;
+    private ListProperty<SimpleMarbleModel> marbles;
 
     //list of all marble nodes drawn
-    private List<NodeMarble> nodeMarbles;
+    private List<NodeSimpleMarble> nodeMarbles;
 
     //TODO should be property
     private double width;
@@ -86,7 +79,8 @@ public class NodeObservable extends Group {
                     ms.forEach(m -> {
                         //TODO simple/composite?
                         //TODO dif with old marbles
-                        NodeSimpleMarble nm = new NodeSimpleMarble(5, r);
+                        NodeSimpleMarble nm = new NodeSimpleMarble(m.getNum(), r);
+                        nm.setFill(m.getColor());
                         nm.setTranslateX(m.getT());
                         this.nodeMarbles.add(nm);
                         this.getChildren().add(nm);
@@ -110,11 +104,11 @@ public class NodeObservable extends Group {
         return ghost;
     }
 
-    public ObservableList<MarbleModel> getMarbles() {
+    public ObservableList<SimpleMarbleModel> getMarbles() {
         return marbles.get();
     }
 
-    public ListProperty<MarbleModel> marblesProperty() {
+    public ListProperty<SimpleMarbleModel> marblesProperty() {
         return marbles;
     }
 }

@@ -10,8 +10,8 @@ public final class NodeGhostMarble extends NodeSimpleMarble {
     public NodeGhostMarble(int n, double r) {
         super(n, r);
 
-        this.getStroke().setFill(Color.TRANSPARENT);
-        this.getStroke().setStroke(Color.GRAY);
-        this.getStroke().setStrokeWidth(2);
+        this.setFill(Color.TRANSPARENT);
+        this.setStroke(Color.GRAY);
+        this.setStrokeWidth(2);
     }
 }

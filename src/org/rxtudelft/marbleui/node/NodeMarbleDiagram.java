@@ -5,7 +5,9 @@ import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import org.rxtudelft.marbleui.diagram.MarbleModel;
+import org.rxtudelft.marbleui.diagram.initOperator.SimpleMarbleModel;
 import rx.observables.JavaFxObservable;
 
 import java.util.OptionalDouble;
@@ -29,13 +31,13 @@ public class NodeMarbleDiagram extends Group {
 
         JavaFxObservable.fromNodeEvents(nObs, MouseEvent.MOUSE_MOVED)
                 .subscribe(e -> {
-            nObs.ghostProperty().set(OptionalDouble.of(e.getX()));
-        });
+                    nObs.ghostProperty().set(OptionalDouble.of(e.getX()));
+                });
 
         JavaFxObservable.fromNodeEvents(nObs, MouseEvent.MOUSE_CLICKED)
                 .subscribe(e -> {
-            nObs.marblesProperty().add(new MarbleModel(e.getX()));
-        });
+                    nObs.marblesProperty().add(new SimpleMarbleModel(e.getX(), 5, Color.AZURE));
+                });
 
         final NodeOperator nOp = new NodeOperator(width, h, "Test");
         root.getChildren().add(nOp);
