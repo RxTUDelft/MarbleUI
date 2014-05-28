@@ -1,4 +1,4 @@
-package org.rxtudelft.marbleui.diagram;
+package org.rxtudelft.marbleui.node;
 
 import javafx.scene.paint.Color;
 import org.rxtudelft.marbleui.node.NodeSimpleMarble;
