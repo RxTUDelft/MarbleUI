@@ -8,7 +8,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
 /**
- * Created by ferdy on 5/22/14.
+ * Group to show a marble diagram operator
  */
 public class NodeOperator extends Group {
     public NodeOperator(double w, double h, String name) {
