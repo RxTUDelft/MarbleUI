@@ -9,7 +9,9 @@ import org.rxtudelft.marbleui.node.NodeSimpleMarble;
 public final class NodeGhostMarble extends NodeSimpleMarble {
     public NodeGhostMarble(int n, double r) {
         super(n, r);
-        this.getStroke().setStroke(Color.GRAY);
+
         this.getStroke().setFill(Color.TRANSPARENT);
+        this.getStroke().setStroke(Color.GRAY);
+        this.getStroke().setStrokeWidth(2);
     }
 }

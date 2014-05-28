@@ -6,9 +6,11 @@ import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import org.rxtudelft.marbleui.diagram.MarbleModel;
 import org.rxtudelft.marbleui.node.NodeObservable;
 import org.rxtudelft.marbleui.node.NodeOperator;
 import rx.Observable;
@@ -18,6 +20,7 @@ import rx.subjects.PublishSubject;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.OptionalDouble;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -67,35 +70,37 @@ public class MarbleUI extends Application {
         Observable<Number> widthObs  = JavaFxObservable.fromObservableValue(stage.widthProperty());
         Observable<Number> heightObs = JavaFxObservable.fromObservableValue(stage.heightProperty());
 
-        Observable.combineLatest(widthObs, heightObs, marbles, ghosts, (numW,numH,m,g) -> {
-            double width   = numW.doubleValue();
-            double height  = numH.doubleValue();
-            double h       = height / 5;
+        double width   = 1000;
+        double height  = 800;
+        double h       = height / 5;
 
-            VBox root = new VBox();
-            root.setAlignment(Pos.CENTER);
+        VBox root = new VBox();
+        root.setAlignment(Pos.CENTER);
 
-            Node n;
-            n = new NodeObservable(0, width, h, m, g[0], clicks, hovers);
-            root.getChildren().addAll(n);
+        final NodeObservable nObs;
+        nObs = new NodeObservable(width, h);
+        root.getChildren().add(nObs);
 
-            n = new NodeObservable(1, width, h, m, g[1], clicks, hovers);
-            root.getChildren().addAll(n);
+        JavaFxObservable.fromNodeEvents(nObs, MouseEvent.MOUSE_MOVED)
+                .subscribe(e -> {
+                    nObs.ghostProperty().set(OptionalDouble.of(e.getX()));
+                });
 
-            n = new NodeOperator(width, h, "Test");
-            root.getChildren().add(n);
+        JavaFxObservable.fromNodeEvents(nObs, MouseEvent.MOUSE_CLICKED)
+                .subscribe(e -> {
+                    nObs.marblesProperty().add(new MarbleModel(e.getX()));
+                });
 
-            n = new NodeObservable(2, width, h, m, g[2], clicks, hovers);
-            root.getChildren().addAll(n);
+        final NodeOperator nOp = new NodeOperator(width, h, "Test");
+        root.getChildren().add(nOp);
 
-            root.setPadding(new Insets(h / 2));
+        final NodeObservable nObsOut = new NodeObservable(width, h);
+        root.getChildren().addAll(nObsOut);
 
-            return root;
+        root.setPadding(new Insets(h / 2));
 
-        }).subscribe((r) -> {
-            stage.getScene().setRoot(r);
-            stage.show();
-        });
+        stage.getScene().setRoot(root);
+        stage.show();
 
         stage.show();
     }

@@ -60,12 +60,4 @@ public class MarbleDiagramModel {
 
 
     }
-
-    public static void main(String[] args) {
-        Map<Long, Pair<Integer, MarbleModel>> marbles = new HashMap<>();
-        marbles.put(0L, new Pair<>(0, new MarbleModel("from")));
-
-        MarbleDiagramModel d = new MarbleDiagramModel(1, new InitMap(m -> new MarbleModel(m.getName() + " mapped to ...")), marbles);
-        d.schedule();
-    }
 }

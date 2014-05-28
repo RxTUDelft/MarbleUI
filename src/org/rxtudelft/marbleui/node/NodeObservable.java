@@ -1,6 +1,13 @@
 package org.rxtudelft.marbleui.node;
 
+import javafx.beans.property.ListProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleListProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -8,85 +15,106 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
 import org.rxtudelft.marbleui.NGon;
+import org.rxtudelft.marbleui.diagram.NodeGhostMarble;
+import org.rxtudelft.marbleui.diagram.MarbleModel;
 import rx.Observer;
 import rx.observables.JavaFxObservable;
 
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
  * A javafx.scene.Node (really a Group) that represents a whole observable, including marbles.
  */
 public class NodeObservable extends Group {
-    private final List<Double> marbles;
-    private Double ghost;
+
+    //where my ghost should be
+    private ObjectProperty<OptionalDouble> ghost;
+
+    //node object for my ghost
+    private NodeGhostMarble ghostMarble;
+
+    //all the models that I need to draw a marble for
+    private ListProperty<MarbleModel> marbles;
+
+    //list of all marble nodes drawn
+    private List<NodeMarble> nodeMarbles;
+
+    //TODO should be property
     private double width;
+
+    //TODO should be property
     private double height;
 
-    public NodeObservable(int id, double width, double height, List<Double>[] marbles, Double ghost, Observer<Double>[] clicks, Observer<Double>[] hovers) {
-        this.ghost   = ghost;
+    //TODO shouldn't be hardcoded
+    public static int r = 100;
+
+    public NodeObservable(double width, double height) {
         this.width   = width;
         this.height  = height;
-        this.marbles = marbles[id];
-
-        init();
-
-        JavaFxObservable.fromNodeEvents(this, MouseEvent.MOUSE_CLICKED)
-                .map(MouseEvent::getX)
-                .map(x -> Math.min(width - height / 2, Math.max( height / 2, x)))
-                .subscribe(clicks[id]);
-        JavaFxObservable.fromNodeEvents(this, MouseEvent.MOUSE_MOVED)
-                .map(MouseEvent::getX)
-                .map(x -> Math.min(width - height / 2, Math.max(height / 2, x)))
-                .subscribe(hovers[id]);
-    }
-
-
-    private void init() {
-        double padding = height/2;
 
         // not sure if this is the best solution to force the group to have this width/height but it works.
         Rectangle background = new Rectangle(0, 0, this.width, this.height);
         background.setFill(Color.TRANSPARENT);
+        this.getChildren().add(background);
 
-        Double m = this.marbles.stream().max(Comparator.<Double>naturalOrder()).orElseGet(() -> 0d);
-        Line line = new Line(0, 0, Math.max(this.width - 2 * padding, m), 0);
+        //init ghost
+        this.ghost = new SimpleObjectProperty<>(OptionalDouble.empty());
+        this.ghostMarble = new NodeGhostMarble(5, r);
+        this.getChildren().add(this.ghostMarble);
+
+        //update ghost marble's position based on ghost property
+        JavaFxObservable.fromObservableValue(this.ghost)
+                .subscribe(mGhost -> {
+                    if (mGhost.isPresent()) {
+                        this.ghostMarble.setTranslateX(mGhost.getAsDouble());
+                        this.ghostMarble.setVisible(true);
+                    } else {
+                        this.ghostMarble.setVisible(false);
+                    }
+                });
+
+        //init marbles
+        this.marbles = new SimpleListProperty<>(FXCollections.observableArrayList());
+        this.nodeMarbles = new LinkedList<>();
+        //TODO don't need to redo every time
+        JavaFxObservable.fromObservableValue(this.marbles)
+                .subscribe(ms -> {
+                    //cleanup old marble nodes
+                    this.nodeMarbles.forEach(this.getChildren()::remove);
+
+                    ms.forEach(m -> {
+                        //TODO simple/composite?
+                        //TODO dif with old marbles
+                        NodeSimpleMarble nm = new NodeSimpleMarble(5, r);
+                        nm.setTranslateX(m.getT());
+                        this.nodeMarbles.add(nm);
+                        this.getChildren().add(nm);
+                    });
+                });
+
+        //init the line
+        Line line = new Line(0, 0, this.width, 0);
 
         line.setStrokeType(StrokeType.CENTERED);
         line.setStroke(Color.BLACK);
         line.setStrokeWidth(2);
+        this.getChildren().add(line);
+    }
 
-        line.setTranslateX(padding);
-        line.setTranslateY(padding);
+    public OptionalDouble getGhost() {
+        return ghost.get();
+    }
 
-        List<Polygon> pentagons = this.marbles.stream().map((x) -> {
-            Polygon pentagon = NGon.pointUp(0, padding, 5, 0.8 * padding);
+    public ObjectProperty<OptionalDouble> ghostProperty() {
+        return ghost;
+    }
 
-            pentagon.setStrokeType(StrokeType.INSIDE);
-            pentagon.setStroke(Color.BLACK);
-            pentagon.setStrokeWidth(2);
-            pentagon.setFill(Color.TRANSPARENT);
+    public ObservableList<MarbleModel> getMarbles() {
+        return marbles.get();
+    }
 
-            pentagon.setTranslateX(x);
-
-            return pentagon;
-        }).collect(Collectors.toList());
-
-        this.getChildren().addAll(background, line);
-        this.getChildren().addAll(pentagons);
-
-        if(this.ghost != null) {
-            Polygon ghostPentagon = NGon.pointUp(0, padding, 5, 0.8 * padding);
-
-            ghostPentagon.setStrokeType(StrokeType.INSIDE);
-            ghostPentagon.setStroke(Color.GRAY);
-            ghostPentagon.setStrokeWidth(2);
-            ghostPentagon.setFill(Color.TRANSPARENT);
-
-            ghostPentagon.setTranslateX(this.ghost);
-
-            this.getChildren().add(ghostPentagon);
-        }
+    public ListProperty<MarbleModel> marblesProperty() {
+        return marbles;
     }
 }

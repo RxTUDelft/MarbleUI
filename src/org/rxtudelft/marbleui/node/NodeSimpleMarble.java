@@ -6,6 +6,7 @@ import com.sun.javafx.jmx.MXNodeAlgorithm;
 import com.sun.javafx.jmx.MXNodeAlgorithmContext;
 import com.sun.javafx.sg.prism.NGNode;
 import javafx.collections.ObservableList;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import org.rxtudelft.marbleui.diagram.MarbleModel;
 
@@ -34,6 +35,10 @@ public class NodeSimpleMarble extends NodeMarble {
         Stream.iterate(0, (m) -> m + 1).limit(n)
                 .flatMapToDouble((i) -> DoubleStream.of(r * sin(t * i), r * cos(t * i)))
                 .forEach(points::add);
+
+        this.stroke.setFill(Color.RED);
+        this.stroke.setStroke(Color.BLACK);
+        this.stroke.setStrokeWidth(2);
 
         this.getChildren().add(stroke);
     }
