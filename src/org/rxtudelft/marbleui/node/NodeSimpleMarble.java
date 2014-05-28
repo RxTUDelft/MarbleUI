@@ -21,7 +21,7 @@ import static java.lang.Math.sin;
  */
 public class NodeSimpleMarble extends NodeMarble {
 
-    public NodeSimpleMarble(double x, double y, int n, double r) {
+    public NodeSimpleMarble(int n, double r) {
         super();
 
         Polygon polygon = new Polygon();
@@ -31,27 +31,7 @@ public class NodeSimpleMarble extends NodeMarble {
         ObservableList<Double> points = polygon.getPoints();
 
         Stream.iterate(0, (m) -> m + 1).limit(n)
-                .flatMapToDouble((i) -> DoubleStream.of(x + r * sin(t * i), y - r * cos(t * i)))
+                .flatMapToDouble((i) -> DoubleStream.of(r * sin(t * i), r * cos(t * i)))
                 .forEach(points::add);
-    }
-
-    @Override
-    protected NGNode impl_createPeer() {
-        return null;
-    }
-
-    @Override
-    public BaseBounds impl_computeGeomBounds(BaseBounds baseBounds, BaseTransform baseTransform) {
-        return null;
-    }
-
-    @Override
-    protected boolean impl_computeContains(double v, double v2) {
-        return false;
-    }
-
-    @Override
-    public Object impl_processMXNode(MXNodeAlgorithm mxNodeAlgorithm, MXNodeAlgorithmContext mxNodeAlgorithmContext) {
-        return null;
     }
 }
