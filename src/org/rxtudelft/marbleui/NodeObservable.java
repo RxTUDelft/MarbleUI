@@ -18,27 +18,27 @@ import java.util.stream.Collectors;
  * A javafx.scene.Node (really a Group) that represents a whole observable, including marbles.
  */
 public class NodeObservable extends Group {
-    private final List<Double> marbles;
+    private List<Double> marbles;
     private Double ghost;
     private double width;
     private double height;
 
-    NodeObservable(int id, double width, double height, List<Double>[] marbles, Double ghost, Observer<Double>[] clicks, Observer<Double>[] hovers) {
+    NodeObservable(double width, double height, List<Double> marbles, Double ghost, Observer<Double> clicks, Observer<Double> hovers) {
         this.ghost   = ghost;
         this.width   = width;
         this.height  = height;
-        this.marbles = marbles[id];
+        this.marbles = marbles;
 
         init();
 
         JavaFxObservable.fromNodeEvents(this, MouseEvent.MOUSE_CLICKED)
                 .map(MouseEvent::getX)
                 .map(x -> Math.min(width - height / 2, Math.max(height / 2, x)))
-                .subscribe(clicks[id]);
+                .subscribe(clicks);
         JavaFxObservable.fromNodeEvents(this, MouseEvent.MOUSE_MOVED)
                 .map(MouseEvent::getX)
                 .map(x -> Math.min(width - height / 2, Math.max(height / 2, x)))
-                .subscribe(hovers[id]);
+                .subscribe(hovers);
     }
 
 

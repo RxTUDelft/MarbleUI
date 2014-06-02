@@ -67,7 +67,8 @@ public class MarbleUI extends Application {
                 PublishSubject.create(), PublishSubject.create(), PublishSubject.create()
         };
 
-        Observable<Double[]> ghosts = Observable.merge(hovers[0].map(x -> new Double[] {x, null, null})
+        Observable<Double[]> ghosts = Observable.merge(
+              hovers[0].map(x -> new Double[] {x, null, null})
             , hovers[1].map(x -> new Double[] {null, x, null})
             , hovers[2].map(x -> new Double[] {null, null, x})).startWith(new Double[] {null, null, null});
 
@@ -83,16 +84,16 @@ public class MarbleUI extends Application {
             root.setAlignment(Pos.CENTER);
 
             Node n;
-            n = new NodeObservable(0, width, h, m, g[0], clicks, hovers);
+            n = new NodeObservable(width, h, m[0], g[0], clicks[0], hovers[0]);
             root.getChildren().addAll(n);
 
-            n = new NodeObservable(1, width, h, m, g[1], clicks, hovers);
+            n = new NodeObservable(width, h, m[1], g[1], clicks[1], hovers[1]);
             root.getChildren().addAll(n);
 
             n = new NodeOperator(width, h, "Test");
             root.getChildren().add(n);
 
-            n = new NodeObservable(2, width, h, m, g[2], clicks, hovers);
+            n = new NodeObservable(width, h, m[2], g[2], clicks[2], hovers[2]);
             root.getChildren().addAll(n);
 
             root.setPadding(new Insets(h / 2));
