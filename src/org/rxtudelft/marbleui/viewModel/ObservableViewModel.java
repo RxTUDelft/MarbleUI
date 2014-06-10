@@ -18,13 +18,13 @@ public class ObservableViewModel {
         if (ghost) {
             JavaFxObservable.fromNodeEvents(view, MouseEvent.MOUSE_MOVED)
                     .subscribe(e -> {
-                        view.ghostProperty().set(OptionalDouble.of(e.getX()));
+                        view.ghostProperty().set(OptionalDouble.of(view.xToMs(e.getX())));
                     });
         }
 
         JavaFxObservable.fromNodeEvents(view, MouseEvent.MOUSE_CLICKED)
                 .subscribe(e -> {
-                    model.put(Math.round(e.getX()), new SimpleMarbleModel(5, Color.DARKORCHID));
+                    model.put(view.xToMs(Math.round(e.getX())), new SimpleMarbleModel(5, Color.DARKORCHID));
                 });
 
         model.getChangeObs().subscribe(tm -> {
