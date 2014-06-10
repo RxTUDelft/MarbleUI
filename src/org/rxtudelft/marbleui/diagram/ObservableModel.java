@@ -12,7 +12,7 @@ import java.util.Map;
  */
 public class ObservableModel{
     private ObservableMap<Long, MarbleModel> marbles;
-    private Observable<Timestamped<MarbleModel>> observable;
+    private Observable<Timestamped<MarbleModel>> changeObs;
 
     public ObservableModel() {
         this(new HashMap<>());
@@ -24,7 +24,7 @@ public class ObservableModel{
             this.marbles.put(k, v);
         });
 
-        this.observable = Observable.create((Observable.OnSubscribe<Timestamped<MarbleModel>>) subscriber -> {
+        this.changeObs = Observable.create((Observable.OnSubscribe<Timestamped<MarbleModel>>) subscriber -> {
             this.marbles.addListener((MapChangeListener<Long, MarbleModel>) (change) -> {
                 if (change.wasAdded()) {
                     subscriber.onNext(new Timestamped<>(change.getKey(), change.getValueAdded()));
@@ -41,7 +41,7 @@ public class ObservableModel{
         return marbles;
     }
 
-    public Observable<Timestamped<MarbleModel>> getObservable() {
-        return observable;
+    public Observable<Timestamped<MarbleModel>> getChangeObs() {
+        return changeObs;
     }
 }

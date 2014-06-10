@@ -1,12 +1,10 @@
 package org.rxtudelft.marbleui.viewModel;
 
-import javafx.beans.value.ObservableValue;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import org.rxtudelft.marbleui.diagram.ObservableModel;
 import org.rxtudelft.marbleui.diagram.SimpleMarbleModel;
 import org.rxtudelft.marbleui.node.NodeObservable;
-import rx.Observable;
 import rx.observables.JavaFxObservable;
 
 import java.util.OptionalDouble;
@@ -29,7 +27,7 @@ public class ObservableViewModel {
                     model.put(Math.round(e.getX()), new SimpleMarbleModel(5, Color.DARKORCHID));
                 });
 
-        model.getObservable().subscribe(tm -> {
+        model.getChangeObs().subscribe(tm -> {
             view.marblesProperty().put(tm.getTimestampMillis(), tm.getValue());
         });
     }
