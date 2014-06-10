@@ -1,8 +1,12 @@
 package org.rxtudelft.marbleui.diagram;
 
-import javafx.collections.*;
+import javafx.collections.FXCollections;
+import javafx.collections.MapChangeListener;
+import javafx.collections.ObservableMap;
 import rx.Observable;
+import rx.schedulers.TestScheduler;
 import rx.schedulers.Timestamped;
+import rx.subjects.TestSubject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -44,5 +48,15 @@ public class ObservableModel{
 
     public Observable<Timestamped<MarbleModel>> getChangeObs() {
         return changeObs;
+    }
+
+    public Observable<MarbleModel> testSubject(TestScheduler testScheduler) {
+        TestSubject<MarbleModel> ret = TestSubject.create(testScheduler);
+
+        marbles.forEach((k,v) -> ret.onNext(v, k));
+
+//        ret.onCompleted(marbles.keySet().stream().max(Comparator.<Long>naturalOrder()).get());
+
+        return ret.asObservable();
     }
 }
