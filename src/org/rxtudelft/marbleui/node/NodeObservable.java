@@ -11,7 +11,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
-import org.rxtudelft.marbleui.diagram.initOperator.SimpleMarbleModel;
+import org.rxtudelft.marbleui.diagram.SimpleMarbleModel;
 import rx.observables.JavaFxObservable;
 
 import java.util.*;

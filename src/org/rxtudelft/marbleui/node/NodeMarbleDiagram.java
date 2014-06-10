@@ -6,10 +6,12 @@ import javafx.scene.Group;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import org.rxtudelft.marbleui.diagram.MarbleModel;
-import org.rxtudelft.marbleui.diagram.initOperator.SimpleMarbleModel;
+import org.rxtudelft.marbleui.diagram.ObservableModel;
+import org.rxtudelft.marbleui.diagram.SimpleMarbleModel;
+import org.rxtudelft.marbleui.viewModel.ObservableViewModel;
 import rx.observables.JavaFxObservable;
 
+import java.util.LinkedList;
 import java.util.OptionalDouble;
 
 /**
@@ -29,21 +31,15 @@ public class NodeMarbleDiagram extends Group {
         nObs = new NodeObservable(width, h);
         root.getChildren().add(nObs);
 
-        JavaFxObservable.fromNodeEvents(nObs, MouseEvent.MOUSE_MOVED)
-                .subscribe(e -> {
-                    nObs.ghostProperty().set(OptionalDouble.of(e.getX()));
-                });
-
-        JavaFxObservable.fromNodeEvents(nObs, MouseEvent.MOUSE_CLICKED)
-                .subscribe(e -> {
-                    nObs.marblesProperty().add(new SimpleMarbleModel(e.getX(), 5, Color.AZURE));
-                });
-
         final NodeOperator nOp = new NodeOperator(width, h, "Test");
         root.getChildren().add(nOp);
 
         final NodeObservable nObsOut = new NodeObservable(width, h);
         root.getChildren().addAll(nObsOut);
+
+        ObservableModel obs1M = new ObservableModel(new LinkedList<>());
+
+        ObservableViewModel vm = new ObservableViewModel(nObs, obs1M, true);
 
         root.setPadding(new Insets(h / 2));
         this.getChildren().add(root);
