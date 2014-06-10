@@ -4,7 +4,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import org.rxtudelft.marbleui.diagram.ObservableModel;
-import org.rxtudelft.marbleui.diagram.initOperator.SimpleMarbleModel;
+import org.rxtudelft.marbleui.diagram.SimpleMarbleModel;
 import org.rxtudelft.marbleui.node.NodeObservable;
 import rx.Observable;
 import rx.observables.JavaFxObservable;
@@ -17,7 +17,7 @@ import java.util.OptionalDouble;
 public class ObservableViewModel extends ViewModel<SimpleMarbleModel> {
     //LSP Violation! view/model are covariantly overloaded. Does it matter with abstract classes?
     public ObservableViewModel(Observable<SimpleMarbleModel> state, NodeObservable view, Iterable<ObservableValue<?>> watch, ObservableModel<SimpleMarbleModel> model) {
-        super(Observable.<SimpleMarbleModel>from(model), view, watch, model);
+        super(model.getObservable(), view, watch, model);
 
         JavaFxObservable.fromNodeEvents(view, MouseEvent.MOUSE_MOVED)
                 .subscribe(e -> {

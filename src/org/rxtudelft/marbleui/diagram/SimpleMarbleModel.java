@@ -1,4 +1,4 @@
-package org.rxtudelft.marbleui.diagram.initOperator;
+package org.rxtudelft.marbleui.diagram;
 
 import javafx.scene.paint.Color;
 import org.rxtudelft.marbleui.diagram.MarbleModel;
