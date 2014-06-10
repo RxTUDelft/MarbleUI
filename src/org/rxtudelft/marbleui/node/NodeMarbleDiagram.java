@@ -11,6 +11,7 @@ import org.rxtudelft.marbleui.diagram.SimpleMarbleModel;
 import org.rxtudelft.marbleui.viewModel.ObservableViewModel;
 import rx.observables.JavaFxObservable;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.OptionalDouble;
 
@@ -37,7 +38,7 @@ public class NodeMarbleDiagram extends Group {
         final NodeObservable nObsOut = new NodeObservable(width, h);
         root.getChildren().addAll(nObsOut);
 
-        ObservableModel obs1M = new ObservableModel(new LinkedList<>());
+        ObservableModel obs1M = new ObservableModel(new HashMap<>());
 
         ObservableViewModel vm = new ObservableViewModel(nObs, obs1M, true);
 

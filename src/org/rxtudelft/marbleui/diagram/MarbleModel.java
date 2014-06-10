@@ -5,13 +5,7 @@ package org.rxtudelft.marbleui.diagram;
  */
 abstract public class MarbleModel {
 
-    private double t;
+    public MarbleModel() {
 
-    public MarbleModel(double t) {
-        this.t = t;
-    }
-
-    public double getT() {
-        return t;
     }
 }

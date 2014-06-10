@@ -11,8 +11,8 @@ public class SimpleMarbleModel extends MarbleModel{
     private int num;
     private Color color;
 
-    public SimpleMarbleModel(double t, int num, Color color) {
-        super(t);
+    public SimpleMarbleModel(int num, Color color) {
+        super();
         this.color = color;
         this.num = num;
     }

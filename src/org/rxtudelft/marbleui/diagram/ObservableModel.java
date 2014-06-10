@@ -1,47 +1,47 @@
 package org.rxtudelft.marbleui.diagram;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
-import javafx.scene.paint.Color;
-import org.rxtudelft.marbleui.diagram.MarbleModel;
+import javafx.collections.*;
 import rx.Observable;
+import rx.schedulers.Timestamped;
 
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 /**
  * Created by ferdy on 5/28/14.
  */
-public class ObservableModel<T extends MarbleModel> {
-    private ObservableList<T> marbles;
-    private Observable<T> observable;
+public class ObservableModel{
+    private ObservableMap<Long, MarbleModel> marbles;
+    private Observable<Timestamped<MarbleModel>> observable;
 
+    public ObservableModel() {
+        this(new HashMap<>());
+    }
 
-    public ObservableModel(List<T> marbles) {
-        this.marbles = FXCollections.observableArrayList(marbles);
+    public ObservableModel(Map<Long, MarbleModel> marbles) {
+        this.marbles = FXCollections.observableHashMap();
+        marbles.forEach((k, v) -> {
+            this.marbles.put(k, v);
+        });
 
-        this.observable = Observable.create((Observable.OnSubscribe<T>) subscriber -> {
-            this.marbles.addListener((ListChangeListener<T>) (change) -> {
-                change.next();
-                change.getAddedSubList().forEach(m -> {
-                        subscriber.onNext(m);
-                });
+        this.observable = Observable.create((Observable.OnSubscribe<Timestamped<MarbleModel>>) subscriber -> {
+            this.marbles.addListener((MapChangeListener<Long, MarbleModel>) (change) -> {
+                if (change.wasAdded()) {
+                    subscriber.onNext(new Timestamped<>(change.getKey(), change.getValueAdded()));
+                }
             });
         });
     }
 
-    public void add(T m) {
-        this.marbles.add(m);
+    public void put(long at, MarbleModel marble) {
+        this.marbles.put(at, marble);
     }
 
-    public ObservableList<T> getMarbles() {
+    public Map<Long, MarbleModel> getMarbles() {
         return marbles;
     }
 
-    public Observable<T> getObservable() {
+    public Observable<Timestamped<MarbleModel>> getObservable() {
         return observable;
     }
 }

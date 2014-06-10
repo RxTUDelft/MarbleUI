@@ -15,8 +15,7 @@ import java.util.OptionalDouble;
  * Created by ferdy on 5/28/14.
  */
 public class ObservableViewModel {
-    //LSP Violation! view/model are covariantly overloaded. Does it matter with abstract classes?
-    public ObservableViewModel(NodeObservable view, ObservableModel<SimpleMarbleModel> model, boolean ghost) {
+    public ObservableViewModel(NodeObservable view, ObservableModel model, boolean ghost) {
 
         if (ghost) {
             JavaFxObservable.fromNodeEvents(view, MouseEvent.MOUSE_MOVED)
@@ -27,15 +26,11 @@ public class ObservableViewModel {
 
         JavaFxObservable.fromNodeEvents(view, MouseEvent.MOUSE_CLICKED)
                 .subscribe(e -> {
-                    model.add(new SimpleMarbleModel(e.getX(), 5, Color.DARKORCHID));
+                    model.put(Math.round(e.getX()), new SimpleMarbleModel(5, Color.DARKORCHID));
                 });
 
-        model.getObservable().subscribe(e -> {
-            view.marblesProperty().add(e);
+        model.getObservable().subscribe(tm -> {
+            view.marblesProperty().put(tm.getTimestampMillis(), tm.getValue());
         });
-    }
-
-    public void updateModel() {
-
     }
 }
