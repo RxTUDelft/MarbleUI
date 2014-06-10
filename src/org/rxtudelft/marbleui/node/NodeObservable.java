@@ -2,7 +2,6 @@ package org.rxtudelft.marbleui.node;
 
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
@@ -10,10 +9,13 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
 import org.rxtudelft.marbleui.diagram.MarbleModel;
+import org.rxtudelft.marbleui.diagram.ObservableModel;
 import org.rxtudelft.marbleui.diagram.SimpleMarbleModel;
 import rx.observables.JavaFxObservable;
 
 import java.util.*;
+
+import static java.lang.Math.*;
 
 /**
  * A javafx.scene.Node (really a Group) that represents a whole observable, including marbles.
@@ -83,7 +85,7 @@ public class NodeObservable extends Group {
                             SimpleMarbleModel sm = (SimpleMarbleModel)m;
                             NodeSimpleMarble nm = new NodeSimpleMarble(sm.getNum(), r);
                             nm.setFill(sm.getColor());
-                            nm.setTranslateX(t);
+                            nm.setTranslateX(this.msToX(t));
                             this.nodeMarbles.add(nm);
                             this.getChildren().add(nm);
                         }
@@ -113,5 +115,19 @@ public class NodeObservable extends Group {
 
     public MapProperty<Long, MarbleModel> marblesProperty() {
         return marbles;
+    }
+
+    public double msToX(long ms) {
+        double x = (ms * this.width) / ObservableModel.MAX_TIME;
+        System.out.println("ms:" + ms);
+        System.out.println("=" + x);
+        return x;
+    }
+
+    public long xToMs(double x) {
+        long ms = round((x / this.width) * ObservableModel.MAX_TIME);
+        System.out.println("x:" + x);
+        System.out.println("=" + ms);
+        return ms;
     }
 }

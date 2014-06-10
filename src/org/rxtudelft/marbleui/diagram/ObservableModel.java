@@ -10,7 +10,7 @@ import java.util.Map;
 /**
  * Created by ferdy on 5/28/14.
  */
-public class ObservableModel{       
+public class ObservableModel{
     public static final int MAX_TIME = 1000;
     private ObservableMap<Long, MarbleModel> marbles;
     private Observable<Timestamped<MarbleModel>> changeObs;
