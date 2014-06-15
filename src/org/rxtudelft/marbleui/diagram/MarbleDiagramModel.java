@@ -23,6 +23,13 @@ public class MarbleDiagramModel {
         this.operator = operator;
         this.observables = observables;
         this.output = new ObservableModel(new HashMap<>());
+
+        //subscribe to inputs, recalc output onNext
+        this.observables.forEach(o -> {
+            o.getChangeObs().subscribe(s -> {
+                this.calcOutput();
+            });
+        });
     }
 
     public void calcOutput() {
