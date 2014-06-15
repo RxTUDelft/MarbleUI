@@ -6,7 +6,6 @@ import rx.schedulers.TestScheduler;
 import rx.schedulers.Timestamped;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -15,17 +14,18 @@ import java.util.stream.Collectors;
  * Created by ferdy on 5/8/14.
  */
 public class MarbleDiagramModel {
-    private List<ObservableModel> observables;
+
+    private List<ObservableModel> inputs;
     private InitOperator operator;
     private ObservableModel output;
 
     public MarbleDiagramModel(List<ObservableModel> observables, InitOperator operator) {
         this.operator = operator;
-        this.observables = observables;
-        this.output = new ObservableModel(new HashMap<>());
+        this.inputs = observables;
+        this.calcOutput();
 
         //subscribe to inputs, recalc output onNext
-        this.observables.forEach(o -> {
+        this.inputs.forEach(o -> {
             o.getChangeObs().subscribe(s -> {
                 this.calcOutput();
             });
@@ -35,7 +35,7 @@ public class MarbleDiagramModel {
     public void calcOutput() {
         TestScheduler ts = new TestScheduler();
 
-        List<Observable<MarbleModel>> inputs = observables.stream()
+        List<Observable<MarbleModel>> inputs = this.inputs.stream()
                 .map(o -> o.testSubject(ts)).collect(Collectors.<Observable<MarbleModel>>toList());
 
         Observable<Timestamped<MarbleModel>> outputObs = operator.call(inputs).map(o -> new Timestamped<>(ts.now(), o));
