@@ -47,4 +47,16 @@ public class MarbleDiagramModel {
 
         output = new ObservableModel(list.stream().collect(Collectors.toMap(Timestamped::getTimestampMillis, Timestamped::getValue)));
     }
+
+    public List<ObservableModel> getInputs() {
+        return inputs;
+    }
+
+    public InitOperator getOperator() {
+        return operator;
+    }
+
+    public ObservableModel getOutput() {
+        return output;
+    }
 }
