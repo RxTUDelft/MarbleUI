@@ -5,7 +5,14 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import org.rxtudelft.marbleui.diagram.MarbleDiagramModel;
+import org.rxtudelft.marbleui.diagram.ObservableModel;
+import org.rxtudelft.marbleui.diagram.initOperator.InitMap;
 import org.rxtudelft.marbleui.node.NodeMarbleDiagram;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  *
@@ -22,7 +29,12 @@ public class MarbleUI extends Application {
     public void start(Stage stage) throws Exception {
         stage.setTitle("MarbleUI");
 
-        stage.setScene(new Scene(new NodeMarbleDiagram(), width, height, Color.WHITE));
+        ObservableModel obs = new ObservableModel();
+        List<ObservableModel> inputs = new ArrayList<ObservableModel>();
+        inputs.add(obs);
+        MarbleDiagramModel diagramModel = new MarbleDiagramModel(inputs, new InitMap(o -> o));
+
+        stage.setScene(new Scene(new NodeMarbleDiagram(diagramModel), width, height, Color.WHITE));
 
         stage.show();
     }
