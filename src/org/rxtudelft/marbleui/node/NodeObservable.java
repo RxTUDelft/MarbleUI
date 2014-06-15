@@ -41,11 +41,11 @@ public class NodeObservable extends Group {
     private double height;
 
     //TODO shouldn't be hardcoded
-    public static int r = 100;
 
     public NodeObservable(double width, double height) {
         this.width   = width;
         this.height  = height;
+        double r     = (height/2)*0.8;
 
         // not sure if this is the best solution to force the group to have this width/height but it works.
         Rectangle background = new Rectangle(0, 0, this.width, this.height);
@@ -55,6 +55,7 @@ public class NodeObservable extends Group {
         //init ghost
         this.ghost = new SimpleObjectProperty<>(OptionalDouble.empty());
         this.ghostMarble = new NodeGhostMarble(5, r);
+        this.ghostMarble.setTranslateY(height/2);
         this.getChildren().add(this.ghostMarble);
 
         //update ghost marble's position based on ghost property
@@ -86,6 +87,7 @@ public class NodeObservable extends Group {
                             NodeSimpleMarble nm = new NodeSimpleMarble(sm.getNum(), r);
                             nm.setFill(sm.getColor());
                             nm.setTranslateX(this.msToX(t));
+                            nm.setTranslateY(height/2);
                             this.nodeMarbles.add(nm);
                             this.getChildren().add(nm);
                         }
@@ -93,7 +95,7 @@ public class NodeObservable extends Group {
                 });
 
         //init the line
-        Line line = new Line(0, 0, this.width, 0);
+        Line line = new Line(0, height/2, this.width, height/2);
 
         line.setStrokeType(StrokeType.CENTERED);
         line.setStroke(Color.BLACK);
