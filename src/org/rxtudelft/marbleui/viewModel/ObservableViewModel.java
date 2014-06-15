@@ -27,8 +27,10 @@ public class ObservableViewModel {
                     model.put(view.xToMs(Math.round(e.getX())), new SimpleMarbleModel(5, Color.DARKORCHID));
                 });
 
-        model.getChangeObs().subscribe(tm -> {
-            view.marblesProperty().put(tm.getTimestampMillis(), tm.getValue());
+        model.getChangeObs().subscribe(change -> {
+            if(change.wasAdded()) {
+                view.marblesProperty().put(change.getKey(), change.getValueAdded());
+            }
         });
     }
 }

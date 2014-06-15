@@ -11,13 +11,16 @@ import rx.subjects.TestSubject;
 import java.util.HashMap;
 import java.util.Map;
 
+import static javafx.collections.MapChangeListener.Change;
+import static rx.Observable.OnSubscribe;
+
 /**
  * Created by ferdy on 5/28/14.
  */
 public class ObservableModel{
     public static final int MAX_TIME = 1000;
     private ObservableMap<Long, MarbleModel> marbles;
-    private Observable<Timestamped<MarbleModel>> changeObs;
+    private Observable<Change<Long, MarbleModel>> changeObs;
 
     public ObservableModel() {
         this(new HashMap<>());
@@ -29,11 +32,10 @@ public class ObservableModel{
             this.marbles.put(k, v);
         });
 
-        this.changeObs = Observable.create((Observable.OnSubscribe<Timestamped<MarbleModel>>) subscriber -> {
-            this.marbles.addListener((MapChangeListener<Long, MarbleModel>) (change) -> {
-                if (change.wasAdded()) {
-                    subscriber.onNext(new Timestamped<>(change.getKey(), change.getValueAdded()));
-                }
+        this.changeObs = Observable.create((OnSubscribe<Change<Long, MarbleModel>>) subscriber -> {
+            ObservableModel.this.marbles.addListener((MapChangeListener<Long, MarbleModel>) (change) -> {
+                //FIXME why does this need a cast?
+                subscriber.onNext((Change<Long, MarbleModel>)change);
             });
         });
     }
@@ -46,7 +48,7 @@ public class ObservableModel{
         return marbles;
     }
 
-    public Observable<Timestamped<MarbleModel>> getChangeObs() {
+    public Observable<Change<Long, MarbleModel>> getChangeObs() {
         return changeObs;
     }
 
