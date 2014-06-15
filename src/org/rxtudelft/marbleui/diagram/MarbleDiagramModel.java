@@ -25,8 +25,9 @@ public class MarbleDiagramModel {
         this.calcOutput();
 
         //subscribe to inputs, recalc output onNext
-        this.inputs.forEach(o -> {
-            o.getChangeObs().subscribe(s -> {
+        this.inputs.forEach(i -> {
+            i.getChangeObs().subscribe(s -> {
+                System.out.println("reCalc");
                 this.calcOutput();
             });
         });
@@ -43,9 +44,11 @@ public class MarbleDiagramModel {
 
         ts.advanceTimeTo(ObservableModel.MAX_TIME, TimeUnit.MILLISECONDS);
 
-        outputObs.subscribe(o -> list.add(o));
+        outputObs.subscribe(o -> {
 
-        output = new ObservableModel(list.stream().collect(Collectors.toMap(Timestamped::getTimestampMillis, Timestamped::getValue)));
+            System.out.println(o);
+            MarbleDiagramModel.this.output.put(o.getTimestampMillis(), o.getValue());
+        });
     }
 
     public List<ObservableModel> getInputs() {
