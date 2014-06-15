@@ -59,4 +59,8 @@ public class ObservableModel{
 
         return ret.asObservable();
     }
+
+    public void clear() {
+        this.marbles.clear();
+    }
 }
