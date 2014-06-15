@@ -118,16 +118,10 @@ public class NodeObservable extends Group {
     }
 
     public double msToX(long ms) {
-        double x = (ms * this.width) / ObservableModel.MAX_TIME;
-        System.out.println("ms:" + ms);
-        System.out.println("=" + x);
-        return x;
+        return (ms * this.width) / ObservableModel.MAX_TIME;
     }
 
     public long xToMs(double x) {
-        long ms = round((x / this.width) * ObservableModel.MAX_TIME);
-        System.out.println("x:" + x);
-        System.out.println("=" + ms);
-        return ms;
+        return round((x / this.width) * ObservableModel.MAX_TIME);
     }
 }
