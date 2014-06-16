@@ -57,7 +57,7 @@ public class ObservableModel{
 
         marbles.forEach((k,v) -> ret.onNext(v, k));
 
-        ret.onCompleted();
+        ret.onCompleted(MAX_TIME);
 
         return ret.asObservable();
     }
