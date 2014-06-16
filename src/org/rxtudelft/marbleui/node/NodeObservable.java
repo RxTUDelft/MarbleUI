@@ -41,11 +41,12 @@ public class NodeObservable extends Group {
     private double height;
 
     //TODO shouldn't be hardcoded
+    private double r;
 
     public NodeObservable(double width, double height) {
         this.width   = width;
         this.height  = height;
-        double r     = (height/2)*0.8;
+        this.r       = (height/2)*0.8;
 
         // not sure if this is the best solution to force the group to have this width/height but it works.
         Rectangle background = new Rectangle(0, 0, this.width, this.height);
@@ -62,7 +63,7 @@ public class NodeObservable extends Group {
         JavaFxObservable.fromObservableValue(this.ghost)
                 .subscribe(mGhost -> {
                     if (mGhost.isPresent()) {
-                        this.ghostMarble.setTranslateX(mGhost.getAsDouble());
+                        this.ghostMarble.setTranslateX(limitX(mGhost.getAsDouble()));
                         this.ghostMarble.setVisible(true);
                     } else {
                         this.ghostMarble.setVisible(false);
@@ -86,7 +87,7 @@ public class NodeObservable extends Group {
                             SimpleMarbleModel sm = (SimpleMarbleModel)m;
                             NodeSimpleMarble nm = new NodeSimpleMarble(sm.getNum(), r);
                             nm.setFill(sm.getColor());
-                            nm.setTranslateX(this.msToX(t));
+                            nm.setTranslateX(limitX(this.msToX(t)));
                             nm.setTranslateY(height/2);
                             this.nodeMarbles.add(nm);
                             this.getChildren().add(nm);
@@ -95,7 +96,7 @@ public class NodeObservable extends Group {
                 });
 
         //init the line
-        Line line = new Line(0, height/2, this.width, height/2);
+        Line line = new Line(r, height/2, this.width - r, height/2);
 
         line.setStrokeType(StrokeType.CENTERED);
         line.setStroke(Color.BLACK);
@@ -117,6 +118,18 @@ public class NodeObservable extends Group {
 
     public MapProperty<Long, MarbleModel> marblesProperty() {
         return marbles;
+    }
+
+    public double limitX(double x) {
+        if(x < r) {
+            return r;
+        }
+        else if (x > width - r) {
+            return width - r;
+        }
+        else {
+            return x;
+        }
     }
 
     public double msToX(long ms) {
