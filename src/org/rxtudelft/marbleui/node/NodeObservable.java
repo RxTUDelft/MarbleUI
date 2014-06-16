@@ -4,6 +4,7 @@ import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
 import javafx.scene.Group;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
@@ -70,6 +71,10 @@ public class NodeObservable extends Group {
                     }
                 });
 
+        JavaFxObservable.fromNodeEvents(this, MouseEvent.MOUSE_EXITED).subscribe(s -> {
+            NodeObservable.this.ghostMarble.setVisible(false);
+        });
+
         //init marbles
         this.marbles = new SimpleMapProperty<>(FXCollections.observableHashMap());
         this.nodeMarbles = new LinkedList<>();
@@ -88,7 +93,7 @@ public class NodeObservable extends Group {
                             NodeSimpleMarble nm = new NodeSimpleMarble(sm.getNum(), r);
                             nm.setFill(sm.getColor());
                             nm.setTranslateX(limitX(this.msToX(t)));
-                            nm.setTranslateY(height/2);
+                            nm.setTranslateY(height / 2);
                             this.nodeMarbles.add(nm);
                             this.getChildren().add(nm);
                         }
