@@ -57,7 +57,7 @@ public class ObservableModel{
 
         marbles.forEach((k,v) -> ret.onNext(v, k));
 
-//        ret.onCompleted(marbles.keySet().stream().max(Comparator.<Long>naturalOrder()).get());
+        ret.onCompleted();
 
         return ret.asObservable();
     }
