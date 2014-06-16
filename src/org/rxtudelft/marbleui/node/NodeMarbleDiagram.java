@@ -45,9 +45,13 @@ public class NodeMarbleDiagram extends Group {
         final NodeOperator nOp = new NodeOperator(width, h, "Test");
         root.getChildren().add(nOp);
 
+        //setup output node
         final NodeObservable nObsOut = new NodeObservable(width, h);
         root.getChildren().addAll(nObsOut);
-
+        ObservableModel outputModel = diagramModel.getOutput();
+        //attach output node to it's model
+        ObservableViewModel outVM = new ObservableViewModel(nObsOut, outputModel, false);
+        
         root.setPadding(new Insets(h / 2));
         this.getChildren().add(root);
     }
