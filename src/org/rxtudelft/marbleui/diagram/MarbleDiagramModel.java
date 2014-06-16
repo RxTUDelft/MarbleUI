@@ -22,12 +22,12 @@ public class MarbleDiagramModel {
     public MarbleDiagramModel(List<ObservableModel> observables, InitOperator operator) {
         this.operator = operator;
         this.inputs = observables;
+        this.output = new ObservableModel();
         this.calcOutput();
 
-        //subscribe to inputs, recalc output onNext
+        //subscribe to inputs, recalc output onNextd
         this.inputs.forEach(i -> {
             i.getChangeObs().subscribe(s -> {
-                System.out.println("reCalc");
                 this.calcOutput();
             });
         });
