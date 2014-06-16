@@ -38,11 +38,8 @@ public class NodeMarbleDiagram extends Group {
             inputNodes.add(nObs);
             root.getChildren().add(nObs);
 
-            //create model
-            ObservableModel m = new ObservableModel();
-
             //create view model
-            ObservableViewModel vm = new ObservableViewModel(nObs, m, true);
+            ObservableViewModel vm = new ObservableViewModel(nObs, i, true);
         });
 
         final NodeOperator nOp = new NodeOperator(width, h, "Test");
