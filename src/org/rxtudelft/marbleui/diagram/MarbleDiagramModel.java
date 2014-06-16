@@ -36,19 +36,23 @@ public class MarbleDiagramModel {
     public void calcOutput() {
         TestScheduler ts = new TestScheduler();
 
+        //create list of input rxObservables
         List<Observable<MarbleModel>> inputs = this.inputs.stream()
                 .map(o -> o.testSubject(ts)).collect(Collectors.<Observable<MarbleModel>>toList());
 
-        Observable<Timestamped<MarbleModel>> outputObs = operator.call(inputs).map(o -> new Timestamped<>(ts.now(), o));
+        //calculate timestamped output
+        Observable<Timestamped<MarbleModel>> outputObs = operator.call(inputs).timestamp();
         ArrayList<Timestamped<MarbleModel>> list = new ArrayList<>();
 
+        //advance time past to max input time
         ts.advanceTimeTo(ObservableModel.MAX_TIME, TimeUnit.MILLISECONDS);
 
+        //put all marbles on output
         outputObs.subscribe(o -> {
-
             System.out.println(o);
             MarbleDiagramModel.this.output.put(o.getTimestampMillis(), o.getValue());
         });
+
     }
 
     public List<ObservableModel> getInputs() {
