@@ -31,6 +31,10 @@ public class ObservableViewModel {
             if(change.wasAdded()) {
                 view.marblesProperty().put(change.getKey(), change.getValueAdded());
             }
+
+            else {
+                view.marblesProperty().remove(change.getKey());
+            }
         });
     }
 }
