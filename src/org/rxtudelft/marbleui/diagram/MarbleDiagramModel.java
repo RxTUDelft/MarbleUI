@@ -1,6 +1,6 @@
 package org.rxtudelft.marbleui.diagram;
 
-import org.rxtudelft.marbleui.diagram.initOperator.InitOperator;
+import org.rxtudelft.marbleui.diagram.bootstrapOperator.BootstrapOperator;
 import rx.Observable;
 import rx.schedulers.TestScheduler;
 import rx.schedulers.Timestamped;
@@ -16,10 +16,10 @@ import java.util.stream.Collectors;
 public class MarbleDiagramModel {
 
     private List<ObservableModel> inputs;
-    private InitOperator operator;
+    private BootstrapOperator operator;
     private ObservableModel output;
 
-    public MarbleDiagramModel(List<ObservableModel> observables, InitOperator operator) {
+    public MarbleDiagramModel(List<ObservableModel> observables, BootstrapOperator operator) {
         this.operator = operator;
         this.inputs = observables;
         this.output = new ObservableModel();
@@ -49,17 +49,15 @@ public class MarbleDiagramModel {
 
         //put all marbles on output
         outputObs.subscribe(o -> {
-            System.out.println(o);
             MarbleDiagramModel.this.output.put(o.getTimestampMillis(), o.getValue());
         });
-
     }
 
     public List<ObservableModel> getInputs() {
         return inputs;
     }
 
-    public InitOperator getOperator() {
+    public BootstrapOperator getOperator() {
         return operator;
     }
 

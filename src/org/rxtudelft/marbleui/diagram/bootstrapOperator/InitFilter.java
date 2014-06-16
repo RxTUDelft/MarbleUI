@@ -1,4 +1,4 @@
-package org.rxtudelft.marbleui.diagram.initOperator;
+package org.rxtudelft.marbleui.diagram.bootstrapOperator;
 
 import org.rxtudelft.marbleui.diagram.MarbleModel;
 import rx.Observable;
@@ -7,7 +7,7 @@ import rx.functions.Func1;
 /**
  * Created by ferdy on 5/16/14.
  */
-public class InitFilter implements InitOperator1 {
+public class InitFilter implements BootstrapOperator1 {
 
     private Func1<MarbleModel, Boolean> filter;
 
