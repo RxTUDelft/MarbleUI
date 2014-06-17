@@ -104,6 +104,10 @@ public class ObservableView extends Group {
                             this.getChildren().add(nm);
                         }
                     });
+
+                    //put ghost on top
+                    this.getChildren().remove(this.ghostMarble);
+                    this.getChildren().add(this.ghostMarble);
                 });
 
         //init the line
