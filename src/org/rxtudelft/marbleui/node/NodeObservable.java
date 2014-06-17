@@ -1,6 +1,9 @@
 package org.rxtudelft.marbleui.node;
 
-import javafx.beans.property.*;
+import javafx.beans.property.MapProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleMapProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
 import javafx.scene.Group;
@@ -14,9 +17,12 @@ import org.rxtudelft.marbleui.diagram.ObservableModel;
 import org.rxtudelft.marbleui.diagram.SimpleMarbleModel;
 import rx.observables.JavaFxObservable;
 
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.OptionalDouble;
+import java.util.TreeMap;
 
-import static java.lang.Math.*;
+import static java.lang.Math.round;
 
 /**
  * A javafx.scene.Node (really a Group) that represents a whole observable, including marbles.
@@ -76,7 +82,7 @@ public class NodeObservable extends Group {
         });
 
         //init marbles
-        this.marbles = new SimpleMapProperty<>(FXCollections.observableHashMap());
+        this.marbles = new SimpleMapProperty<>(FXCollections.observableMap(new TreeMap<>()));
         this.nodeMarbles = new LinkedList<>();
         //TODO don't need to redo every time
         JavaFxObservable.fromObservableValue(this.marbles)
@@ -88,8 +94,8 @@ public class NodeObservable extends Group {
 
                         //TODO simple/composite?
                         //TODO dif with old marbles
-                        if(m instanceof SimpleMarbleModel) {
-                            SimpleMarbleModel sm = (SimpleMarbleModel)m;
+                        if (m instanceof SimpleMarbleModel) {
+                            SimpleMarbleModel sm = (SimpleMarbleModel) m;
                             NodeSimpleMarble nm = new NodeSimpleMarble(sm.getNum(), r);
                             nm.setFill(sm.getColor());
                             nm.setTranslateX(limitX(this.msToX(t)));
