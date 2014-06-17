@@ -1,14 +1,8 @@
-package org.rxtudelft.marbleui.node;
+package org.rxtudelft.marbleui.view.diagram;
 
-import com.sun.javafx.geom.BaseBounds;
-import com.sun.javafx.geom.transform.BaseTransform;
-import com.sun.javafx.jmx.MXNodeAlgorithm;
-import com.sun.javafx.jmx.MXNodeAlgorithmContext;
-import com.sun.javafx.sg.prism.NGNode;
 import javafx.collections.ObservableList;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
-import org.rxtudelft.marbleui.diagram.MarbleModel;
 
 import java.util.stream.DoubleStream;
 import java.util.stream.Stream;
@@ -20,9 +14,9 @@ import static java.lang.Math.sin;
 /**
  * Jeff's awesome NGon used as a simple marble
  */
-public class NodeSimpleMarble extends Polygon {
+public class SimpleMarbleView extends Polygon {
 
-    public NodeSimpleMarble(int n, double r) {
+    public SimpleMarbleView(int n, double r) {
         super();
 
         if (n <= 2) throw new IllegalArgumentException("n should be larger than 2");

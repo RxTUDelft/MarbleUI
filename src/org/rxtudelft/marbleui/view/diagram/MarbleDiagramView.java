@@ -1,27 +1,23 @@
-package org.rxtudelft.marbleui.node;
+package org.rxtudelft.marbleui.view.diagram;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import org.rxtudelft.marbleui.diagram.MarbleDiagramModel;
 import org.rxtudelft.marbleui.diagram.ObservableModel;
-import org.rxtudelft.marbleui.diagram.SimpleMarbleModel;
 import org.rxtudelft.marbleui.viewModel.ObservableViewModel;
-import rx.observables.JavaFxObservable;
 
 import java.util.*;
 
 /**
  * A Marble Diagram
  */
-public class NodeMarbleDiagram extends Group {
+public class MarbleDiagramView extends Group {
 
     private MarbleDiagramModel diagramModel;
 
-    public NodeMarbleDiagram(MarbleDiagramModel diagramModel) {
+    public MarbleDiagramView(MarbleDiagramModel diagramModel) {
         this.diagramModel = diagramModel;
         double width   = 1000;
         double height  = 800;
@@ -31,10 +27,10 @@ public class NodeMarbleDiagram extends Group {
         root.setAlignment(Pos.CENTER);
 
         //setup input nodes
-        List<NodeObservable> inputNodes = new ArrayList<>();
+        List<ObservableView> inputNodes = new ArrayList<>();
         this.diagramModel.getInputs().stream().forEach(i -> {
             //create node
-            NodeObservable nObs = new NodeObservable(width, h);
+            ObservableView nObs = new ObservableView(width, h);
             inputNodes.add(nObs);
             root.getChildren().add(nObs);
 
@@ -42,11 +38,11 @@ public class NodeMarbleDiagram extends Group {
             ObservableViewModel vm = new ObservableViewModel(nObs, i, true);
         });
 
-        final NodeOperator nOp = new NodeOperator(width, h, "Test");
+        final OperatorView nOp = new OperatorView(width, h, "Test");
         root.getChildren().add(nOp);
 
         //setup output node
-        final NodeObservable nObsOut = new NodeObservable(width, h);
+        final ObservableView nObsOut = new ObservableView(width, h);
         root.getChildren().addAll(nObsOut);
         ObservableModel outputModel = diagramModel.getOutput();
         //attach output node to it's model

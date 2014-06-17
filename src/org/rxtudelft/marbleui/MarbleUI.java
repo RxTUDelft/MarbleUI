@@ -9,10 +9,9 @@ import org.rxtudelft.marbleui.diagram.MarbleDiagramModel;
 import org.rxtudelft.marbleui.diagram.ObservableModel;
 import org.rxtudelft.marbleui.diagram.SimpleMarbleModel;
 import org.rxtudelft.marbleui.diagram.bootstrapOperator.BootstrapMap;
-import org.rxtudelft.marbleui.node.NodeMarbleDiagram;
+import org.rxtudelft.marbleui.view.MarbleDiagramView;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -38,7 +37,7 @@ public class MarbleUI extends Application {
                 return new SimpleMarbleModel(s.getNum()+1, s.getColor());
         }));
 
-        stage.setScene(new Scene(new NodeMarbleDiagram(diagramModel), width, height, Color.WHITE));
+        stage.setScene(new Scene(new MarbleDiagramView(diagramModel), width, height, Color.WHITE));
 
         stage.show();
     }

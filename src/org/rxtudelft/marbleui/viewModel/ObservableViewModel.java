@@ -4,7 +4,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import org.rxtudelft.marbleui.diagram.ObservableModel;
 import org.rxtudelft.marbleui.diagram.SimpleMarbleModel;
-import org.rxtudelft.marbleui.node.NodeObservable;
+import org.rxtudelft.marbleui.view.ObservableView;
 import rx.observables.JavaFxObservable;
 
 import java.util.OptionalDouble;
@@ -13,7 +13,7 @@ import java.util.OptionalDouble;
  * Created by ferdy on 5/28/14.
  */
 public class ObservableViewModel {
-    public ObservableViewModel(NodeObservable view, ObservableModel model, boolean ghost) {
+    public ObservableViewModel(ObservableView view, ObservableModel model, boolean ghost) {
 
         if (ghost) {
             JavaFxObservable.fromNodeEvents(view, MouseEvent.MOUSE_MOVED)

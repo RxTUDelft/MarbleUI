@@ -1,4 +1,4 @@
-package org.rxtudelft.marbleui.node;
+package org.rxtudelft.marbleui.view.diagram;
 
 import javafx.beans.property.MapProperty;
 import javafx.beans.property.ObjectProperty;
@@ -27,19 +27,19 @@ import static java.lang.Math.round;
 /**
  * A javafx.scene.Node (really a Group) that represents a whole observable, including marbles.
  */
-public class NodeObservable extends Group {
+public class ObservableView extends Group {
 
     //where my ghost should be
     private ObjectProperty<OptionalDouble> ghost;
 
     //node object for my ghost
-    private NodeGhostMarble ghostMarble;
+    private GhostMarbleView ghostMarble;
 
     //all the models that I need to draw a marble for
     private MapProperty<Long, MarbleModel> marbles;
 
     //list of all marble nodes drawn
-    private List<NodeSimpleMarble> nodeMarbles;
+    private List<SimpleMarbleView> nodeMarbles;
 
     //TODO should be property
     private double width;
@@ -50,7 +50,7 @@ public class NodeObservable extends Group {
     //TODO shouldn't be hardcoded
     private double r;
 
-    public NodeObservable(double width, double height) {
+    public ObservableView (double width, double height) {
         this.width   = width;
         this.height  = height;
         this.r       = (height/2)*0.8;
@@ -62,7 +62,7 @@ public class NodeObservable extends Group {
 
         //init ghost
         this.ghost = new SimpleObjectProperty<>(OptionalDouble.empty());
-        this.ghostMarble = new NodeGhostMarble(5, r);
+        this.ghostMarble = new GhostMarbleView(5, r);
         this.ghostMarble.setTranslateY(height/2);
         this.getChildren().add(this.ghostMarble);
 
@@ -78,7 +78,7 @@ public class NodeObservable extends Group {
                 });
 
         JavaFxObservable.fromNodeEvents(this, MouseEvent.MOUSE_EXITED).subscribe(s -> {
-            NodeObservable.this.ghostMarble.setVisible(false);
+            ObservableView.this.ghostMarble.setVisible(false);
         });
 
         //init marbles
@@ -96,7 +96,7 @@ public class NodeObservable extends Group {
                         //TODO dif with old marbles
                         if (m instanceof SimpleMarbleModel) {
                             SimpleMarbleModel sm = (SimpleMarbleModel) m;
-                            NodeSimpleMarble nm = new NodeSimpleMarble(sm.getNum(), r);
+                            SimpleMarbleView nm = new SimpleMarbleView(sm.getNum(), r);
                             nm.setFill(sm.getColor());
                             nm.setTranslateX(limitX(this.msToX(t)));
                             nm.setTranslateY(height / 2);

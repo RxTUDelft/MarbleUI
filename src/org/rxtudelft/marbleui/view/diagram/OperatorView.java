@@ -1,4 +1,4 @@
-package org.rxtudelft.marbleui.node;
+package org.rxtudelft.marbleui.view.diagram;
 
 import javafx.geometry.VPos;
 import javafx.scene.Group;
@@ -12,13 +12,13 @@ import rx.observables.JavaFxObservable;
 /**
  * Group to show a marble diagram operator
  */
-public class NodeOperator extends Group {
+public class OperatorView extends Group {
 
     //name to display in the center
     private String name;
 
     private Rectangle box;
-    public NodeOperator(double w, double h, String name) {
+    public OperatorView(double w, double h, String name) {
 
         this.name = name;
 
