@@ -74,7 +74,7 @@ public class Counter extends HBox {
 
         JavaFxObservable.fromNodeEvents(this.min, MouseEvent.MOUSE_CLICKED).subscribe(c -> {
             int iCurrent = Counter.this.i.get();
-            if(iCurrent > 2) {
+            if(iCurrent > 3) {
                 Counter.this.i.setValue(iCurrent - 1);
                 Counter.this.updateLabel();
             }
