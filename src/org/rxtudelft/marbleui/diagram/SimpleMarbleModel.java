@@ -6,7 +6,7 @@ import org.rxtudelft.marbleui.diagram.MarbleModel;
 /**
  * Created by ferdy on 5/28/14.
  */
-public class SimpleMarbleModel extends MarbleModel{
+public class SimpleMarbleModel implements MarbleModel {
 
     private int num;
     private Color color;
