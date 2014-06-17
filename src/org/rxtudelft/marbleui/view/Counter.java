@@ -89,4 +89,12 @@ public class Counter extends HBox {
     private void updateLabel() {
         this.numLabel.setText("" + this.i.get());
     }
+
+    public int getI() {
+        return i.get();
+    }
+
+    public IntegerProperty iProperty() {
+        return i;
+    }
 }

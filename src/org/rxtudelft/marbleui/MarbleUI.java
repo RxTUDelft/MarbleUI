@@ -31,12 +31,7 @@ public class MarbleUI extends Application {
     public void start(Stage stage) throws Exception {
         stage.setTitle("MarbleUI");
 
-        VBox ui = new VBox();
-        Counter ghostNumContol = new Counter(5);
-        ui.getChildren().add(ghostNumContol);
-
-
-
+        //setup diagram model
         ObservableModel obs = new ObservableModel();
         List<ObservableModel> inputs = new ArrayList<ObservableModel>();
         inputs.add(obs);
@@ -45,9 +40,7 @@ public class MarbleUI extends Application {
                 return new SimpleMarbleModel(s.getNum()+1, s.getColor());
         }));
 
-        ui.getChildren().add(new MarbleDiagramView(diagramModel));
-
-        stage.setScene(new Scene(ui, width, height, Color.WHITE));
+        stage.setScene(new Scene(new MarbleDiagramView(diagramModel), width, height, Color.WHITE));
 
         stage.show();
     }

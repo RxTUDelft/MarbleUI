@@ -135,6 +135,14 @@ public class ObservableView extends Group {
         return marbles;
     }
 
+    public GhostMarbleView getGhostMarble() {
+        return ghostMarble;
+    }
+
+    public void setGhostMarble(GhostMarbleView ghostMarble) {
+        this.ghostMarble = ghostMarble;
+    }
+
     public double limitX(double x) {
         if(x < r) {
             return r;
