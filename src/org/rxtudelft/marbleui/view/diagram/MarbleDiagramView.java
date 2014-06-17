@@ -6,7 +6,8 @@ import javafx.scene.Group;
 import javafx.scene.layout.VBox;
 import org.rxtudelft.marbleui.diagram.MarbleDiagramModel;
 import org.rxtudelft.marbleui.diagram.ObservableModel;
-import org.rxtudelft.marbleui.viewModel.ObservableViewModel;
+import org.rxtudelft.marbleui.viewModel.InObservableViewModel;
+import org.rxtudelft.marbleui.viewModel.OutObservableViewModel;
 
 import java.util.*;
 
@@ -35,7 +36,7 @@ public class MarbleDiagramView extends Group {
             root.getChildren().add(nObs);
 
             //create view model
-            ObservableViewModel vm = new ObservableViewModel(nObs, i, true);
+            InObservableViewModel vm = new InObservableViewModel(nObs, i);
         });
 
         final OperatorView nOp = new OperatorView(width, h, "Test");
@@ -46,7 +47,7 @@ public class MarbleDiagramView extends Group {
         root.getChildren().addAll(nObsOut);
         ObservableModel outputModel = diagramModel.getOutput();
         //attach output node to it's model
-        ObservableViewModel outVM = new ObservableViewModel(nObsOut, outputModel, false);
+        OutObservableViewModel outVM = new OutObservableViewModel(nObsOut, outputModel);
         
         root.setPadding(new Insets(h / 2));
         this.getChildren().add(root);

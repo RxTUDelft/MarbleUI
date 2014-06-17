@@ -12,21 +12,8 @@ import java.util.OptionalDouble;
 /**
  * Created by ferdy on 5/28/14.
  */
-public class ObservableViewModel {
-    public ObservableViewModel(ObservableView view, ObservableModel model, boolean ghost) {
-
-        if (ghost) {
-            JavaFxObservable.fromNodeEvents(view, MouseEvent.MOUSE_MOVED)
-                    .subscribe(e -> {
-                        view.ghostProperty().set(OptionalDouble.of(view.xToMs(e.getX())));
-                    });
-        }
-
-        JavaFxObservable.fromNodeEvents(view, MouseEvent.MOUSE_CLICKED)
-                .subscribe(e -> {
-                    model.put(view.xToMs(Math.round(e.getX())), new SimpleMarbleModel(5, Color.DARKORCHID));
-                });
-
+public class OutObservableViewModel {
+    public OutObservableViewModel(ObservableView view, ObservableModel model) {
         model.getChangeObs().subscribe(change -> {
             if(change.wasAdded()) {
                 view.marblesProperty().put(change.getKey(), change.getValueAdded());
