@@ -4,7 +4,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import org.rxtudelft.marbleui.diagram.ObservableModel;
 import org.rxtudelft.marbleui.diagram.SimpleMarbleModel;
-import org.rxtudelft.marbleui.view.ObservableView;
+import org.rxtudelft.marbleui.view.diagram.ObservableView;
 import rx.observables.JavaFxObservable;
 
 import java.util.OptionalDouble;
