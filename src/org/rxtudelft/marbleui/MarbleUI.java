@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 import org.rxtudelft.marbleui.diagram.MarbleDiagramModel;
 import org.rxtudelft.marbleui.diagram.ObservableModel;
 import org.rxtudelft.marbleui.diagram.SimpleMarbleModel;
+import org.rxtudelft.marbleui.diagram.bootstrapOperator.BootstrapCombineLatest;
 import org.rxtudelft.marbleui.diagram.bootstrapOperator.BootstrapMap;
 import org.rxtudelft.marbleui.diagram.bootstrapOperator.BootstrapZip;
 import org.rxtudelft.marbleui.view.Counter;
@@ -38,7 +39,7 @@ public class MarbleUI extends Application {
         List<ObservableModel> inputs = new ArrayList<ObservableModel>();
         inputs.add(obs1);
         inputs.add(obs2);
-        MarbleDiagramModel diagramModel = new MarbleDiagramModel(inputs, new BootstrapZip((a, b) -> {
+        MarbleDiagramModel diagramModel = new MarbleDiagramModel(inputs, new BootstrapCombineLatest((a, b) -> {
                 SimpleMarbleModel sA = (SimpleMarbleModel)a;
                 SimpleMarbleModel sB = (SimpleMarbleModel)b;
                 return new SimpleMarbleModel(sA.getNum(), sB.getColor());
