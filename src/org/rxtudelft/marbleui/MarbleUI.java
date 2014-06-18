@@ -5,9 +5,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import org.rxtudelft.marbleui.diagram.InObservableModel;
-import org.rxtudelft.marbleui.diagram.MarbleDiagramModel;
-import org.rxtudelft.marbleui.diagram.ObservableModel;
+import org.rxtudelft.marbleui.diagram.*;
 import org.rxtudelft.marbleui.diagram.bootstrapOperator.*;
 import org.rxtudelft.marbleui.view.diagram.MarbleDiagramView;
 

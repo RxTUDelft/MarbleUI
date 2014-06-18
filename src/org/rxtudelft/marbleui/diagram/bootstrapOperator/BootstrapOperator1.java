@@ -12,10 +12,6 @@ import java.util.List;
  */
 public abstract class BootstrapOperator1<T extends MarbleModel> extends BootstrapOperator<T> {
 
-    protected BootstrapOperator1(ObservableModelFactory<T> outObservableModelFactory) {
-        super(outObservableModelFactory);
-    }
-
     public Observable<T> call(List<Observable<SimpleMarbleModel>> observables) {
         return this.call1(observables.get(0));
     }

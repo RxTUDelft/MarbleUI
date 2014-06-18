@@ -13,8 +13,7 @@ public class BootstrapZip extends BootstrapOperator2<SimpleMarbleModel> {
 
     private Func2<SimpleMarbleModel, SimpleMarbleModel, SimpleMarbleModel> zipFn;
 
-    public BootstrapZip(ObservableModelFactory obsModelFactory, Func2<SimpleMarbleModel, SimpleMarbleModel, SimpleMarbleModel> zipFn) {
-        super(obsModelFactory);
+    public BootstrapZip(Func2<SimpleMarbleModel, SimpleMarbleModel, SimpleMarbleModel> zipFn) {
         this.zipFn = zipFn;
     }
 

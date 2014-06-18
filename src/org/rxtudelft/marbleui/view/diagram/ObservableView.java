@@ -27,7 +27,7 @@ import static java.lang.Math.round;
 /**
  * A javafx.scene.Node (really a Group) that represents a whole observable, including marbles.
  */
-public class ObservableView extends Group {
+public class ObservableView<T extends MarbleModel> extends Group {
 
     //where my ghost should be
     private ObjectProperty<OptionalDouble> ghost;
@@ -36,7 +36,7 @@ public class ObservableView extends Group {
     private GhostMarbleView ghostMarble;
 
     //all the models that I need to draw a marble for
-    private MapProperty<Long, MarbleModel> marbles;
+    private MapProperty<Long, T> marbles;
 
     //list of all marble nodes drawn
     private List<SimpleMarbleView> nodeMarbles;
@@ -127,11 +127,11 @@ public class ObservableView extends Group {
         return ghost;
     }
 
-    public ObservableMap<Long, MarbleModel> getMarbles() {
+    public ObservableMap<Long, T> getMarbles() {
         return marbles.get();
     }
 
-    public MapProperty<Long, MarbleModel> marblesProperty() {
+    public MapProperty<Long, T> marblesProperty() {
         return marbles;
     }
 

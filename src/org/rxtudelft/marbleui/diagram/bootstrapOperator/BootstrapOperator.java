@@ -12,13 +12,8 @@ import java.util.List;
  * Created by ferdy on 5/16/14.
  */
 public abstract class BootstrapOperator<T extends MarbleModel> implements Func1<List<Observable<SimpleMarbleModel>>, Observable<T>> {
-    private ObservableModelFactory<T> outObservableModelFactory;
-
-    protected BootstrapOperator(ObservableModelFactory<T> outObservableModelFactory) {
-        this.outObservableModelFactory = outObservableModelFactory;
-    }
 
     public ObservableModelFactory<T> getOutObservableModelFactory() {
-        return outObservableModelFactory;
+        return new ObservableModelFactory<T>();
     }
 }

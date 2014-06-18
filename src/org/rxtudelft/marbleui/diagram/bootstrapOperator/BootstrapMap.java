@@ -12,8 +12,7 @@ public class BootstrapMap extends BootstrapOperator1<SimpleMarbleModel> {
 
     private Func1<SimpleMarbleModel, SimpleMarbleModel> mapping;
 
-    public BootstrapMap(ObservableModelFactory obsModelFactory, Func1<SimpleMarbleModel, SimpleMarbleModel> mapping) {
-        super(obsModelFactory);
+    public BootstrapMap(Func1<SimpleMarbleModel, SimpleMarbleModel> mapping) {
         this.mapping = mapping;
     }
 
@@ -21,4 +20,5 @@ public class BootstrapMap extends BootstrapOperator1<SimpleMarbleModel> {
     public Observable<SimpleMarbleModel> call1(Observable<SimpleMarbleModel> toMap) {
         return toMap.map(mapping);
     }
+
 }
