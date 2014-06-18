@@ -53,7 +53,7 @@ public class MarbleDiagramView extends Group {
             root.getChildren().add(inObs);
 
             //create view model
-            InObservableViewModel vm = new InObservableViewModel(inObs, i);
+            InObservableViewModel vm = new InObservableViewModel(inObs, (org.rxtudelft.marbleui.diagram.InObservableModel) i);
 
             //add ghost vm
             new GhostViewModel(inObs.getGhostMarble(), angleCounter.iProperty(), colorPicker.getColor());

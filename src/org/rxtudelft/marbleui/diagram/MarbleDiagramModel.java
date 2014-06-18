@@ -13,13 +13,13 @@ import java.util.stream.Collectors;
 /**
  * Created by ferdy on 5/8/14.
  */
-public class MarbleDiagramModel {
+public class MarbleDiagramModel<T extends MarbleModel> {
 
-    private List<ObservableModel> inputs;
-    private BootstrapOperator operator;
-    private ObservableModel output;
+    private List<InObservableModel> inputs;
+    private BootstrapOperator<T> operator;
+    private ObservableModel<T> output;
 
-    public MarbleDiagramModel(List<ObservableModel> observables, BootstrapOperator operator) {
+    public MarbleDiagramModel(List<InObservableModel> observables, BootstrapOperator operator) {
         this.operator = operator;
         this.inputs = observables;
         this.output = new ObservableModel();
@@ -37,12 +37,12 @@ public class MarbleDiagramModel {
         TestScheduler ts = new TestScheduler();
 
         //create list of input rxObservables
-        List<Observable<MarbleModel>> inputs = this.inputs.stream()
-                .map(o -> o.testSubject(ts)).collect(Collectors.<Observable<MarbleModel>>toList());;
+        List<Observable<SimpleMarbleModel>> inputs = this.inputs.stream()
+                .map(o -> o.testSubject(ts)).collect(Collectors.<Observable<SimpleMarbleModel>>toList());;
         
         //calculate timestamped output
-        Observable<Timestamped<MarbleModel>> outputObs = operator.call(inputs).map(marble -> {
-            return new Timestamped<MarbleModel>(ts.now(), marble);
+        Observable<Timestamped<T>> outputObs = operator.call(inputs).map(marble -> {
+            return new Timestamped<T>(ts.now(), marble);
         });
         //outputObs.subscribe(System.out::println, System.err::println);
         ArrayList<Timestamped<MarbleModel>> list = new ArrayList<>();
@@ -56,7 +56,7 @@ public class MarbleDiagramModel {
         ts.advanceTimeTo(ObservableModel.MAX_TIME, TimeUnit.MILLISECONDS);
     }
 
-    public List<ObservableModel> getInputs() {
+    public List<InObservableModel> getInputs() {
         return inputs;
     }
 

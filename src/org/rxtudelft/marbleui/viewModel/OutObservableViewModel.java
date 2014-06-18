@@ -2,6 +2,7 @@ package org.rxtudelft.marbleui.viewModel;
 
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import org.rxtudelft.marbleui.diagram.MarbleModel;
 import org.rxtudelft.marbleui.diagram.ObservableModel;
 import org.rxtudelft.marbleui.diagram.SimpleMarbleModel;
 import org.rxtudelft.marbleui.view.diagram.ObservableView;
@@ -12,8 +13,8 @@ import java.util.OptionalDouble;
 /**
  * Created by ferdy on 5/28/14.
  */
-public class OutObservableViewModel {
-    public OutObservableViewModel(ObservableView view, ObservableModel model) {
+public class OutObservableViewModel<T extends MarbleModel> {
+    public OutObservableViewModel(ObservableView view, ObservableModel<T> model) {
         model.getChangeObs().subscribe(change -> {
             if(change.wasAdded()) {
                 view.marblesProperty().put(change.getKey(), change.getValueAdded());

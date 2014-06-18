@@ -1,22 +1,23 @@
 package org.rxtudelft.marbleui.diagram.bootstrapOperator;
 
 import org.rxtudelft.marbleui.diagram.MarbleModel;
+import org.rxtudelft.marbleui.diagram.SimpleMarbleModel;
 import rx.Observable;
 import rx.functions.Func1;
 
 /**
  * Created by ferdy on 5/16/14.
  */
-public class BootstrapFilter implements BootstrapOperator1 {
+public class BootstrapFilter implements BootstrapOperator1<SimpleMarbleModel> {
 
-    private Func1<MarbleModel, Boolean> filter;
+    private Func1<SimpleMarbleModel, Boolean> filter;
 
-    public BootstrapFilter(Func1<MarbleModel, Boolean> filter) {
+    public BootstrapFilter(Func1<SimpleMarbleModel, Boolean> filter) {
         this.filter = filter;
     }
 
     @Override
-    public Observable<MarbleModel> call1(Observable<MarbleModel> toFilter) {
+    public Observable<SimpleMarbleModel> call1(Observable<SimpleMarbleModel> toFilter) {
         return toFilter.filter(filter);
     }
 }

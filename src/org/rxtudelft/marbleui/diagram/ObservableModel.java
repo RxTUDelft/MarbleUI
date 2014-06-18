@@ -17,43 +17,43 @@ import static rx.Observable.OnSubscribe;
 /**
  * Created by ferdy on 5/28/14.
  */
-public class ObservableModel{
+public class ObservableModel<T extends MarbleModel> {
     public static final int MAX_TIME = 1000;
-    private ObservableMap<Long, MarbleModel> marbles;
-    private Observable<Change<Long, MarbleModel>> changeObs;
+    private ObservableMap<Long, T> marbles;
+    private Observable<Change<Long, T>> changeObs;
 
     public ObservableModel() {
         this(new HashMap<>());
     }
 
-    public ObservableModel(Map<Long, MarbleModel> marbles) {
+    public ObservableModel(Map<Long, T> marbles) {
         this.marbles = FXCollections.observableHashMap();
         marbles.forEach((k, v) -> {
             this.marbles.put(k, v);
         });
 
-        this.changeObs = Observable.create((OnSubscribe<Change<Long, MarbleModel>>) subscriber -> {
-            ObservableModel.this.marbles.addListener((MapChangeListener<Long, MarbleModel>) (change) -> {
+        this.changeObs = Observable.create((OnSubscribe<Change<Long, T>>) subscriber -> {
+            ObservableModel.this.marbles.addListener((MapChangeListener<Long, T>) (change) -> {
                 //FIXME why does this need a cast?
-                subscriber.onNext((Change<Long, MarbleModel>)change);
+                subscriber.onNext((Change<Long, T>)change);
             });
         });
     }
 
-    public void put(long at, MarbleModel marble) {
+    public void put(long at, T marble) {
         this.marbles.put(at, marble);
     }
 
-    public Map<Long, MarbleModel> getMarbles() {
+    public Map<Long, T> getMarbles() {
         return marbles;
     }
 
-    public Observable<Change<Long, MarbleModel>> getChangeObs() {
+    public Observable<Change<Long, T>> getChangeObs() {
         return changeObs;
     }
 
-    public Observable<MarbleModel> testSubject(TestScheduler testScheduler) {
-        TestSubject<MarbleModel> ret = TestSubject.create(testScheduler);
+    public Observable<T> testSubject(TestScheduler testScheduler) {
+        TestSubject<T> ret = TestSubject.create(testScheduler);
 
         marbles.forEach((k,v) -> ret.onNext(v, k));
 

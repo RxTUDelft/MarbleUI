@@ -5,6 +5,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import org.rxtudelft.marbleui.diagram.InObservableModel;
 import org.rxtudelft.marbleui.diagram.MarbleDiagramModel;
 import org.rxtudelft.marbleui.diagram.ObservableModel;
 import org.rxtudelft.marbleui.diagram.bootstrapOperator.*;
@@ -29,8 +30,8 @@ public class MarbleUI extends Application {
         stage.setTitle("MarbleUI");
 
         //setup diagram model
-        ObservableModel obs = new ObservableModel();
-        List<ObservableModel> inputs = new ArrayList<ObservableModel>();
+        InObservableModel obs = new InObservableModel();
+        List<InObservableModel> inputs = new ArrayList<InObservableModel>();
         inputs.add(obs);
         MarbleDiagramModel diagramModel = new MarbleDiagramModel(inputs, new BootstrapDistinct());
 
