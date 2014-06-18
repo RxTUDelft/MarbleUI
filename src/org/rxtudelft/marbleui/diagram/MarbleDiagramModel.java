@@ -6,6 +6,7 @@ import rx.schedulers.TestScheduler;
 import rx.schedulers.Timestamped;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -22,9 +23,8 @@ public class MarbleDiagramModel<T extends MarbleModel> {
     public MarbleDiagramModel(List<InObservableModel> observables, BootstrapOperator operator) {
         this.operator = operator;
         this.inputs = observables;
-        this.output = new ObservableModel();
+        this.output = operator.getOutObservableModelFactory().getOutObservable();
         this.calcOutput();
-
         //subscribe to inputs, recalc output onNextd
         this.inputs.forEach(i -> {
             i.getChangeObs().subscribe(s -> {

@@ -1,5 +1,6 @@
 package org.rxtudelft.marbleui.diagram.bootstrapOperator;
 
+import org.rxtudelft.marbleui.diagram.ObservableModelFactory;
 import org.rxtudelft.marbleui.diagram.SimpleMarbleModel;
 import rx.Observable;
 import rx.functions.Func1;
@@ -11,7 +12,8 @@ public class BootstrapMap extends BootstrapOperator1<SimpleMarbleModel> {
 
     private Func1<SimpleMarbleModel, SimpleMarbleModel> mapping;
 
-public BootstrapMap(Func1<SimpleMarbleModel, SimpleMarbleModel> mapping) {
+    public BootstrapMap(ObservableModelFactory obsModelFactory, Func1<SimpleMarbleModel, SimpleMarbleModel> mapping) {
+        super(obsModelFactory);
         this.mapping = mapping;
     }
 
