@@ -11,5 +11,5 @@ import java.util.List;
 /**
  * Created by ferdy on 5/16/14.
  */
-public interface BootstrapOperator<T extends MarbleModel> extends Func1<List<Observable<SimpleMarbleModel>>, Observable<T>> {
+public abstract class BootstrapOperator<T extends MarbleModel> implements Func1<List<Observable<SimpleMarbleModel>>, Observable<T>> {
 }

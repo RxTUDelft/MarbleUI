@@ -8,7 +8,7 @@ import rx.functions.Func2;
 /**
  * Created by ferdy on 6/18/14.
  */
-public class BootstrapZip implements BootstrapOperator2<SimpleMarbleModel> {
+public class BootstrapZip extends BootstrapOperator2<SimpleMarbleModel> {
 
     private Func2<SimpleMarbleModel, SimpleMarbleModel, SimpleMarbleModel> zipFn;
 
