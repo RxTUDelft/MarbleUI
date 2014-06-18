@@ -20,34 +20,32 @@ import rx.observables.JavaFxObservable;
  */
 public class Counter extends HBox {
 
-    class DecButton extends Group {
+    class DecButton extends DrawButton {
         public DecButton() {
             this(50, 50);
         }
         public DecButton(int w, int h) {
-            Rectangle bg = new Rectangle();
-            bg.setFill(Color.TRANSPARENT);
-            this.getChildren().add(bg);
+            super(w, h);
+
             Line hLine = new Line(0, h/2, w, h/2);
             hLine.setStrokeWidth(2);
             this.getChildren().add(hLine);
         }
     }
 
-    class IncButton extends Group {
+    class IncButton extends DrawButton {
         public IncButton() {
             this(50, 50);
         }
         public IncButton(int w, int h) {
-            Rectangle bg = new Rectangle(w, h);
-            bg.setFill(Color.TRANSPARENT);
-            this.getChildren().add(bg);
+            super(w, h);
+
             Line hLine = new Line(0, h/2, w, h/2);
             hLine.setStrokeWidth(2);
+            this.getChildren().add(hLine);
+
             Line vLine = new Line(w/2, 0, w/2, h);
             vLine.setStrokeWidth(2);
-
-            this.getChildren().add(hLine);
             this.getChildren().add(vLine);
         }
     }
