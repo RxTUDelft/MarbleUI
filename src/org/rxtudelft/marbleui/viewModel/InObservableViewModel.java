@@ -22,7 +22,8 @@ public class InObservableViewModel {
         JavaFxObservable.fromNodeEvents(view, MouseEvent.MOUSE_CLICKED)
                 .subscribe(e -> {
                     int n = view.getGhostMarble().getN();
-                    model.put(view.xToMs(Math.round(e.getX())), new SimpleMarbleModel(n, Color.DARKORCHID));
+                    Color c = view.getGhostMarble().getColor();
+                    model.put(view.xToMs(Math.round(e.getX())), new SimpleMarbleModel(n, c));
                 });
 
         model.getChangeObs().subscribe(change -> {

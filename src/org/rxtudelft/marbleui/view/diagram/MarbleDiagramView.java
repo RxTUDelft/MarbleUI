@@ -3,6 +3,8 @@ package org.rxtudelft.marbleui.view.diagram;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
+import javafx.scene.control.ColorPicker;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.rxtudelft.marbleui.diagram.MarbleDiagramModel;
 import org.rxtudelft.marbleui.diagram.ObservableModel;
@@ -29,9 +31,16 @@ public class MarbleDiagramView extends Group {
         VBox root = new VBox();
         root.setAlignment(Pos.CENTER);
 
-        //ghost angle counter
+        //setup controls
+        HBox controls = new HBox();
+
+        ColorPicker colorPicker = new ColorPicker();
+        controls.getChildren().add(colorPicker);
+
         Counter angleCounter = new Counter(5);
-        root.getChildren().add(angleCounter);
+        controls.getChildren().add(angleCounter);
+
+        root.getChildren().add(controls);
 
         //setup input nodes
         List<ObservableView> inputNodes = new ArrayList<>();
@@ -45,7 +54,7 @@ public class MarbleDiagramView extends Group {
             InObservableViewModel vm = new InObservableViewModel(inObs, i);
 
             //add ghost vm
-            new GhostViewModel(inObs.getGhostMarble(), angleCounter.iProperty());
+            new GhostViewModel(inObs.getGhostMarble(), angleCounter.iProperty(), colorPicker.valueProperty());
         });
 
         final OperatorView nOp = new OperatorView(width, h, "Test");
