@@ -4,6 +4,7 @@ import javafx.beans.value.ObservableIntegerValue;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.paint.Color;
 import org.rxtudelft.marbleui.view.diagram.GhostMarbleView;
+import rx.Observable;
 import rx.observables.JavaFxObservable;
 
 /**
@@ -14,7 +15,7 @@ public class GhostViewModel {
     private ObservableIntegerValue n;
     private ObservableValue<Color> color;
 
-    public GhostViewModel(GhostMarbleView view, ObservableIntegerValue n, ObservableValue<Color> color) {
+    public GhostViewModel(GhostMarbleView view, ObservableIntegerValue n, Observable<Color> color) {
         this.view = view;
         this.n = n;
 
@@ -22,7 +23,7 @@ public class GhostViewModel {
                     GhostViewModel.this.view.nProperty().setValue(newN.intValue());
                 });
 
-        JavaFxObservable.fromObservableValue(color).subscribe(newColor -> {
+        color.subscribe(newColor -> {
                     GhostViewModel.this.view.colorProperty().setValue(newColor);
         });
     }
