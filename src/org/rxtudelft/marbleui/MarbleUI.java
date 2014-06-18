@@ -10,6 +10,7 @@ import org.rxtudelft.marbleui.diagram.MarbleDiagramModel;
 import org.rxtudelft.marbleui.diagram.ObservableModel;
 import org.rxtudelft.marbleui.diagram.SimpleMarbleModel;
 import org.rxtudelft.marbleui.diagram.bootstrapOperator.BootstrapMap;
+import org.rxtudelft.marbleui.diagram.bootstrapOperator.BootstrapZip;
 import org.rxtudelft.marbleui.view.Counter;
 import org.rxtudelft.marbleui.view.diagram.MarbleDiagramView;
 
@@ -32,12 +33,15 @@ public class MarbleUI extends Application {
         stage.setTitle("MarbleUI");
 
         //setup diagram model
-        ObservableModel obs = new ObservableModel();
+        ObservableModel obs1 = new ObservableModel();
+        ObservableModel obs2 = new ObservableModel();
         List<ObservableModel> inputs = new ArrayList<ObservableModel>();
-        inputs.add(obs);
-        MarbleDiagramModel diagramModel = new MarbleDiagramModel(inputs, new BootstrapMap(o -> {
-                SimpleMarbleModel s = (SimpleMarbleModel)o;
-                return new SimpleMarbleModel(s.getNum()+1, s.getColor());
+        inputs.add(obs1);
+        inputs.add(obs2);
+        MarbleDiagramModel diagramModel = new MarbleDiagramModel(inputs, new BootstrapZip((a, b) -> {
+                SimpleMarbleModel sA = (SimpleMarbleModel)a;
+                SimpleMarbleModel sB = (SimpleMarbleModel)b;
+                return new SimpleMarbleModel(sA.getNum(), sB.getColor());
         }));
 
         stage.setScene(new Scene(new MarbleDiagramView(diagramModel), width, height, Color.WHITE));
