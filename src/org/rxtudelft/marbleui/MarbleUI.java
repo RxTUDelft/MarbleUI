@@ -3,16 +3,11 @@ package org.rxtudelft.marbleui;
 import javafx.application.Application;
 
 import javafx.scene.Scene;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import org.rxtudelft.marbleui.diagram.MarbleDiagramModel;
 import org.rxtudelft.marbleui.diagram.ObservableModel;
-import org.rxtudelft.marbleui.diagram.SimpleMarbleModel;
-import org.rxtudelft.marbleui.diagram.bootstrapOperator.BootstrapCombineLatest;
-import org.rxtudelft.marbleui.diagram.bootstrapOperator.BootstrapMap;
-import org.rxtudelft.marbleui.diagram.bootstrapOperator.BootstrapZip;
-import org.rxtudelft.marbleui.view.Counter;
+import org.rxtudelft.marbleui.diagram.bootstrapOperator.*;
 import org.rxtudelft.marbleui.view.diagram.MarbleDiagramView;
 
 import java.util.ArrayList;
@@ -34,16 +29,10 @@ public class MarbleUI extends Application {
         stage.setTitle("MarbleUI");
 
         //setup diagram model
-        ObservableModel obs1 = new ObservableModel();
-        ObservableModel obs2 = new ObservableModel();
+        ObservableModel obs = new ObservableModel();
         List<ObservableModel> inputs = new ArrayList<ObservableModel>();
-        inputs.add(obs1);
-        inputs.add(obs2);
-        MarbleDiagramModel diagramModel = new MarbleDiagramModel(inputs, new BootstrapCombineLatest((a, b) -> {
-                SimpleMarbleModel sA = (SimpleMarbleModel)a;
-                SimpleMarbleModel sB = (SimpleMarbleModel)b;
-                return new SimpleMarbleModel(sA.getNum(), sB.getColor());
-        }));
+        inputs.add(obs);
+        MarbleDiagramModel diagramModel = new MarbleDiagramModel(inputs, new BootstrapDistinct());
 
         stage.setScene(new Scene(new MarbleDiagramView(diagramModel), width, height, Color.WHITE));
 
