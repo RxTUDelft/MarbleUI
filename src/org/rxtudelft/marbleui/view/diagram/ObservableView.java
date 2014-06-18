@@ -55,6 +55,14 @@ public class ObservableView extends Group {
         this.height  = height;
         this.r       = (height/2)*0.8;
 
+        //init the line
+        Line line = new Line(r, height/2, this.width - r, height/2);
+
+        line.setStrokeType(StrokeType.CENTERED);
+        line.setStroke(Color.BLACK);
+        line.setStrokeWidth(2);
+        this.getChildren().add(line);
+
         // not sure if this is the best solution to force the group to have this width/height but it works.
         Rectangle background = new Rectangle(0, 0, this.width, this.height);
         background.setFill(Color.TRANSPARENT);
@@ -109,14 +117,6 @@ public class ObservableView extends Group {
                     this.getChildren().remove(this.ghostMarble);
                     this.getChildren().add(this.ghostMarble);
                 });
-
-        //init the line
-        Line line = new Line(r, height/2, this.width - r, height/2);
-
-        line.setStrokeType(StrokeType.CENTERED);
-        line.setStroke(Color.BLACK);
-        line.setStrokeWidth(2);
-        this.getChildren().add(line);
     }
 
     public OptionalDouble getGhost() {
