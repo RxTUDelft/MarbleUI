@@ -7,14 +7,13 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
-import org.rxtudelft.marbleui.diagram.MarbleModel;
-import org.rxtudelft.marbleui.diagram.ObservableModel;
-import org.rxtudelft.marbleui.diagram.SimpleMarbleModel;
+import org.rxtudelft.marbleui.diagram.*;
 import rx.observables.JavaFxObservable;
 
 import java.util.LinkedList;
@@ -39,7 +38,7 @@ public class ObservableView<T extends MarbleModel> extends Group {
     private MapProperty<Long, T> marbles;
 
     //list of all marble nodes drawn
-    private List<SimpleMarbleView> nodeMarbles;
+    private List<Node> nodeMarbles;
 
     //TODO should be property
     private double width;
@@ -99,18 +98,26 @@ public class ObservableView<T extends MarbleModel> extends Group {
                     this.nodeMarbles.forEach(this.getChildren()::remove);
 
                     ms.forEach((t, m) -> {
-
-                        //TODO simple/composite?
-                        //TODO dif with old marbles
+                        Node n = null;
+                        if (m instanceof SimpleCompletedModel) {
+                            SimpleCompletedModel sm = (SimpleCompletedModel) m;
+                            n = new SimpleCompletedView(r);
+                        }
+                        if (m instanceof SimpleErrorModel) {
+                            SimpleErrorModel sm = (SimpleErrorModel) m;
+                            n = new SimpleErrorView(r);
+                        }
                         if (m instanceof SimpleMarbleModel) {
                             SimpleMarbleModel sm = (SimpleMarbleModel) m;
                             SimpleMarbleView nm = new SimpleMarbleView(sm.getNum(), r);
                             nm.setFill(sm.getColor());
-                            nm.setTranslateX(limitX(this.msToX(t)));
-                            nm.setTranslateY(height / 2);
-                            this.nodeMarbles.add(nm);
-                            this.getChildren().add(nm);
+                            n = nm;
                         }
+                        assert n != null;
+                        n.setTranslateX(limitX(this.msToX(t)));
+                        n.setTranslateY(height / 2);
+                        this.nodeMarbles.add(n);
+                        this.getChildren().add(n);
                     });
 
                     //put ghost on top

@@ -7,14 +7,12 @@ import javafx.scene.shape.Polygon;
 import java.util.stream.DoubleStream;
 import java.util.stream.Stream;
 
-import static java.lang.Math.PI;
-import static java.lang.Math.cos;
-import static java.lang.Math.sin;
+import static java.lang.Math.*;
 
 /**
  * Jeff's awesome NGon used as a simple marble
  */
-public class SimpleMarbleView extends Polygon {
+public class SimpleMarbleView extends Polygon implements MarbleView {
     private double r;
     public SimpleMarbleView(int n, double r) {
         super();
