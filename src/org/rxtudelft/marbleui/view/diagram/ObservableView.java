@@ -110,7 +110,7 @@ public class ObservableView<T extends MarbleModel> extends Group {
                         if (m instanceof SimpleMarbleModel) {
                             SimpleMarbleModel sm = (SimpleMarbleModel) m;
                             SimpleMarbleView nm = new SimpleMarbleView(sm.getNum(), r);
-                            nm.setFill(sm.getColor());
+                            nm.getP().setFill(sm.getColor());
                             n = nm;
                         }
                         assert n != null;

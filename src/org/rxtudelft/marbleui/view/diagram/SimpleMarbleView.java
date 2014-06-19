@@ -1,10 +1,5 @@
 package org.rxtudelft.marbleui.view.diagram;
 
-import com.sun.javafx.geom.BaseBounds;
-import com.sun.javafx.geom.transform.BaseTransform;
-import com.sun.javafx.jmx.MXNodeAlgorithm;
-import com.sun.javafx.jmx.MXNodeAlgorithmContext;
-import com.sun.javafx.sg.prism.NGNode;
 import javafx.collections.ObservableList;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
@@ -48,7 +43,8 @@ public class SimpleMarbleView extends MarbleView {
                 .forEach(points::add);
     }
 
-    protected Polygon getP() {
+    @Override
+    Polygon getP() {
         return p;
     }
 }

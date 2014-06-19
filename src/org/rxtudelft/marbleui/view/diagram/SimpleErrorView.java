@@ -8,10 +8,10 @@ import javafx.scene.shape.Polygon;
  */
 public class SimpleErrorView extends MarbleView {
     private double radius;
-    private Polygon x;
+    private Polygon p;
 
     public SimpleErrorView(double r) {
-        this.x = new Polygon( 0, 0,
+        this.p = new Polygon( 0, 0,
                 0, r,
                 0, 0,
                 r, 0,
@@ -22,14 +22,15 @@ public class SimpleErrorView extends MarbleView {
                 0, 0 );
         this.radius = r;
 
-        this.x.setStroke(Color.BLACK);
-        this.x.setStrokeWidth(2);
-        this.x.setRotate(45);
+        this.p.setStroke(Color.BLACK);
+        this.p.setStrokeWidth(2);
+        this.p.setRotate(45);
 
-        this.getChildren().add(this.x);
+        this.getChildren().add(this.p);
     }
 
-    public void setFill(Color color) {
-        // stubbed for ease of use
+    @Override
+    Polygon getP() {
+        return p;
     }
 }

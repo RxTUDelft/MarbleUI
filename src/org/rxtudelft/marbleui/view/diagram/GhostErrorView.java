@@ -9,8 +9,8 @@ public final class GhostErrorView extends SimpleErrorView {
     public GhostErrorView(double r) {
         super(r);
 
-        this.setFill(Color.TRANSPARENT);
-        this.setStroke(Color.GRAY);
-        this.setStrokeWidth(2);
+        this.getP().setFill(Color.TRANSPARENT);
+        this.getP().setStroke(Color.GRAY);
+        this.getP().setStrokeWidth(2);
     }
 }
