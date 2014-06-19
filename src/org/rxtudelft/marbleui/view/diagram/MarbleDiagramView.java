@@ -5,17 +5,16 @@ import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import org.rxtudelft.marbleui.diagram.MarbleDiagramModel;
 import org.rxtudelft.marbleui.diagram.ObservableModel;
 import org.rxtudelft.marbleui.view.ColorPicker;
 import org.rxtudelft.marbleui.view.Counter;
-import org.rxtudelft.marbleui.view.Slider;
 import org.rxtudelft.marbleui.viewModel.GhostViewModel;
 import org.rxtudelft.marbleui.viewModel.InObservableViewModel;
 import org.rxtudelft.marbleui.viewModel.OutObservableViewModel;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A Marble Diagram
@@ -41,6 +40,8 @@ public class MarbleDiagramView extends Group {
 
         Counter angleCounter = new Counter(5);
         controls.getChildren().add(angleCounter);
+
+
 
         root.getChildren().add(controls);
 
