@@ -7,7 +7,7 @@ import javafx.scene.shape.Line;
 /**
  * Created by jeff on 19-6-14.
  */
-public class SimpleErrorView extends Group implements MarbleView {
+public class SimpleErrorView extends MarbleView {
     private double radius;
 
     public SimpleErrorView(double r) {

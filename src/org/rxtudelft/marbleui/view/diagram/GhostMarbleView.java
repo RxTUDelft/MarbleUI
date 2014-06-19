@@ -21,16 +21,16 @@ public final class GhostMarbleView extends SimpleMarbleView {
 
         this.n = new SimpleIntegerProperty(n);
         this.color = new SimpleObjectProperty<>(Color.TRANSPARENT);
-        this.setFill(Color.TRANSPARENT);
-        this.setStroke(Color.GRAY);
-        this.setStrokeWidth(2);
+        this.getP().setFill(Color.TRANSPARENT);
+        this.getP().setStroke(Color.GRAY);
+        this.getP().setStrokeWidth(2);
 
         JavaFxObservable.fromObservableValue(this.n).subscribe(newN -> {
             this.setPoints(newN.intValue());
         });
 
         JavaFxObservable.fromObservableValue(this.color).subscribe(newColor -> {
-            this.setFill(newColor);
+            this.getP().setFill(newColor);
         });
     }
 
