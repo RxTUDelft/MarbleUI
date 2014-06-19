@@ -7,6 +7,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.rxtudelft.marbleui.diagram.MarbleDiagramModel;
 import org.rxtudelft.marbleui.diagram.ObservableModel;
+import org.rxtudelft.marbleui.diagram.TimestampedObservableModel;
 import org.rxtudelft.marbleui.view.ColorPicker;
 import org.rxtudelft.marbleui.view.Counter;
 import org.rxtudelft.marbleui.viewModel.GhostViewModel;
@@ -27,7 +28,7 @@ public class MarbleDiagramView extends Group {
         this.diagramModel = diagramModel;
         double width   = 1000;
         double height  = 800;
-        double h       = height / 5;
+        double h       = height / 6;
 
         VBox root = new VBox();
         root.setAlignment(Pos.CENTER);
@@ -64,7 +65,7 @@ public class MarbleDiagramView extends Group {
         root.getChildren().add(nOp);
 
         //setup output node
-        final ObservableView nObsOut = new ObservableView(width, h);
+        final ObservableView nObsOut = this.getOutObservableModel(diagramModel.getOutput(), width, h);
         root.getChildren().addAll(nObsOut);
         ObservableModel outputModel = diagramModel.getOutput();
         //attach output node to it's model
@@ -72,5 +73,15 @@ public class MarbleDiagramView extends Group {
         
         root.setPadding(new Insets(h / 2));
         this.getChildren().add(root);
+    }
+
+    public ObservableView getOutObservableModel(ObservableModel<?> obsOutmodel, double width, double height) {
+        if(obsOutmodel instanceof TimestampedObservableModel) {
+            return new TimestampedObservableView(width, height);
+        }
+
+        else {
+            return new ObservableView(width, height);
+        }
     }
 }

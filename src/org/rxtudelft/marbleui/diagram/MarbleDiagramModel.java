@@ -38,21 +38,24 @@ public class MarbleDiagramModel<T extends MarbleModel> {
 
         //create list of input rxObservables
         List<Observable<SimpleMarbleModel>> inputs = this.inputs.stream()
-                .map(o -> o.testSubject(ts)).collect(Collectors.<Observable<SimpleMarbleModel>>toList());;
-        
+                .map(o -> o.testSubject(ts)).collect(Collectors.<Observable<SimpleMarbleModel>>toList());
+
         //calculate timestamped output
         Observable<Timestamped<T>> outputObs = operator.call(inputs).map(marble -> {
             return new Timestamped<T>(ts.now(), marble);
+        }).doOnError(e -> {
+            e.printStackTrace();
         });
+
         //outputObs.subscribe(System.out::println, System.err::println);
         ArrayList<Timestamped<MarbleModel>> list = new ArrayList<>();
-
-        //advance time past to max input time
 
         //put all marbles on output
         outputObs.subscribe(o -> {
             MarbleDiagramModel.this.output.put(o.getTimestampMillis(), o.getValue());
         });
+
+        //advance time past to max input time
         ts.advanceTimeTo(ObservableModel.MAX_TIME, TimeUnit.MILLISECONDS);
     }
 

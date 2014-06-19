@@ -28,10 +28,12 @@ public class MarbleUI extends Application {
         stage.setTitle("MarbleUI");
 
         //setup diagram model
-        InObservableModel obs = new InObservableModel();
         List<InObservableModel> inputs = new ArrayList<InObservableModel>();
-        inputs.add(obs);
-        MarbleDiagramModel diagramModel = new MarbleDiagramModel(inputs, new BootstrapDistinct());
+        InObservableModel obs1 = new InObservableModel();
+        inputs.add(obs1);
+//        InObservableModel obs2 = new InObservableModel();
+//        inputs.add(obs2);
+        MarbleDiagramModel diagramModel = new MarbleDiagramModel(inputs, new BootstrapTimestamp());
 
         stage.setScene(new Scene(new MarbleDiagramView(diagramModel), width, height, Color.WHITE));
 

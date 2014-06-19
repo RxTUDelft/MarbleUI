@@ -109,7 +109,7 @@ public class ObservableView<T extends MarbleModel> extends Group {
                         }
                         if (m instanceof SimpleMarbleModel) {
                             SimpleMarbleModel sm = (SimpleMarbleModel) m;
-                            SimpleMarbleView nm = new SimpleMarbleView(sm.getNum(), r);
+                            MarbleView nm = getMarble(sm, r, t);
                             nm.getP().setFill(sm.getColor());
                             n = nm;
                         }
@@ -124,6 +124,10 @@ public class ObservableView<T extends MarbleModel> extends Group {
                     this.getChildren().remove(this.ghostMarble);
                     this.getChildren().add(this.ghostMarble);
                 });
+    }
+
+    protected MarbleView getMarble(MarbleModel sm, double r, long t) {
+        return new SimpleMarbleView(((SimpleMarbleModel)sm).getNum(), r);
     }
 
     public OptionalDouble getGhost() {
