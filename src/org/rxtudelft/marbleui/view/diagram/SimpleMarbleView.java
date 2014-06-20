@@ -1,8 +1,15 @@
 package org.rxtudelft.marbleui.view.diagram;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ObservableList;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
+import org.rxtudelft.marbleui.diagram.MarbleModel;
+import org.rxtudelft.marbleui.diagram.SimpleMarbleModel;
+import rx.observables.JavaFxObservable;
 
 import java.util.stream.DoubleStream;
 import java.util.stream.Stream;
@@ -14,6 +21,8 @@ import static java.lang.Math.*;
  */
 public class SimpleMarbleView extends MarbleView {
 
+    protected IntegerProperty n;
+    protected ObjectProperty<Color> color;
     private double r;
     private Polygon p;
 
@@ -30,6 +39,16 @@ public class SimpleMarbleView extends MarbleView {
         this.p.setStrokeWidth(2);
 
         this.getChildren().add(this.p);
+        this.n = new SimpleIntegerProperty(n);
+        this.color = new SimpleObjectProperty<>(Color.TRANSPARENT);
+
+        JavaFxObservable.fromObservableValue(this.nProperty()).subscribe(newN -> {
+            this.setPoints(newN.intValue());
+        });
+
+        JavaFxObservable.fromObservableValue(this.colorProperty()).subscribe(newColor -> {
+            this.getP().setFill(newColor);
+        });
     }
 
     protected void setPoints(int n) {
@@ -46,5 +65,30 @@ public class SimpleMarbleView extends MarbleView {
     @Override
     Polygon getP() {
         return p;
+    }
+
+    @Override
+    public MarbleModel getModel() {
+        return new SimpleMarbleModel(n.get(), color.get());
+    }
+
+    @Override
+    public MarbleView clone(double r) {
+        SimpleMarbleView clone = new SimpleMarbleView(n.get(), r);
+        clone.color.setValue(this.color.getValue());
+        return clone;
+    }
+
+    @Override
+    public double getRadius() {
+        return r;
+    }
+
+    public IntegerProperty nProperty() {
+        return n;
+    }
+
+    public ObjectProperty<Color> colorProperty() {
+        return color;
     }
 }

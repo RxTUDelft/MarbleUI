@@ -2,6 +2,8 @@ package org.rxtudelft.marbleui.view.diagram;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
+import org.rxtudelft.marbleui.diagram.MarbleModel;
+import org.rxtudelft.marbleui.diagram.SimpleCompletedModel;
 
 /**
  * Created by jeff on 19-6-14.
@@ -23,5 +25,20 @@ public class SimpleCompletedView extends MarbleView {
     @Override
     Polygon getP() {
         return p;
+    }
+
+    @Override
+    public MarbleModel getModel() {
+        return new SimpleCompletedModel();
+    }
+
+    @Override
+    public MarbleView clone(double r) {
+        return new SimpleCompletedView(r);
+    }
+
+    @Override
+    public double getRadius() {
+        return radius;
     }
 }

@@ -1,9 +1,6 @@
 package org.rxtudelft.marbleui.view.diagram;
 
-import javafx.beans.property.MapProperty;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleMapProperty;
-import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
 import javafx.scene.Group;
@@ -16,26 +13,25 @@ import javafx.scene.shape.StrokeType;
 import org.rxtudelft.marbleui.diagram.*;
 import rx.observables.JavaFxObservable;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.OptionalDouble;
-import java.util.TreeMap;
+import java.util.*;
 
 import static java.lang.Math.round;
 
 /**
  * A javafx.scene.Node (really a Group) that represents a whole observable, including marbles.
  */
-public class ObservableView<T extends MarbleModel> extends Group {
+public class ObservableView extends Group {
 
     //where my ghost should be
     private ObjectProperty<OptionalDouble> ghost;
 
     //node object for my ghost
-    private GhostMarbleView ghostMarble;
+    private MarbleView ghostMarble;
+    protected IntegerProperty n;
+    protected ObjectProperty<Color> color;
 
     //all the models that I need to draw a marble for
-    private MapProperty<Long, T> marbles;
+    private MapProperty<Long, MarbleModel> marbles;
 
     //list of all marble nodes drawn
     private List<Node> nodeMarbles;
@@ -69,7 +65,11 @@ public class ObservableView<T extends MarbleModel> extends Group {
 
         //init ghost
         this.ghost = new SimpleObjectProperty<>(OptionalDouble.empty());
-        this.ghostMarble = new GhostMarbleView(5, r);
+        this.ghostMarble = new SimpleMarbleView(5, r).turnGhost();
+        this.n = new SimpleIntegerProperty(5);
+        this.color = new SimpleObjectProperty<>(Color.TRANSPARENT);
+        ((SimpleMarbleView) this.ghostMarble).n.bind(n);
+        ((SimpleMarbleView) this.ghostMarble).color.bind(color);
         this.ghostMarble.setTranslateY(height/2);
         this.getChildren().add(this.ghostMarble);
 
@@ -91,9 +91,10 @@ public class ObservableView<T extends MarbleModel> extends Group {
         //init marbles
         this.marbles = new SimpleMapProperty<>(FXCollections.observableMap(new TreeMap<>()));
         this.nodeMarbles = new LinkedList<>();
-        //TODO don't need to redo every time
+
         JavaFxObservable.fromObservableValue(this.marbles)
                 .subscribe(ms -> {
+                    //TODO don't need to redo every time
                     //cleanup old marble nodes
                     this.nodeMarbles.forEach(this.getChildren()::remove);
 
@@ -124,6 +125,9 @@ public class ObservableView<T extends MarbleModel> extends Group {
                     this.getChildren().remove(this.ghostMarble);
                     this.getChildren().add(this.ghostMarble);
                 });
+        //put ghost on top
+        this.getChildren().remove(this.ghostMarble);
+        this.getChildren().add(this.ghostMarble);
     }
 
     public OptionalDouble getGhost() {
@@ -134,20 +138,39 @@ public class ObservableView<T extends MarbleModel> extends Group {
         return ghost;
     }
 
-    public ObservableMap<Long, T> getMarbles() {
+    public ObservableMap<Long, MarbleModel> getMarbles() {
         return marbles.get();
     }
 
-    public MapProperty<Long, T> marblesProperty() {
+    public MapProperty<Long, MarbleModel> marblesProperty() {
         return marbles;
     }
 
-    public GhostMarbleView getGhostMarble() {
+    public MarbleView getGhostMarble() {
         return ghostMarble;
     }
 
-    public void setGhostMarble(GhostMarbleView ghostMarble) {
-        this.ghostMarble = ghostMarble;
+    public void setGhostMarble(MarbleView ghostMarble) {
+        this.ghostMarble = ghostMarble.clone(this.ghostMarble.getRadius());
+        this.ghostMarble.setTranslateY(height/2);
+        try {
+            this.ghostMarble.setTranslateX(limitX(getGhost().getAsDouble()));
+        } catch (NoSuchElementException ignored) {}
+        if(this.ghostMarble instanceof SimpleMarbleView) {
+            ((SimpleMarbleView) this.ghostMarble).n.bind(n);
+            ((SimpleMarbleView) this.ghostMarble).color.bind(color);
+        }
+        //put ghost on top
+        this.getChildren().remove(this.ghostMarble);
+        this.getChildren().add(this.ghostMarble);
+    }
+
+    public IntegerProperty nProperty() {
+        return n;
+    }
+
+    public ObjectProperty<Color> colorProperty() {
+        return color;
     }
 
     public double limitX(double x) {

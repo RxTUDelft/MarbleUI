@@ -2,58 +2,43 @@ package org.rxtudelft.marbleui.view;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.value.ObservableIntegerValue;
-import javafx.scene.Group;
-import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Line;
-import rx.observables.JavaFxObservable;
 
 
 /**
  * Created by ferdy on 6/17/14.
  */
 public class Counter extends HBox {
-
-    class DecButton extends DrawButton {
-        public DecButton() {
-            this(50, 50);
-        }
-        public DecButton(int w, int h) {
-            super(w, h);
-
-            Line hLine = new Line(0, h/2, w, h/2);
-            hLine.setStrokeWidth(2);
-            this.getChildren().add(hLine);
-        }
+    private DrawButton decButton() {
+        return decButton(50, 50);
     }
 
-    class IncButton extends DrawButton {
-        public IncButton() {
-            this(50, 50);
-        }
-        public IncButton(int w, int h) {
-            super(w, h);
+    private DrawButton decButton(int w, int h) {
+        Line hLine = new Line(0, h/2, w, h/2);
+        hLine.setStrokeWidth(2);
 
-            Line hLine = new Line(0, h/2, w, h/2);
-            hLine.setStrokeWidth(2);
-            this.getChildren().add(hLine);
+        return new DrawButton(w, h, hLine);
+    }
 
-            Line vLine = new Line(w/2, 0, w/2, h);
-            vLine.setStrokeWidth(2);
-            this.getChildren().add(vLine);
-        }
+    private DrawButton incButton() {
+        return incButton(50, 50);
+    }
+
+    private DrawButton incButton(int w, int h) {
+        Line hLine = new Line(0, h/2, w, h/2);
+        hLine.setStrokeWidth(2);
+        Line vLine = new Line(w/2, 0, w/2, h);
+        vLine.setStrokeWidth(2);
+
+        return new DrawButton(w, h, hLine, vLine);
     }
 
     private IntegerProperty i;
 
-    private Node min;
-    private Node plus;
+    private DrawButton min;
+    private DrawButton plus;
 
     private Label numLabel;
 
@@ -61,8 +46,8 @@ public class Counter extends HBox {
 
         this.i = new SimpleIntegerProperty(i);
 
-        this.min = new DecButton();
-        this.plus = new IncButton();
+        this.min = decButton();
+        this.plus = incButton();
         this.numLabel = new Label("" + this.i.get());
         this.numLabel.setPrefWidth(50);
 
@@ -70,7 +55,7 @@ public class Counter extends HBox {
         this.getChildren().add(numLabel);
         this.getChildren().add(plus);
 
-        JavaFxObservable.fromNodeEvents(this.min, MouseEvent.MOUSE_CLICKED).subscribe(c -> {
+        this.min.clickObs.subscribe(c -> {
             int iCurrent = Counter.this.i.get();
             if(iCurrent > 3) {
                 Counter.this.i.setValue(iCurrent - 1);
@@ -78,7 +63,7 @@ public class Counter extends HBox {
             }
         });
 
-        JavaFxObservable.fromNodeEvents(this.plus, MouseEvent.MOUSE_CLICKED).subscribe(c -> {
+        this.plus.clickObs.subscribe(c -> {
             Counter.this.i.setValue(Counter.this.i.get() + 1);
             Counter.this.updateLabel();
         });

@@ -1,12 +1,12 @@
 package org.rxtudelft.marbleui;
 
 import javafx.application.Application;
-
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import org.rxtudelft.marbleui.diagram.*;
-import org.rxtudelft.marbleui.diagram.bootstrapOperator.*;
+import org.rxtudelft.marbleui.diagram.MarbleDiagramModel;
+import org.rxtudelft.marbleui.diagram.ObservableModel;
+import org.rxtudelft.marbleui.diagram.bootstrapOperator.BootstrapDistinct;
 import org.rxtudelft.marbleui.view.diagram.MarbleDiagramView;
 
 import java.util.ArrayList;
@@ -28,8 +28,8 @@ public class MarbleUI extends Application {
         stage.setTitle("MarbleUI");
 
         //setup diagram model
-        InObservableModel obs = new InObservableModel();
-        List<InObservableModel> inputs = new ArrayList<InObservableModel>();
+        ObservableModel obs = new ObservableModel();
+        List<ObservableModel> inputs = new ArrayList<>();
         inputs.add(obs);
         MarbleDiagramModel diagramModel = new MarbleDiagramModel(inputs, new BootstrapDistinct());
 

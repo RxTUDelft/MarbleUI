@@ -5,8 +5,6 @@ import rx.Observable;
 import rx.schedulers.TestScheduler;
 import rx.schedulers.Timestamped;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -14,23 +12,19 @@ import java.util.stream.Collectors;
 /**
  * Created by ferdy on 5/8/14.
  */
-public class MarbleDiagramModel<T extends MarbleModel> {
+public class MarbleDiagramModel {
 
-    private List<InObservableModel> inputs;
-    private BootstrapOperator<T> operator;
-    private ObservableModel<T> output;
+    private List<ObservableModel> inputs;
+    private BootstrapOperator operator;
+    private ObservableModel output;
 
-    public MarbleDiagramModel(List<InObservableModel> observables, BootstrapOperator operator) {
+    public MarbleDiagramModel(List<ObservableModel> observables, BootstrapOperator operator) {
         this.operator = operator;
         this.inputs = observables;
         this.output = operator.getOutObservableModelFactory().getOutObservable();
         this.calcOutput();
-        //subscribe to inputs, recalc output onNextd
-        this.inputs.forEach(i -> {
-            i.getChangeObs().subscribe(s -> {
-                this.calcOutput();
-            });
-        });
+        //subscribe to inputs, recalculate output onNext
+        this.inputs.forEach(i -> i.getChangeObs().subscribe(s -> this.calcOutput()));
     }
 
     public void calcOutput() {
@@ -38,25 +32,26 @@ public class MarbleDiagramModel<T extends MarbleModel> {
 
         //create list of input rxObservables
         List<Observable<SimpleMarbleModel>> inputs = this.inputs.stream()
-                .map(o -> o.testSubject(ts)).collect(Collectors.<Observable<SimpleMarbleModel>>toList());;
+                .map(o -> o.testSubject(ts)).collect(Collectors.<Observable<SimpleMarbleModel>>toList());
         
         //calculate timestamped output
-        Observable<Timestamped<T>> outputObs = operator.call(inputs).map(marble -> {
-            return new Timestamped<T>(ts.now(), marble);
-        });
-        //outputObs.subscribe(System.out::println, System.err::println);
-        ArrayList<Timestamped<MarbleModel>> list = new ArrayList<>();
+        Observable<Timestamped<MarbleModel>> outputObs = operator.call(inputs).map(marble ->
+                new Timestamped<>(ts.now(), marble));
 
-        //advance time past to max input time
+        // remove old marbles from output
+        output.getMarbles().clear();
 
         //put all marbles on output
-        outputObs.subscribe(o -> {
-            MarbleDiagramModel.this.output.put(o.getTimestampMillis(), o.getValue());
-        });
+        outputObs.subscribe( o -> MarbleDiagramModel.this.output.put(o.getTimestampMillis(), o.getValue()),
+                e -> MarbleDiagramModel.this.output.put(ts.now(), new SimpleErrorModel()),
+                () -> MarbleDiagramModel.this.output.put(ts.now(), new SimpleCompletedModel())
+        );
+
+        //advance time past to max input time
         ts.advanceTimeTo(ObservableModel.MAX_TIME, TimeUnit.MILLISECONDS);
     }
 
-    public List<InObservableModel> getInputs() {
+    public List<ObservableModel> getInputs() {
         return inputs;
     }
 

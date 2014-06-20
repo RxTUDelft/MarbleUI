@@ -1,7 +1,7 @@
 package org.rxtudelft.marbleui.diagram;
 
 import javafx.scene.paint.Color;
-import org.rxtudelft.marbleui.diagram.MarbleModel;
+import javafx.scene.paint.Paint;
 
 /**
  * Created by ferdy on 5/28/14.
@@ -21,10 +21,11 @@ public class SimpleMarbleModel implements MarbleModel {
         return num;
     }
 
-    public Color getColor() {
+    public Paint getColor() {
         return color;
     }
 
+    @SuppressWarnings("RedundantIfStatement")
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

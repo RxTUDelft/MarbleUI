@@ -1,7 +1,5 @@
 package org.rxtudelft.marbleui.diagram.bootstrapOperator;
 
-import org.rxtudelft.marbleui.diagram.MarbleModel;
-import org.rxtudelft.marbleui.diagram.ObservableModelFactory;
 import org.rxtudelft.marbleui.diagram.SimpleMarbleModel;
 import rx.Observable;
 import rx.functions.Func1;
@@ -9,7 +7,7 @@ import rx.functions.Func1;
 /**
  * Created by ferdy on 5/16/14.
  */
-public class BootstrapFilter extends BootstrapOperator1<SimpleMarbleModel> {
+public class BootstrapFilter extends BootstrapOperator1 {
 
     private Func1<SimpleMarbleModel, Boolean> filter;
 

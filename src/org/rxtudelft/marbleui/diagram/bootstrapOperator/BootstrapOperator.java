@@ -1,6 +1,5 @@
 package org.rxtudelft.marbleui.diagram.bootstrapOperator;
 
-import org.rxtudelft.marbleui.diagram.MarbleModel;
 import org.rxtudelft.marbleui.diagram.ObservableModelFactory;
 import org.rxtudelft.marbleui.diagram.SimpleMarbleModel;
 import rx.Observable;
@@ -11,9 +10,9 @@ import java.util.List;
 /**
  * Created by ferdy on 5/16/14.
  */
-public abstract class BootstrapOperator<T extends MarbleModel> implements Func1<List<Observable<SimpleMarbleModel>>, Observable<T>> {
+public abstract class BootstrapOperator implements Func1<List<Observable<SimpleMarbleModel>>, Observable<SimpleMarbleModel>> {
 
-    public ObservableModelFactory<T> getOutObservableModelFactory() {
-        return new ObservableModelFactory<T>();
+    public ObservableModelFactory getOutObservableModelFactory() {
+        return new ObservableModelFactory();
     }
 }
