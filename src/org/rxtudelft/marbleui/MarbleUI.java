@@ -1,6 +1,7 @@
 package org.rxtudelft.marbleui;
 
 import javafx.application.Application;
+
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
