@@ -2,6 +2,7 @@ package org.rxtudelft.marbleui.diagram.bootstrapOperator;
 
 import org.rxtudelft.marbleui.diagram.SimpleMarbleModel;
 import rx.Observable;
+import rx.Scheduler;
 import rx.functions.Func1;
 
 /**
@@ -16,7 +17,7 @@ public class BootstrapFilter extends BootstrapOperator1 {
     }
 
     @Override
-    public Observable<SimpleMarbleModel> call1(Observable<SimpleMarbleModel> toFilter) {
+    public Observable< SimpleMarbleModel> call1(Scheduler s, Observable<SimpleMarbleModel> toFilter) {
         return toFilter.filter(filter);
     }
 }

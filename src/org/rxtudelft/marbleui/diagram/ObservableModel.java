@@ -27,7 +27,7 @@ public class ObservableModel {
 
     public ObservableModel(Map<Long, MarbleModel> marbles) {
         this.marbles = FXCollections.observableHashMap();
-        marbles.forEach(this.marbles::put);
+        marbles.forEach(this.getMarbles()::put);
 
         this.changeObs = Observable.create((OnSubscribe<Change<Long, MarbleModel>>) subscriber -> {
             ObservableModel.this.marbles.addListener((MapChangeListener<Long, MarbleModel>) (change) -> {
@@ -37,7 +37,7 @@ public class ObservableModel {
     }
 
     public void put(long at, MarbleModel marble) {
-        this.marbles.put(at, marble);
+        this.getMarbles().put(at, marble);
     }
 
     public Map<Long, MarbleModel> getMarbles() {

@@ -63,7 +63,7 @@ public class SimpleMarbleView extends MarbleView {
     }
 
     @Override
-    Polygon getP() {
+    public Polygon getP() {
         return p;
     }
 

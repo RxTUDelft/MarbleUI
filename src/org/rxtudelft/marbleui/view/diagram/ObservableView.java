@@ -20,7 +20,7 @@ import static java.lang.Math.round;
 /**
  * A javafx.scene.Node (really a Group) that represents a whole observable, including marbles.
  */
-public class ObservableView extends Group {
+public abstract class ObservableView extends Group {
 
     //where my ghost should be
     private ObjectProperty<OptionalDouble> ghost;
@@ -104,16 +104,14 @@ public class ObservableView extends Group {
                             SimpleCompletedModel sm = (SimpleCompletedModel) m;
                             n = new SimpleCompletedView(r);
                         }
-                        if (m instanceof SimpleErrorModel) {
+                        else if (m instanceof SimpleErrorModel) {
                             SimpleErrorModel sm = (SimpleErrorModel) m;
                             n = new SimpleErrorView(r);
                         }
-                        if (m instanceof SimpleMarbleModel) {
-                            SimpleMarbleModel sm = (SimpleMarbleModel) m;
-                            MarbleView nm = getMarble(sm, r, t);
-                            nm.getP().setFill(sm.getColor());
-                            n = nm;
+                        else {
+                            n = getMarbleView(t, m);
                         }
+
                         assert n != null;
                         n.setTranslateX(limitX(this.msToX(t)));
                         n.setTranslateY(height / 2);
@@ -122,17 +120,13 @@ public class ObservableView extends Group {
                     });
 
                     //put ghost on top
-                    this.getChildren().remove(this.ghostMarble);
-                    this.getChildren().add(this.ghostMarble);
+                    this.getChildren().remove(this.getGhostMarble());
+                    this.getChildren().add(this.getGhostMarble());
+                    this.getGhostMarble().setVisible(false);
                 });
-        //put ghost on top
-        this.getChildren().remove(this.ghostMarble);
-        this.getChildren().add(this.ghostMarble);
     }
 
-    protected MarbleView getMarble(MarbleModel sm, double r, long t) {
-        return new SimpleMarbleView(((SimpleMarbleModel)sm).getNum(), r);
-    }
+    protected abstract Node getMarbleView(Long t, MarbleModel m);
 
     public OptionalDouble getGhost() {
         return ghost.get();
@@ -145,6 +139,7 @@ public class ObservableView extends Group {
     public ObservableMap<Long, MarbleModel> getMarbles() {
         return marbles.get();
     }
+
 
     public MapProperty<Long, MarbleModel> marblesProperty() {
         return marbles;
@@ -187,6 +182,10 @@ public class ObservableView extends Group {
         else {
             return x;
         }
+    }
+
+    public double getR() {
+        return r;
     }
 
     public double msToX(long ms) {

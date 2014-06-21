@@ -2,6 +2,7 @@ package org.rxtudelft.marbleui.diagram.bootstrapOperator;
 
 import org.rxtudelft.marbleui.diagram.SimpleMarbleModel;
 import rx.Observable;
+import rx.Scheduler;
 import rx.functions.Func2;
 
 /**
@@ -16,7 +17,7 @@ public class BootstrapCombineLatest extends BootstrapOperator2 {
     }
 
     @Override
-    public Observable<SimpleMarbleModel> call2(Observable<SimpleMarbleModel> in1, Observable<SimpleMarbleModel> in2) {
+    public Observable<SimpleMarbleModel> call2(Scheduler s, Observable<SimpleMarbleModel> in1, Observable<SimpleMarbleModel> in2) {
         return Observable.combineLatest(in1, in2, this.zipFn);
     }
 }

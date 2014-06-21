@@ -35,7 +35,7 @@ public class MarbleDiagramModel {
                 .map(o -> o.testSubject(ts)).collect(Collectors.<Observable<SimpleMarbleModel>>toList());
         
         //calculate timestamped output
-        Observable<Timestamped<MarbleModel>> outputObs = operator.call(inputs).map(marble ->
+        Observable<Timestamped<MarbleModel>> outputObs = operator.call(ts, inputs).map(marble ->
                 new Timestamped<>(ts.now(), marble));
 
         // remove old marbles from output

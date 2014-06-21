@@ -6,9 +6,7 @@ import javafx.scene.Group;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import org.rxtudelft.marbleui.diagram.MarbleDiagramModel;
-import org.rxtudelft.marbleui.diagram.ObservableModel;
-import org.rxtudelft.marbleui.diagram.TimestampedObservableModel;
+import org.rxtudelft.marbleui.diagram.*;
 import org.rxtudelft.marbleui.view.ColorPicker;
 import org.rxtudelft.marbleui.view.Counter;
 import org.rxtudelft.marbleui.view.ModePicker;
@@ -58,7 +56,7 @@ public class MarbleDiagramView extends Group {
         List<ObservableView> inputNodes = new ArrayList<>();
         this.diagramModel.getInputs().stream().forEach(i -> {
             //create node
-            ObservableView inObs = new ObservableView(width, h);
+            ObservableView inObs = new SimpleObservableView(width, h);
             mode.subscribe(inObs::setGhostMarble);
             inputNodes.add(inObs);
             root.getChildren().add(inObs);
@@ -89,13 +87,17 @@ public class MarbleDiagramView extends Group {
         color.subscribe(newColor -> observableView.colorProperty().setValue(newColor));
     }
 
-    public ObservableView getOutObservableModel(ObservableModel obsOutmodel, double width, double height) {
-        if(obsOutmodel instanceof TimestampedObservableModel) {
+    public ObservableView getOutObservableModel(ObservableModel obsOutModel, double width, double height) {
+        if(obsOutModel instanceof TimestampedObservableModel) {
             return new TimestampedObservableView(width, height);
         }
 
+        else if(obsOutModel instanceof ComplexObservableModel) {
+            return new ComplexObservableView(width, height);
+        }
+
         else {
-            return new ObservableView(width, height);
+            return new SimpleObservableView(width, height);
         }
     }
 }

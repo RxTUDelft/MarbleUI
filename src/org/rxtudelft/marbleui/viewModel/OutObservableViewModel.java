@@ -14,7 +14,6 @@ public class OutObservableViewModel {
             }
 
             else {
-                System.out.println(change.getKey());
                 view.marblesProperty().remove(change.getKey());
             }
         });

@@ -1,16 +1,18 @@
 package org.rxtudelft.marbleui.diagram.bootstrapOperator;
 
+import org.rxtudelft.marbleui.diagram.MarbleModel;
 import org.rxtudelft.marbleui.diagram.ObservableModelFactory;
 import org.rxtudelft.marbleui.diagram.SimpleMarbleModel;
 import rx.Observable;
-import rx.functions.Func1;
+import rx.Scheduler;
+import rx.functions.Func2;
 
 import java.util.List;
 
 /**
  * Created by ferdy on 5/16/14.
  */
-public abstract class BootstrapOperator implements Func1<List<Observable<SimpleMarbleModel>>, Observable<SimpleMarbleModel>> {
+public abstract class BootstrapOperator implements Func2<Scheduler, List<Observable<SimpleMarbleModel>>, Observable<?extends MarbleModel>> {
 
     public ObservableModelFactory getOutObservableModelFactory() {
         return new ObservableModelFactory();
