@@ -101,22 +101,14 @@ public abstract class ObservableView extends Group {
                     ms.forEach((t, m) -> {
                         Node n = null;
                         if (m instanceof SimpleCompletedModel) {
-                            SimpleCompletedModel sc = (SimpleCompletedModel) m;
-                            n = new CompletedView(r);
+                            this.placeCompleted(t, (SimpleCompletedModel)m);
                         }
                         else if (m instanceof SimpleErrorModel) {
-                            SimpleErrorModel se = (SimpleErrorModel) m;
-                            n = new ErrorView(r);
+                            this.placeError(t, (SimpleErrorModel)m);
                         }
                         else {
-                            n = getMarbleView(t, m);
+                            this.placeMarble(t, m);
                         }
-
-                        assert n != null;
-                        n.setTranslateX(limitX(this.msToX(t)));
-                        n.setTranslateY(height / 2);
-                        this.nodeMarbles.add(n);
-                        this.getChildren().add(n);
                     });
 
                     //put ghost on top
@@ -126,7 +118,30 @@ public abstract class ObservableView extends Group {
                 });
     }
 
-    protected abstract Node getMarbleView(Long t, MarbleModel m);
+    protected abstract MarbleView getMarbleView(Long t, MarbleModel m);
+
+    private void placeMarble(Long t, MarbleModel m) {
+        MarbleView v = getMarbleView(t, m);
+        this.placeMarble(t, v);
+    }
+
+    private void placeError(Long t, SimpleErrorModel m) {
+        ErrorView e = new ErrorView(r);
+        this.placeMarble(t, e);
+    }
+
+    private void placeCompleted(Long t, SimpleCompletedModel m) {
+        CompletedView e = new CompletedView(r);
+        this.placeMarble(t, e);
+        assert n != null;
+    }
+
+    private void placeMarble(Long t, MarbleView v) {
+        v.setTranslateX(limitX(this.msToX(t)));
+        v.setTranslateY(height / 2);
+        this.nodeMarbles.add(v);
+        this.getChildren().add(v);
+    }
 
     public OptionalDouble getGhost() {
         return ghost.get();

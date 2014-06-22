@@ -14,7 +14,7 @@ public class TimestampedObservableView extends ObservableView {
     }
 
     @Override
-    protected Node getMarbleView(Long t, MarbleModel m) {
+    protected TimestampedSimpleMarbleView getMarbleView(Long t, MarbleModel m) {
         return new TimestampedSimpleMarbleView((TimestampedSimpleMarbleModel)m, getR(), t);
     }
 }

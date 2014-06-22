@@ -15,12 +15,11 @@ public class SimpleObservableView extends ObservableView {
     }
 
     @Override
-    protected Node getMarbleView(Long t, MarbleModel m) {
-        Node n;
+    protected SimpleMarbleView getMarbleView(Long t, MarbleModel m) {
         SimpleMarbleModel sm = (SimpleMarbleModel) m;
         NGonMarbleView nm = new NGonMarbleView((SimpleMarbleModel) m, getR());
         nm.getP().setFill(sm.getColor());
-        n = nm;
-        return n;
+
+        return nm;
     }
 }

@@ -8,11 +8,11 @@ import org.rxtudelft.marbleui.diagram.SimpleMarbleModel;
 /**
  * Created by ferdy on 6/22/14.
  */
-public class GroupedMarbleView extends MarbleView {
+public class ChildObservableView extends MarbleView {
 
     private int offset;
 
-    public GroupedMarbleView(ChildObservableModel m, double r, int offset, double width, double dxdy) {
+    public ChildObservableView(ChildObservableModel m, double r, int offset, double width, double dxdy) {
         super(m);
         this.offset = offset;
         double dx = width - offset - r;
