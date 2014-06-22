@@ -10,6 +10,7 @@ import org.rxtudelft.marbleui.diagram.ObservableModel;
 import org.rxtudelft.marbleui.diagram.bootstrapOperator.BootstrapConcat;
 import org.rxtudelft.marbleui.diagram.bootstrapOperator.BootstrapDistinct;
 import org.rxtudelft.marbleui.diagram.bootstrapOperator.BootstrapGroupBy;
+import org.rxtudelft.marbleui.diagram.bootstrapOperator.BootstrapWindow;
 import org.rxtudelft.marbleui.view.diagram.MarbleDiagramView;
 
 import java.util.ArrayList;
@@ -34,9 +35,7 @@ public class MarbleUI extends Application {
         List<ObservableModel> inputs = new ArrayList<>();
         inputs.add(new ObservableModel());
 //        inputs.add(new ObservableModel());
-        MarbleDiagramModel diagramModel = new MarbleDiagramModel(inputs, new BootstrapGroupBy<Integer>(s -> {
-            return s.getNum();
-        }));
+        MarbleDiagramModel diagramModel = new MarbleDiagramModel(inputs, new BootstrapWindow(3));
 
         stage.setScene(new Scene(new MarbleDiagramView(diagramModel), width, height, Color.WHITE));
 
