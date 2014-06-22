@@ -26,7 +26,7 @@ public abstract class ObservableView extends Group {
     private ObjectProperty<OptionalDouble> ghost;
 
     //node object for my ghost
-    private MarbleView ghostMarble;
+    private SimpleMarbleView ghostMarble;
     protected IntegerProperty n;
     protected ObjectProperty<Color> color;
 
@@ -65,11 +65,11 @@ public abstract class ObservableView extends Group {
 
         //init ghost
         this.ghost = new SimpleObjectProperty<>(OptionalDouble.empty());
-        this.ghostMarble = new SimpleMarbleView(5, r).turnGhost();
+        this.ghostMarble = new NGonMarbleView(new SimpleMarbleModel(5, Color.BLACK), r).turnGhost();
         this.n = new SimpleIntegerProperty(5);
         this.color = new SimpleObjectProperty<>(Color.TRANSPARENT);
-        ((SimpleMarbleView) this.ghostMarble).n.bind(n);
-        ((SimpleMarbleView) this.ghostMarble).color.bind(color);
+        ((NGonMarbleView) this.ghostMarble).n.bind(n);
+        ((NGonMarbleView) this.ghostMarble).color.bind(color);
         this.ghostMarble.setTranslateY(height/2);
         this.getChildren().add(this.ghostMarble);
 
@@ -101,12 +101,12 @@ public abstract class ObservableView extends Group {
                     ms.forEach((t, m) -> {
                         Node n = null;
                         if (m instanceof SimpleCompletedModel) {
-                            SimpleCompletedModel sm = (SimpleCompletedModel) m;
-                            n = new SimpleCompletedView(r);
+                            SimpleCompletedModel sc = (SimpleCompletedModel) m;
+                            n = new CompletedView(r);
                         }
                         else if (m instanceof SimpleErrorModel) {
-                            SimpleErrorModel sm = (SimpleErrorModel) m;
-                            n = new SimpleErrorView(r);
+                            SimpleErrorModel se = (SimpleErrorModel) m;
+                            n = new ErrorView(r);
                         }
                         else {
                             n = getMarbleView(t, m);
@@ -145,19 +145,19 @@ public abstract class ObservableView extends Group {
         return marbles;
     }
 
-    public MarbleView getGhostMarble() {
+    public SimpleMarbleView getGhostMarble() {
         return ghostMarble;
     }
 
-    public void setGhostMarble(MarbleView ghostMarble) {
+    public void setGhostMarble(SimpleMarbleView ghostMarble) {
         this.ghostMarble = ghostMarble.clone(this.ghostMarble.getRadius());
         this.ghostMarble.setTranslateY(height/2);
         try {
             this.ghostMarble.setTranslateX(limitX(getGhost().getAsDouble()));
         } catch (NoSuchElementException ignored) {}
         if(this.ghostMarble instanceof SimpleMarbleView) {
-            ((SimpleMarbleView) this.ghostMarble).n.bind(n);
-            ((SimpleMarbleView) this.ghostMarble).color.bind(color);
+            ((NGonMarbleView) this.ghostMarble).n.bind(n);
+            ((NGonMarbleView) this.ghostMarble).color.bind(color);
         }
         //put ghost on top
         this.getChildren().remove(this.ghostMarble);
@@ -182,6 +182,14 @@ public abstract class ObservableView extends Group {
         else {
             return x;
         }
+    }
+
+    public double getWidth() {
+        return width;
+    }
+
+    public double getHeight() {
+        return height;
     }
 
     public double getR() {

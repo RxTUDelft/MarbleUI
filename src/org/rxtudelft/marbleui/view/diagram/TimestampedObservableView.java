@@ -3,6 +3,7 @@ package org.rxtudelft.marbleui.view.diagram;
 import javafx.scene.Node;
 import org.rxtudelft.marbleui.diagram.MarbleModel;
 import org.rxtudelft.marbleui.diagram.SimpleMarbleModel;
+import org.rxtudelft.marbleui.diagram.TimestampedSimpleMarbleModel;
 
 /**
  * Created by ferdy on 6/19/14.
@@ -14,6 +15,6 @@ public class TimestampedObservableView extends ObservableView {
 
     @Override
     protected Node getMarbleView(Long t, MarbleModel m) {
-        return new TimestampedSimpleMarbleView(((SimpleMarbleModel)m).getNum(), getR(), t);
+        return new TimestampedSimpleMarbleView((TimestampedSimpleMarbleModel)m, getR(), t);
     }
 }

@@ -44,11 +44,11 @@ public class MarbleDiagramView extends Group {
         controls.getChildren().add(sidesCounter);
         Observable<Integer> sides = JavaFxObservable.fromObservableValue(sidesCounter.iProperty()).map(Number::intValue);
 
-        SimpleMarbleView smallMarbleGhost = new SimpleMarbleView(5, 25);
-        ModePicker modePicker = new ModePicker(smallMarbleGhost, new SimpleCompletedView(25), new SimpleErrorView(25));
+        NGonMarbleView smallMarbleGhost = new NGonMarbleView(new SimpleMarbleModel(5, Color.BLACK), 25);
+        ModePicker modePicker = new ModePicker(smallMarbleGhost, new CompletedView(25), new ErrorView(25));
         sides.subscribe(newN -> smallMarbleGhost.nProperty().setValue(newN));
         controls.getChildren().add(modePicker);
-        Observable<MarbleView> mode = JavaFxObservable.fromObservableValue(modePicker.ghostProperty());
+        Observable<SimpleMarbleView> mode = JavaFxObservable.fromObservableValue(modePicker.ghostProperty());
 
         root.getChildren().add(controls);
 
