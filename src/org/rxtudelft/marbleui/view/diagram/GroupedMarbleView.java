@@ -1,11 +1,8 @@
 package org.rxtudelft.marbleui.view.diagram;
 
-import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
-import javafx.scene.shape.Polygon;
-import org.rxtudelft.marbleui.diagram.GroupedObservableModel;
-import org.rxtudelft.marbleui.diagram.MarbleModel;
+import org.rxtudelft.marbleui.diagram.ChildObservableModel;
 import org.rxtudelft.marbleui.diagram.SimpleMarbleModel;
 
 /**
@@ -15,7 +12,7 @@ public class GroupedMarbleView extends MarbleView {
 
     private int offset;
 
-    public GroupedMarbleView(GroupedObservableModel m, double r, int offset, double width, double dxdy) {
+    public GroupedMarbleView(ChildObservableModel m, double r, int offset, double width, double dxdy) {
         super(m);
         this.offset = offset;
         double dx = width - offset - r;
