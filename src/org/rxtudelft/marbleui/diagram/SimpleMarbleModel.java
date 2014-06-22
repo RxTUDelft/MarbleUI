@@ -21,7 +21,7 @@ public class SimpleMarbleModel implements MarbleModel {
         return num;
     }
 
-    public Paint getColor() {
+    public Color getColor() {
         return color;
     }
 
