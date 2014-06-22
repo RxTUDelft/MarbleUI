@@ -30,7 +30,7 @@ public class BootstrapGroupBy<K> extends BootstrapOperator1 {
         });
     }
 
-    public ComplexObservableModelFactory getOutObservableModelFactory() {
-        return new ComplexObservableModelFactory();
+    public ComplexObservableModel getOutObservableModel() {
+        return new ComplexObservableModel();
     }
 }

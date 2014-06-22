@@ -1,10 +1,6 @@
 package org.rxtudelft.marbleui.diagram.bootstrapOperator;
 
-import org.rxtudelft.marbleui.diagram.ObservableModelFactory;
-import org.rxtudelft.marbleui.diagram.SimpleMarbleModel;
-import org.rxtudelft.marbleui.diagram.TimestampedObservableModelFactory;
-import rx.Observable;
-import rx.functions.Func1;
+import org.rxtudelft.marbleui.diagram.TimestampedObservableModel;
 
 /**
  * Hacky timestamp. To store marbles use SimpleMarbleModels,
@@ -15,8 +11,8 @@ public class BootstrapTimestamp extends BootstrapMap {
         super(o -> o);
     }
 
-    public TimestampedObservableModelFactory getOutObservableModelFactory() {
-        return new TimestampedObservableModelFactory();
+    public TimestampedObservableModel getOutObservableModel() {
+        return new TimestampedObservableModel();
     }
 
 }

@@ -22,9 +22,6 @@ public class ComplexObservableView extends ObservableView {
     protected Node getMarbleView(Long t, MarbleModel m) {
         Node n;
         GroupedObservableModel gm = (GroupedObservableModel) m;
-        ((GroupedObservableModel) m).getMarbles().forEach((k, v) -> {
-            System.out.println("[" + gm.getKey() + "]" + k + ": " + v);
-        });
         return new GroupedMarbleView(gm, getR(), t.intValue(), getWidth(), 0.2);
     }
 }

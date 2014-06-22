@@ -20,8 +20,8 @@ public class GroupedMarbleView extends MarbleView {
         this.offset = offset;
         double dx = width - offset - r;
         double dy = dx*dxdy;
-        
-        Line obsLine = new Line(0, 0, width - offset, dy);
+
+        Line obsLine = new Line(0, 0, dx, dy);
         obsLine.setStrokeWidth(2);
         obsLine.setStroke(Color.BLACK);
         this.getChildren().add(obsLine);

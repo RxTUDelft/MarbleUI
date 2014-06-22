@@ -21,7 +21,7 @@ public class MarbleDiagramModel {
     public MarbleDiagramModel(List<ObservableModel> observables, BootstrapOperator operator) {
         this.operator = operator;
         this.inputs = observables;
-        this.output = operator.getOutObservableModelFactory().getOutObservable();
+        this.output = operator.getOutObservableModel();
         this.calcOutput();
         //subscribe to inputs, recalculate output onNext
         this.inputs.forEach(i -> i.getChangeObs().subscribe(s -> this.calcOutput()));
