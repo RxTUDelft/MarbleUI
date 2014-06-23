@@ -10,6 +10,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Polygon;
 import org.rxtudelft.marbleui.diagram.MarbleModel;
 import org.rxtudelft.marbleui.diagram.SimpleMarbleModel;
+import org.rxtudelft.marbleui.diagram.bootstrapOperator.NGonMarbleModel;
 import rx.observables.JavaFxObservable;
 
 import java.util.stream.DoubleStream;
@@ -26,7 +27,7 @@ public class NGonMarbleView extends SimpleMarbleView {
     protected ObjectProperty<Color> color;
     private Polygon p;
 
-    public NGonMarbleView(SimpleMarbleModel m, double r) {
+    public NGonMarbleView(NGonMarbleModel m, double r) {
         super(m, r);
         int n = m.getNum();
         this.p = new Polygon();
@@ -68,8 +69,8 @@ public class NGonMarbleView extends SimpleMarbleView {
     }
 
     @Override
-    public SimpleMarbleModel getModel() {
-        return new SimpleMarbleModel(n.get(), color.get());
+    public NGonMarbleModel getModel() {
+        return new NGonMarbleModel(n.get(), color.get());
     }
 
     @Override

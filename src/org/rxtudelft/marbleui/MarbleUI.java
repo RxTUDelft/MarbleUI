@@ -30,7 +30,7 @@ public class MarbleUI extends Application {
         stage.setTitle("MarbleUI");
 
         //setup diagram model
-        MarbleDiagramModel diagramModel = new MarbleDiagramModel(new BootstrapParallelMerge(3));
+        MarbleDiagramModel diagramModel = new MarbleDiagramModel(new BootstrapDistinct());
 
         stage.setScene(new Scene(new MarbleDiagramView(diagramModel), width, height, Color.WHITE));
 

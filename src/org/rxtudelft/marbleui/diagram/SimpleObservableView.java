@@ -1,6 +1,7 @@
 package org.rxtudelft.marbleui.diagram;
 
 import javafx.scene.Node;
+import org.rxtudelft.marbleui.diagram.bootstrapOperator.NGonMarbleModel;
 import org.rxtudelft.marbleui.view.diagram.NGonMarbleView;
 import org.rxtudelft.marbleui.view.diagram.ObservableView;
 import org.rxtudelft.marbleui.view.diagram.SimpleMarbleView;
@@ -16,8 +17,8 @@ public class SimpleObservableView extends ObservableView {
 
     @Override
     protected SimpleMarbleView getMarbleView(Long t, MarbleModel m) {
-        SimpleMarbleModel sm = (SimpleMarbleModel) m;
-        NGonMarbleView nm = new NGonMarbleView((SimpleMarbleModel) m, getR());
+        NGonMarbleModel sm = (NGonMarbleModel) m;
+        NGonMarbleView nm = new NGonMarbleView((NGonMarbleModel) m, getR());
         nm.getP().setFill(sm.getColor());
 
         return nm;

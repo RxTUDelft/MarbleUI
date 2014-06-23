@@ -11,6 +11,7 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
 import org.rxtudelft.marbleui.diagram.*;
+import org.rxtudelft.marbleui.diagram.bootstrapOperator.NGonMarbleModel;
 import rx.observables.JavaFxObservable;
 
 import java.util.*;
@@ -71,7 +72,7 @@ public abstract class ObservableView extends Group {
 
         //init ghost
         this.ghost = new SimpleObjectProperty<>(OptionalDouble.empty());
-        this.ghostMarble = new NGonMarbleView(new SimpleMarbleModel(5, Color.BLACK), r).turnGhost();
+        this.ghostMarble = new NGonMarbleView(new NGonMarbleModel(5, Color.BLACK), r).turnGhost();
         this.n = new SimpleIntegerProperty(5);
         this.color = new SimpleObjectProperty<>(Color.TRANSPARENT);
         ((NGonMarbleView) this.ghostMarble).n.bind(n);

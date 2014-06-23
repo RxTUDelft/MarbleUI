@@ -7,6 +7,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import org.rxtudelft.marbleui.diagram.*;
+import org.rxtudelft.marbleui.diagram.bootstrapOperator.NGonMarbleModel;
 import org.rxtudelft.marbleui.view.ColorPicker;
 import org.rxtudelft.marbleui.view.Counter;
 import org.rxtudelft.marbleui.view.ModePicker;
@@ -44,7 +45,7 @@ public class MarbleDiagramView extends Group {
         controls.getChildren().add(sidesCounter);
         Observable<Integer> sides = JavaFxObservable.fromObservableValue(sidesCounter.iProperty()).map(Number::intValue);
 
-        NGonMarbleView smallMarbleGhost = new NGonMarbleView(new SimpleMarbleModel(5, Color.BLACK), 25);
+        NGonMarbleView smallMarbleGhost = new NGonMarbleView(new NGonMarbleModel(5, Color.BLACK), 25);
         ModePicker modePicker = new ModePicker(smallMarbleGhost, new CompletedView(25), new ErrorView(25), new ChildObservableView(new ChildObservableModel(), 0, 0, 25, 1));
         sides.subscribe(newN -> smallMarbleGhost.nProperty().setValue(newN));
         controls.getChildren().add(modePicker);
