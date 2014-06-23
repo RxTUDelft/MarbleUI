@@ -13,8 +13,8 @@ import java.util.OptionalDouble;
 /**
  * Created by ferdy on 5/28/14.
  */
-public class SimpleObservableViewModel {
-    public SimpleObservableViewModel(ObservableView view, ObservableModel model) {
+public class ObservableViewModel {
+    public ObservableViewModel(ObservableView view, ObservableModel model) {
         JavaFxObservable.fromNodeEvents(view, MouseEvent.MOUSE_MOVED)
                 .subscribe(e -> view.ghostProperty().set(OptionalDouble.of(view.xToMs(e.getX()))));
 

@@ -30,6 +30,12 @@ public abstract class ObservableView extends Group {
     protected IntegerProperty n;
     protected ObjectProperty<Color> color;
 
+    private long errorTime;
+    private ErrorView errorMarble;
+
+    private long completedTime = ObservableModel.MAX_TIME;
+    private CompletedView completedMarble;
+
     //all the models that I need to draw a marble for
     private MapProperty<Long, MarbleModel> marbles;
 
@@ -170,7 +176,7 @@ public abstract class ObservableView extends Group {
         try {
             this.ghostMarble.setTranslateX(limitX(getGhost().getAsDouble()));
         } catch (NoSuchElementException ignored) {}
-        if(this.ghostMarble instanceof SimpleMarbleView) {
+        if(this.ghostMarble instanceof NGonMarbleView) {
             ((NGonMarbleView) this.ghostMarble).n.bind(n);
             ((NGonMarbleView) this.ghostMarble).color.bind(color);
         }

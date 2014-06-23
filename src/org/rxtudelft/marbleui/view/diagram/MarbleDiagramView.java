@@ -10,8 +10,7 @@ import org.rxtudelft.marbleui.diagram.*;
 import org.rxtudelft.marbleui.view.ColorPicker;
 import org.rxtudelft.marbleui.view.Counter;
 import org.rxtudelft.marbleui.view.ModePicker;
-import org.rxtudelft.marbleui.viewModel.ComplexObservableViewModel;
-import org.rxtudelft.marbleui.viewModel.SimpleObservableViewModel;
+import org.rxtudelft.marbleui.viewModel.ObservableViewModel;
 import org.rxtudelft.marbleui.viewModel.OutObservableViewModel;
 import rx.Observable;
 import rx.observables.JavaFxObservable;
@@ -63,7 +62,7 @@ public class MarbleDiagramView extends Group {
             root.getChildren().add(inObs);
 
             //create view model
-            ComplexObservableViewModel vm = new ComplexObservableViewModel(inObs, i, modePicker.ghostProperty());
+            ObservableViewModel vm = new ObservableViewModel(inObs, i);
 
             //add ghost vm
             ghostViewModel(inObs, sides, colorPicker.getColor());
