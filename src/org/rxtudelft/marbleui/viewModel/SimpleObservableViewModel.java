@@ -1,8 +1,11 @@
 package org.rxtudelft.marbleui.viewModel;
 
+import javafx.beans.value.ObservableValue;
 import javafx.scene.input.MouseEvent;
 import org.rxtudelft.marbleui.diagram.ObservableModel;
+import org.rxtudelft.marbleui.view.diagram.MarbleView;
 import org.rxtudelft.marbleui.view.diagram.ObservableView;
+import rx.Observable;
 import rx.observables.JavaFxObservable;
 
 import java.util.OptionalDouble;
@@ -10,8 +13,8 @@ import java.util.OptionalDouble;
 /**
  * Created by ferdy on 5/28/14.
  */
-public class ObservableViewModel {
-    public ObservableViewModel(ObservableView view, ObservableModel model) {
+public class SimpleObservableViewModel {
+    public SimpleObservableViewModel(ObservableView view, ObservableModel model) {
         JavaFxObservable.fromNodeEvents(view, MouseEvent.MOUSE_MOVED)
                 .subscribe(e -> view.ghostProperty().set(OptionalDouble.of(view.xToMs(e.getX()))));
 

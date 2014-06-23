@@ -8,7 +8,7 @@ import rx.functions.Func1;
 /**
  * Created by ferdy on 6/20/14.
  */
-public class BootstrapGroupBy<K> extends BootstrapOperator1 {
+public class BootstrapGroupBy<K> extends BootstrapOperator1<SimpleMarbleModel, ChildObservableModel> {
     private Func1<? super SimpleMarbleModel, K> groupFunc;
 
     public BootstrapGroupBy(Func1<? super SimpleMarbleModel, K> groupFunc) {

@@ -7,10 +7,8 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import org.rxtudelft.marbleui.diagram.MarbleDiagramModel;
 import org.rxtudelft.marbleui.diagram.ObservableModel;
-import org.rxtudelft.marbleui.diagram.bootstrapOperator.BootstrapConcat;
-import org.rxtudelft.marbleui.diagram.bootstrapOperator.BootstrapDistinct;
-import org.rxtudelft.marbleui.diagram.bootstrapOperator.BootstrapGroupBy;
-import org.rxtudelft.marbleui.diagram.bootstrapOperator.BootstrapWindow;
+import org.rxtudelft.marbleui.diagram.SimpleMarbleModel;
+import org.rxtudelft.marbleui.diagram.bootstrapOperator.*;
 import org.rxtudelft.marbleui.view.diagram.MarbleDiagramView;
 
 import java.util.ArrayList;
@@ -32,10 +30,7 @@ public class MarbleUI extends Application {
         stage.setTitle("MarbleUI");
 
         //setup diagram model
-        List<ObservableModel> inputs = new ArrayList<>();
-        inputs.add(new ObservableModel());
-//        inputs.add(new ObservableModel());
-        MarbleDiagramModel diagramModel = new MarbleDiagramModel(inputs, new BootstrapWindow(3));
+        MarbleDiagramModel diagramModel = new MarbleDiagramModel(new BootstrapParallelMerge(3));
 
         stage.setScene(new Scene(new MarbleDiagramView(diagramModel), width, height, Color.WHITE));
 

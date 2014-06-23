@@ -8,7 +8,7 @@ import rx.functions.Func1;
 /**
  * Created by ferdy on 5/16/14.
  */
-public class BootstrapMap extends BootstrapOperator1 {
+public class BootstrapMap extends BootstrapOperator1<SimpleMarbleModel, SimpleMarbleModel> {
 
     private Func1<SimpleMarbleModel, SimpleMarbleModel> mapping;
 

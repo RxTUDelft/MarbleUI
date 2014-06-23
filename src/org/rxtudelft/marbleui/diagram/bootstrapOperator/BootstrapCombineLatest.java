@@ -8,7 +8,7 @@ import rx.functions.Func2;
 /**
  * Created by ferdy on 6/18/14.
  */
-public class BootstrapCombineLatest extends BootstrapOperator2 {
+public class BootstrapCombineLatest extends BootstrapOperator2<SimpleMarbleModel, SimpleMarbleModel> {
 
     private Func2<SimpleMarbleModel, SimpleMarbleModel, SimpleMarbleModel> zipFn;
 

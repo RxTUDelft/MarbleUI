@@ -20,6 +20,7 @@ public abstract class SimpleMarbleView extends MarbleView {
 
     public abstract MarbleModel getModel();
 
+    @Override
     public SimpleMarbleView turnGhost() {
         this.getP().setFill(Color.TRANSPARENT);
         this.getP().setStroke(Color.GRAY);
@@ -28,7 +29,7 @@ public abstract class SimpleMarbleView extends MarbleView {
         return this;
     }
 
-    public abstract SimpleMarbleView clone(double r);
+    public abstract SimpleMarbleView clone();
 
     public double getRadius() {
         return this.r;

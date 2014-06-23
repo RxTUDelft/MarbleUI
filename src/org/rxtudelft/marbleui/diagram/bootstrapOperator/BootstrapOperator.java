@@ -12,9 +12,15 @@ import java.util.List;
 /**
  * Created by ferdy on 5/16/14.
  */
-public abstract class BootstrapOperator implements Func2<Scheduler, List<Observable<SimpleMarbleModel>>, Observable<?extends MarbleModel>> {
+public abstract class BootstrapOperator<I extends MarbleModel, O extends MarbleModel> implements
+        Func2<Scheduler, List<Observable<I>>, Observable<O>> {
+
+    @Override
+    public abstract Observable<O> call(Scheduler s, List<Observable<I>> is);
 
     public ObservableModel getOutObservableModel() {
         return new ObservableModel();
     }
+
+    abstract public List<ObservableModel> getInObservableModels();
 }

@@ -11,15 +11,16 @@ import org.rxtudelft.marbleui.view.diagram.SimpleMarbleView;
  * Created by jeff on 19-6-14.
  */
 public class ModePicker extends HBox {
-    private ObjectProperty<SimpleMarbleView> current;
+    private ObjectProperty<MarbleView> current;
 
-    public ModePicker(SimpleMarbleView first, SimpleMarbleView... marbleViews) {
-        DrawButton b = new DrawButton(50, 50, first.turnGhost());
+    public ModePicker(MarbleView first, MarbleView... marbleViews) {
+        first.turnGhost();
+        DrawButton b = new DrawButton(50, 50, first);
         b.clickObs.subscribe(c -> current.setValue(first));
         this.getChildren().add(b);
         current = new SimpleObjectProperty<>(first);
 
-        for (SimpleMarbleView marbleView : marbleViews) {
+        for (MarbleView marbleView : marbleViews) {
             marbleView.turnGhost();
             b = new DrawButton(50, 50, marbleView);
             b.clickObs.subscribe(c -> current.setValue(marbleView));
@@ -27,7 +28,7 @@ public class ModePicker extends HBox {
         }
     }
 
-    public ObservableValue<SimpleMarbleView> ghostProperty() {
+    public ObservableValue<MarbleView> ghostProperty() {
         return current;
     }
 }

@@ -24,13 +24,11 @@ public class NGonMarbleView extends SimpleMarbleView {
 
     protected IntegerProperty n;
     protected ObjectProperty<Color> color;
-    private double r;
     private Polygon p;
 
     public NGonMarbleView(SimpleMarbleModel m, double r) {
         super(m, r);
         int n = m.getNum();
-        this.r = r;
         this.p = new Polygon();
         if (n <= 2) throw new IllegalArgumentException("n should be larger than 2");
 
@@ -60,7 +58,7 @@ public class NGonMarbleView extends SimpleMarbleView {
         points.clear();
 
         Stream.iterate(0, (m) -> m + 1).limit(n)
-                .flatMapToDouble((i) -> DoubleStream.of(r * sin(t * i), r * cos(t * i)))
+                .flatMapToDouble((i) -> DoubleStream.of(getRadius() * sin(t * i), getRadius() * cos(t * i)))
                 .forEach(points::add);
     }
 
@@ -75,15 +73,10 @@ public class NGonMarbleView extends SimpleMarbleView {
     }
 
     @Override
-    public SimpleMarbleView clone(double r) {
-        NGonMarbleView clone = new NGonMarbleView(this.getModel(), r);
+    public SimpleMarbleView clone() {
+        NGonMarbleView clone = new NGonMarbleView(this.getModel(), getRadius());
         clone.color.setValue(this.color.getValue());
         return clone;
-    }
-
-    @Override
-    public double getRadius() {
-        return r;
     }
 
     public IntegerProperty nProperty() {

@@ -41,7 +41,7 @@ public class ErrorView extends SimpleMarbleView {
     }
 
     @Override
-    public ErrorView clone(double r) {
-        return new ErrorView(r);
+    public ErrorView clone() {
+        return new ErrorView(getRadius());
     }
 }

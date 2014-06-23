@@ -10,7 +10,8 @@ import org.rxtudelft.marbleui.diagram.*;
 import org.rxtudelft.marbleui.view.ColorPicker;
 import org.rxtudelft.marbleui.view.Counter;
 import org.rxtudelft.marbleui.view.ModePicker;
-import org.rxtudelft.marbleui.viewModel.ObservableViewModel;
+import org.rxtudelft.marbleui.viewModel.ComplexObservableViewModel;
+import org.rxtudelft.marbleui.viewModel.SimpleObservableViewModel;
 import org.rxtudelft.marbleui.viewModel.OutObservableViewModel;
 import rx.Observable;
 import rx.observables.JavaFxObservable;
@@ -45,10 +46,10 @@ public class MarbleDiagramView extends Group {
         Observable<Integer> sides = JavaFxObservable.fromObservableValue(sidesCounter.iProperty()).map(Number::intValue);
 
         NGonMarbleView smallMarbleGhost = new NGonMarbleView(new SimpleMarbleModel(5, Color.BLACK), 25);
-        ModePicker modePicker = new ModePicker(smallMarbleGhost, new CompletedView(25), new ErrorView(25));
+        ModePicker modePicker = new ModePicker(smallMarbleGhost, new CompletedView(25), new ErrorView(25), new ChildObservableView(new ChildObservableModel(), 0, 0, 25, 1));
         sides.subscribe(newN -> smallMarbleGhost.nProperty().setValue(newN));
         controls.getChildren().add(modePicker);
-        Observable<SimpleMarbleView> mode = JavaFxObservable.fromObservableValue(modePicker.ghostProperty());
+        Observable<MarbleView> mode = JavaFxObservable.fromObservableValue(modePicker.ghostProperty());
 
         root.getChildren().add(controls);
 
@@ -56,13 +57,13 @@ public class MarbleDiagramView extends Group {
         List<ObservableView> inputNodes = new ArrayList<>();
         this.diagramModel.getInputs().stream().forEach(i -> {
             //create node
-            ObservableView inObs = new SimpleObservableView(width, h);
+            ObservableView inObs = this.getObservableView(i, width, h);
             mode.subscribe(inObs::setGhostMarble);
             inputNodes.add(inObs);
             root.getChildren().add(inObs);
 
             //create view model
-            ObservableViewModel vm = new ObservableViewModel(inObs, i);
+            ComplexObservableViewModel vm = new ComplexObservableViewModel(inObs, i, modePicker.ghostProperty());
 
             //add ghost vm
             ghostViewModel(inObs, sides, colorPicker.getColor());
@@ -72,7 +73,7 @@ public class MarbleDiagramView extends Group {
         root.getChildren().add(nOp);
 
         //setup output node
-        final ObservableView nObsOut = this.getOutObservableModel(diagramModel.getOutput(), width, h);
+        final ObservableView nObsOut = this.getObservableView(diagramModel.getOutput(), width, h);
         root.getChildren().addAll(nObsOut);
         ObservableModel outputModel = diagramModel.getOutput();
         //attach output node to it's model
@@ -87,7 +88,7 @@ public class MarbleDiagramView extends Group {
         color.subscribe(newColor -> observableView.colorProperty().setValue(newColor));
     }
 
-    public ObservableView getOutObservableModel(ObservableModel obsOutModel, double width, double height) {
+    public ObservableView getObservableView(ObservableModel obsOutModel, double width, double height) {
         if(obsOutModel instanceof TimestampedObservableModel) {
             return new TimestampedObservableView(width, height);
         }

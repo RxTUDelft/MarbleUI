@@ -33,8 +33,8 @@ public class CompletedView extends SimpleMarbleView {
     }
 
     @Override
-    public CompletedView clone(double r) {
-        return new CompletedView(r);
+    public CompletedView clone() {
+        return new CompletedView(getRadius());
     }
 
     @Override

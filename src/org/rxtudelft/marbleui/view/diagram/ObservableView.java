@@ -26,7 +26,7 @@ public abstract class ObservableView extends Group {
     private ObjectProperty<OptionalDouble> ghost;
 
     //node object for my ghost
-    private SimpleMarbleView ghostMarble;
+    private MarbleView ghostMarble;
     protected IntegerProperty n;
     protected ObjectProperty<Color> color;
 
@@ -160,12 +160,12 @@ public abstract class ObservableView extends Group {
         return marbles;
     }
 
-    public SimpleMarbleView getGhostMarble() {
+    public MarbleView getGhostMarble() {
         return ghostMarble;
     }
 
-    public void setGhostMarble(SimpleMarbleView ghostMarble) {
-        this.ghostMarble = ghostMarble.clone(this.ghostMarble.getRadius());
+    public void setGhostMarble(MarbleView ghostMarble) {
+        this.ghostMarble = ghostMarble.clone();
         this.ghostMarble.setTranslateY(height/2);
         try {
             this.ghostMarble.setTranslateX(limitX(getGhost().getAsDouble()));

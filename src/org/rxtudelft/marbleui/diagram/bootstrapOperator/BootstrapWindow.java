@@ -7,7 +7,7 @@ import rx.Scheduler;
 /**
  * Created by ferdy on 6/20/14.
  */
-public class BootstrapWindow extends BootstrapOperator1 {
+public class BootstrapWindow extends BootstrapOperator1<SimpleMarbleModel, ChildObservableModel> {
     private int windowSize;
 
     public BootstrapWindow(int windowSize) {

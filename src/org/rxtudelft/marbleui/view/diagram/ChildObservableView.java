@@ -10,18 +10,26 @@ import org.rxtudelft.marbleui.diagram.SimpleMarbleModel;
  */
 public class ChildObservableView extends MarbleView {
 
+    private Line obsLine;
+    private double r;
     private int offset;
+    private double width;
+    private double dxyx;
 
     public ChildObservableView(ChildObservableModel m, double r, int offset, double width, double dxdy) {
         super(m);
+        this.r = r;
         this.offset = offset;
+        this.width = width;
+        this.dxyx = dxdy;
+
         double dx = width - offset - r;
         double dy = dx*dxdy;
 
-        Line obsLine = new Line(0, 0, dx, dy);
-        obsLine.setStrokeWidth(2);
-        obsLine.setStroke(Color.BLACK);
-        this.getChildren().add(obsLine);
+        this.obsLine = new Line(0, 0, dx, dy);
+        this.obsLine.setStrokeWidth(2);
+        this.obsLine.setStroke(Color.BLACK);
+        this.getChildren().add(this.obsLine);
 
         m.getMarbles().forEach((t, marble) -> {
             NGonMarbleView n = new NGonMarbleView((SimpleMarbleModel)marble, r);
@@ -30,5 +38,22 @@ public class ChildObservableView extends MarbleView {
             n.setTranslateX(x);
             n.setTranslateY(x * dxdy);
         });
+    }
+
+    @Override
+    public ChildObservableView turnGhost() {
+        this.obsLine.setStroke(Color.GRAY);
+
+        return this;
+    }
+
+    @Override
+    public ChildObservableModel getModel() {
+        return (ChildObservableModel) super.getModel();
+    }
+
+    @Override
+    public MarbleView clone() {
+        return new ChildObservableView(this.getModel(), this.r, this.offset, this.width, this.dxyx);
     }
 }

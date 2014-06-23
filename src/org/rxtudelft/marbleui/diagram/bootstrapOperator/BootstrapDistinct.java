@@ -7,7 +7,7 @@ import rx.Scheduler;
 /**
  * Created by ferdy on 6/18/14.
  */
-public class BootstrapDistinct extends BootstrapOperator1 {
+public class BootstrapDistinct extends BootstrapOperator1<SimpleMarbleModel, SimpleMarbleModel> {
 
     @Override
     public Observable<SimpleMarbleModel> call1(Scheduler s, Observable<SimpleMarbleModel> in1) {
