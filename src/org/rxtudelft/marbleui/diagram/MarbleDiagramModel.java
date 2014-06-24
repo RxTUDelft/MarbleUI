@@ -43,8 +43,8 @@ public class MarbleDiagramModel {
 
         //put all marbles on output
         outputObs.subscribe( o -> MarbleDiagramModel.this.output.put(o.getTimestampMillis(), o.getValue()),
-                e -> MarbleDiagramModel.this.output.put(ts.now(), new SimpleErrorModel()),
-                () -> MarbleDiagramModel.this.output.put(ts.now(), new SimpleCompletedModel())
+                e -> MarbleDiagramModel.this.output.put(ts.now(), new ErrorModel()),
+                () -> MarbleDiagramModel.this.output.put(ts.now(), new CompletedModel())
         );
 
         //advance time past to max input time

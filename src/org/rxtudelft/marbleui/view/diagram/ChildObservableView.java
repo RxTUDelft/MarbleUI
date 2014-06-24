@@ -1,9 +1,9 @@
 package org.rxtudelft.marbleui.view.diagram;
 
+import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
-import org.rxtudelft.marbleui.diagram.ChildObservableModel;
-import org.rxtudelft.marbleui.diagram.SimpleMarbleModel;
+import org.rxtudelft.marbleui.diagram.*;
 import org.rxtudelft.marbleui.diagram.bootstrapOperator.NGonMarbleModel;
 
 /**
@@ -33,7 +33,18 @@ public class ChildObservableView extends MarbleView {
         this.getChildren().add(this.obsLine);
 
         m.getMarbles().forEach((t, marble) -> {
-            NGonMarbleView n = new NGonMarbleView((NGonMarbleModel)marble, r);
+
+            Node n;
+            if (marble instanceof ErrorModel) {
+                n = new ErrorView(r);
+            }
+            else if (marble instanceof CompletedModel) {
+                n = new CompletedView(r);
+            }
+            else {
+                n = new NGonMarbleView((NGonMarbleModel)marble, r);
+            }
+
             this.getChildren().add(n);
             double x = t - offset;
             n.setTranslateX(x);

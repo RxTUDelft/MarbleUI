@@ -23,6 +23,7 @@ import static java.lang.Math.round;
  */
 public abstract class ObservableView extends Group {
 
+    private ObservableModel model;
     //where my ghost should be
     private ObjectProperty<OptionalDouble> ghost;
 
@@ -30,9 +31,6 @@ public abstract class ObservableView extends Group {
     private MarbleView ghostMarble;
     protected IntegerProperty n;
     protected ObjectProperty<Color> color;
-
-    private long errorTime;
-    private ErrorView errorMarble;
 
     private long completedTime = ObservableModel.MAX_TIME;
     private CompletedView completedMarble;
@@ -52,7 +50,8 @@ public abstract class ObservableView extends Group {
     //TODO shouldn't be hardcoded
     private double r;
 
-    public ObservableView (double width, double height) {
+    public ObservableView (ObservableModel model, double width, double height) {
+        this.model = model;
         this.width   = width;
         this.height  = height;
         this.r       = (height/2)*0.8;
@@ -107,11 +106,11 @@ public abstract class ObservableView extends Group {
 
                     ms.forEach((t, m) -> {
                         Node n = null;
-                        if (m instanceof SimpleCompletedModel) {
-                            this.placeCompleted(t, (SimpleCompletedModel)m);
+                        if (m instanceof CompletedModel) {
+                            this.placeCompleted(t, (CompletedModel)m);
                         }
-                        else if (m instanceof SimpleErrorModel) {
-                            this.placeError(t, (SimpleErrorModel)m);
+                        else if (m instanceof ErrorModel) {
+                            this.placeError(t, (ErrorModel)m);
                         }
                         else {
                             this.placeMarble(t, m);
@@ -132,12 +131,12 @@ public abstract class ObservableView extends Group {
         this.placeMarble(t, v);
     }
 
-    private void placeError(Long t, SimpleErrorModel m) {
+    private void placeError(Long t, ErrorModel m) {
         ErrorView e = new ErrorView(r);
         this.placeMarble(t, e);
     }
 
-    private void placeCompleted(Long t, SimpleCompletedModel m) {
+    private void placeCompleted(Long t, CompletedModel m) {
         CompletedView e = new CompletedView(r);
         this.placeMarble(t, e);
         assert n != null;
@@ -162,7 +161,6 @@ public abstract class ObservableView extends Group {
         return marbles.get();
     }
 
-
     public MapProperty<Long, MarbleModel> marblesProperty() {
         return marbles;
     }
@@ -184,6 +182,10 @@ public abstract class ObservableView extends Group {
         //put ghost on top
         this.getChildren().remove(this.ghostMarble);
         this.getChildren().add(this.ghostMarble);
+    }
+
+    public ObservableModel getModel() {
+        return model;
     }
 
     public IntegerProperty nProperty() {

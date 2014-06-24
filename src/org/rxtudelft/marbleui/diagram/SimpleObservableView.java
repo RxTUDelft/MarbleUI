@@ -11,8 +11,8 @@ import org.rxtudelft.marbleui.view.diagram.SimpleMarbleView;
  */
 public class SimpleObservableView extends ObservableView {
 
-    public SimpleObservableView(double width, double height) {
-        super(width, height);
+    public SimpleObservableView(ObservableModel model, double width, double height) {
+        super(model, width, height);
     }
 
     @Override

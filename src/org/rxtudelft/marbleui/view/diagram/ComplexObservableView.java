@@ -2,6 +2,7 @@ package org.rxtudelft.marbleui.view.diagram;
 
 import javafx.scene.Node;
 import org.rxtudelft.marbleui.diagram.ChildObservableModel;
+import org.rxtudelft.marbleui.diagram.ComplexObservableModel;
 import org.rxtudelft.marbleui.diagram.MarbleModel;
 
 /**
@@ -9,8 +10,8 @@ import org.rxtudelft.marbleui.diagram.MarbleModel;
  */
 public class ComplexObservableView extends ObservableView {
     private long offset;
-    public ComplexObservableView(double width, double height) {
-        super(width, height);
+    public ComplexObservableView(ComplexObservableModel model, double width, double height) {
+        super(model, width, height);
     }
 
     @Override
@@ -18,5 +19,10 @@ public class ComplexObservableView extends ObservableView {
         Node n;
         ChildObservableModel gm = (ChildObservableModel) m;
         return new ChildObservableView(gm, getR(), t.intValue(), getWidth(), 0.2);
+    }
+
+    @Override
+    public ComplexObservableModel getModel() {
+        return (ComplexObservableModel) super.getModel();
     }
 }

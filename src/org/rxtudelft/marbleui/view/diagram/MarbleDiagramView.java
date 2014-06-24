@@ -63,7 +63,7 @@ public class MarbleDiagramView extends Group {
             root.getChildren().add(inObs);
 
             //create view model
-            ObservableViewModel vm = new ObservableViewModel(inObs, i);
+            ObservableViewModel vm = new ObservableViewModel(inObs, i, mode);
 
             //add ghost vm
             ghostViewModel(inObs, sides, colorPicker.getColor());
@@ -90,15 +90,15 @@ public class MarbleDiagramView extends Group {
 
     public ObservableView getObservableView(ObservableModel obsOutModel, double width, double height) {
         if(obsOutModel instanceof TimestampedObservableModel) {
-            return new TimestampedObservableView(width, height);
+            return new TimestampedObservableView((TimestampedObservableModel) obsOutModel, width, height);
         }
 
         else if(obsOutModel instanceof ComplexObservableModel) {
-            return new ComplexObservableView(width, height);
+            return new ComplexObservableView((ComplexObservableModel) obsOutModel, width, height);
         }
 
         else {
-            return new SimpleObservableView(width, height);
+            return new SimpleObservableView(obsOutModel, width, height);
         }
     }
 }

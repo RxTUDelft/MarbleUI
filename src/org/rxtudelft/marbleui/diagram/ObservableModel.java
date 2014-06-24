@@ -5,10 +5,12 @@ import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableMap;
 import rx.Observable;
 import rx.schedulers.TestScheduler;
+import rx.schedulers.Timestamped;
 import rx.subjects.TestSubject;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.CompletionException;
 
 import static javafx.collections.MapChangeListener.Change;
 import static rx.Observable.OnSubscribe;
@@ -20,6 +22,8 @@ public class ObservableModel {
     public static final int MAX_TIME = 1000;
     private ObservableMap<Long, MarbleModel> marbles;
     private Observable<Change<Long, MarbleModel>> changeObs;
+
+    private Timestamped<SimpleMarbleModel> end = new Timestamped<>(MAX_TIME, new CompletedModel());
 
     public ObservableModel() {
         this(new HashMap<>());
@@ -34,9 +38,15 @@ public class ObservableModel {
                 subscriber.onNext((Change<Long, MarbleModel>)change);
             });
         });
+
+//        this.put(this.end.getTimestampMillis(), this.end.getValue());
     }
 
     public void put(long at, MarbleModel marble) {
+        if (marble instanceof ErrorModel || marble instanceof CompletedModel) {
+            this.marbles.remove(this.end.getTimestampMillis());
+            this.end = new Timestamped<>(at, (SimpleMarbleModel) marble);
+        }
         this.getMarbles().put(at, marble);
     }
 
@@ -54,9 +64,9 @@ public class ObservableModel {
         marbles.forEach((k,v) -> {
             if(v instanceof SimpleMarbleModel) {
                 ret.onNext(((SimpleMarbleModel) v), k);
-            } else if(v instanceof SimpleCompletedModel) {
+            } else if(v instanceof CompletedModel) {
                 ret.onCompleted(k);
-            } else if(v instanceof SimpleErrorModel) {
+            } else if(v instanceof ErrorModel) {
                 ret.onError(new Throwable(), k);
             }
         });

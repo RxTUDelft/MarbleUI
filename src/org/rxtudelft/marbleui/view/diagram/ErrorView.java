@@ -2,7 +2,7 @@ package org.rxtudelft.marbleui.view.diagram;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
-import org.rxtudelft.marbleui.diagram.SimpleErrorModel;
+import org.rxtudelft.marbleui.diagram.ErrorModel;
 import org.rxtudelft.marbleui.diagram.SimpleMarbleModel;
 
 /**
@@ -12,7 +12,7 @@ public class ErrorView extends SimpleMarbleView {
     private Polygon p;
 
     public ErrorView(double r) {
-        super(new SimpleErrorModel(), r);
+        super(new ErrorModel(), r);
         this.p = new Polygon(
                  0, r,
                  0,-r,
@@ -37,7 +37,7 @@ public class ErrorView extends SimpleMarbleView {
 
     @Override
     public SimpleMarbleModel getModel() {
-        return new SimpleErrorModel();
+        return new ErrorModel();
     }
 
     @Override

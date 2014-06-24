@@ -2,7 +2,7 @@ package org.rxtudelft.marbleui.view.diagram;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
-import org.rxtudelft.marbleui.diagram.SimpleCompletedModel;
+import org.rxtudelft.marbleui.diagram.CompletedModel;
 
 /**
  * Created by jeff on 19-6-14.
@@ -12,7 +12,7 @@ public class CompletedView extends SimpleMarbleView {
     private double radius;
 
     public CompletedView(double r) {
-        super(new SimpleCompletedModel(), r);
+        super(new CompletedModel(), r);
         this.p = new Polygon(0, -r, 0, r);
         this.radius = r;
 
@@ -28,8 +28,8 @@ public class CompletedView extends SimpleMarbleView {
     }
 
     @Override
-    public SimpleCompletedModel getModel() {
-        return new SimpleCompletedModel();
+    public CompletedModel getModel() {
+        return new CompletedModel();
     }
 
     @Override

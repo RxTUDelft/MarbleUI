@@ -5,5 +5,5 @@ import javafx.scene.paint.Color;
 /**
  * Created by jeff on 19-6-14.
  */
-public class SimpleErrorModel extends SimpleMarbleModel {
+public class ErrorModel extends SimpleMarbleModel {
 }
