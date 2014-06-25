@@ -1,5 +1,7 @@
 package org.rxtudelft.marbleui.view;
 
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.layout.VBox;
@@ -14,12 +16,14 @@ public class ColorPicker extends Group {
     private Slider g;
     private Slider b;
 
-    private Observable<Color> color;
+    private ObjectProperty<Color> color;
 
     public ColorPicker(double w, double h) {
         this.r = new Slider(w, h, Color.RED);
         this.g = new Slider(w, h, Color.GREEN);
         this.b = new Slider(w, h, Color.BLUE);
+
+        this.color = new SimpleObjectProperty<>(Color.RED);
 
         VBox root = new VBox();
         root.getChildren().add(r);
@@ -32,16 +36,18 @@ public class ColorPicker extends Group {
         Observable<Number> gVal = JavaFxObservable.fromObservableValue(this.g.pProperty());
         Observable<Number> bVal = JavaFxObservable.fromObservableValue(this.b.pProperty());
 
-        this.color = Observable.combineLatest(rVal, gVal, bVal, (r, g, b) -> {
+        Observable.combineLatest(rVal, gVal, bVal, (r, g, b) -> {
             return Color.rgb(
                     colorToInt(r.doubleValue()),
                     colorToInt(g.doubleValue()),
                     colorToInt(b.doubleValue())
             );
+        }).subscribe(c -> {
+            ColorPicker.this.color.setValue(c);
         });
     }
 
-    public Observable<Color> getColor() {
+    public ObjectProperty<Color> getColor() {
         return color;
     }
 

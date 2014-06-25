@@ -1,109 +1,100 @@
 package org.rxtudelft.marbleui.view.diagram;
 
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Group;
-import javafx.scene.layout.HBox;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import org.rxtudelft.marbleui.diagram.*;
 import org.rxtudelft.marbleui.diagram.bootstrapOperator.NGonMarbleModel;
-import org.rxtudelft.marbleui.view.ColorPicker;
-import org.rxtudelft.marbleui.view.Counter;
 import org.rxtudelft.marbleui.view.ModePicker;
-import org.rxtudelft.marbleui.viewModel.ObservableViewModel;
-import org.rxtudelft.marbleui.viewModel.OutObservableViewModel;
+import org.rxtudelft.marbleui.view.diagram.marble.CompletedView;
+import org.rxtudelft.marbleui.view.diagram.marble.ErrorView;
+import org.rxtudelft.marbleui.view.diagram.marble.MarbleView;
+import org.rxtudelft.marbleui.view.diagram.marble.NGonMarbleView;
+import org.rxtudelft.marbleui.view.diagram.observable.NGonObservableView;
+import org.rxtudelft.marbleui.view.diagram.observable.ObservableView;
+import org.rxtudelft.marbleui.view.viewModel.InputObservableViewModel;
 import rx.Observable;
 import rx.observables.JavaFxObservable;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * A Marble Diagram
+ * Created by ferdy on 6/25/14.
  */
-public class MarbleDiagramView extends Group {
+public class MarbleDiagramView implements View {
+    private MarbleDiagramModel model;
+    private VBox root;
+    private double width;
+    private double height;
+    public static IntegerProperty corners;
+    public static ObjectProperty<Color> color;
+    private NGonMarbleModel ngonGhost;
+    public static ObjectProperty<MarbleModel> mode;
 
-    private MarbleDiagramModel diagramModel;
-    private static Observable<MarbleView> mode;
+    public MarbleDiagramView(MarbleDiagramModel model, double w, double h) {
+        this.model = model;
+        this.root = new VBox();
+        this.width = w;
+        this.height = h;
 
-    public MarbleDiagramView(MarbleDiagramModel diagramModel) {
-        this.diagramModel = diagramModel;
-        double width   = 1000;
-        double height  = 800;
-        double h       = height / 6;
+        this.ngonGhost = new NGonMarbleModel(5, Color.RED);
 
-        VBox root = new VBox();
-        root.setAlignment(Pos.CENTER);
+        this.root.prefWidth(w);
+        this.root.prefHeight(h);
+
 
         //setup controls
-        HBox controls = new HBox();
+        NGonMarbleView smallMarbleGhost = new NGonMarbleView(ngonGhost, 25, 25);
+        ModePicker modePicker = new ModePicker(smallMarbleGhost, new CompletedView(25, 25), new ErrorView(25, 25));
+        this.color = modePicker.colorProperty();
+        this.corners = modePicker.cornersProperty();
+        this.mode = modePicker.modeProperty();
 
-        ColorPicker colorPicker = new ColorPicker(150, 45);
-        controls.getChildren().add(colorPicker);
+        ngonGhost.numProperty().bindBidirectional(corners);
+        ngonGhost.colorProperty().bindBidirectional(color);
+        root.getChildren().add(modePicker);
 
-        Counter sidesCounter = new Counter(5);
-        controls.getChildren().add(sidesCounter);
-        Observable<Integer> sides = JavaFxObservable.fromObservableValue(sidesCounter.iProperty()).map(Number::intValue);
+        model.getInputs().forEach(i -> {
+            ObservableView obsV = this.getObservableView(i);
 
-        NGonMarbleView smallMarbleGhost = new NGonMarbleView(new NGonMarbleModel(5, Color.BLACK), 25);
-        ModePicker modePicker = new ModePicker(smallMarbleGhost, new CompletedView(25), new ErrorView(25), new ChildObservableView(new ChildObservableModel(), 0, 0, 25, 1));
-        sides.subscribe(newN -> smallMarbleGhost.nProperty().setValue(newN));
-        controls.getChildren().add(modePicker);
-        mode = JavaFxObservable.fromObservableValue(modePicker.ghostProperty());
-
-        root.getChildren().add(controls);
-
-        //setup input nodes
-        List<ObservableView> inputNodes = new ArrayList<>();
-        this.diagramModel.getInputs().stream().forEach(i -> {
-            //create node
-            ObservableView inObs = this.getObservableView(i, width, h);
-            mode.subscribe(inObs::setGhostMarble);
-            inputNodes.add(inObs);
-            root.getChildren().add(inObs);
-
-            //create view model
-            ObservableViewModel vm = new ObservableViewModel(inObs);
-
-            //add ghost vm
-            ghostViewModel(inObs, sides, colorPicker.getColor());
+            MarbleDiagramView.this.root.getChildren().add(obsV.getNode());
+            new InputObservableViewModel(obsV);
         });
 
-        final OperatorView nOp = new OperatorView(width, h, "Test");
-        root.getChildren().add(nOp);
+        ObservableView outObsV = this.getObservableView(model.getOutput());
+        new InputObservableViewModel(outObsV);
+        this.root.getChildren().add(outObsV.getNode());
 
-        //setup output node
-        final ObservableView nObsOut = this.getObservableView(diagramModel.getOutput(), width, h);
-        root.getChildren().addAll(nObsOut);
-        ObservableModel outputModel = diagramModel.getOutput();
-        //attach output node to it's model
-        OutObservableViewModel outVM = new OutObservableViewModel(nObsOut, outputModel);
-
-        root.setPadding(new Insets(h / 2));
-        this.getChildren().add(root);
     }
 
-    private void ghostViewModel(ObservableView observableView, Observable<Integer> sides, Observable<Color> color) {
-        sides.subscribe(newN -> observableView.nProperty().setValue(newN));
-        color.subscribe(newColor -> observableView.colorProperty().setValue(newColor));
-    }
-
-    public ObservableView getObservableView(ObservableModel obsOutModel, double width, double height) {
-        if(obsOutModel instanceof TimestampedObservableModel) {
-            return new TimestampedObservableView((TimestampedObservableModel) obsOutModel, width, height);
+    private ObservableView getObservableView(ObservableModel obsModel) {
+        if(obsModel instanceof TimestampedObservableModel) {
+            return null;
         }
-
-        else if(obsOutModel instanceof ComplexObservableModel) {
-            return new ComplexObservableView((ComplexObservableModel) obsOutModel, width, height);
+        else if(obsModel instanceof ComplexObservableModel) {
+            return null;
         }
-
         else {
-            return new SimpleObservableView(obsOutModel, width, height);
+            return new NGonObservableView(obsModel, getWidth(), getHeight()/5, 40);
         }
     }
 
-    public static Observable<MarbleView> getMode() {
-        return mode;
+    @Override
+    public double getWidth() {
+        return this.width;
+    }
+
+    @Override
+    public double getHeight() {
+        return this.height;
+    }
+
+    @Override
+    public Object getModel() {
+        return this.model;
+    }
+
+    @Override
+    public VBox getNode() {
+        return this.root;
     }
 }
