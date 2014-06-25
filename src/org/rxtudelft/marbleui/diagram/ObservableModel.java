@@ -41,7 +41,7 @@ public class ObservableModel {
             this.marbles.remove(this.end.getTimestampMillis());
             this.end = new Timestamped<>(at, (SimpleMarbleModel) marble);
         }
-        this.getMarbles().put(at, marble);
+        this.marbles.put(at, marble);
     }
 
     public Map<Long, MarbleModel> getMarbles() {
@@ -55,20 +55,20 @@ public class ObservableModel {
     public Observable<MarbleModel> testSubject(TestScheduler testScheduler) {
         TestSubject<MarbleModel> ret = TestSubject.create(testScheduler);
 
-        marbles.forEach((k,v) -> {
-            if(v instanceof SimpleMarbleModel) {
+        System.out.println("------");
+        System.out.println(this);
+        marbles.forEach((k, v) -> {
+            System.out.println(v);
+            if (v instanceof SimpleMarbleModel) {
                 ret.onNext(((SimpleMarbleModel) v), k);
-            } else if(v instanceof CompletedModel) {
+            } else if (v instanceof CompletedModel) {
                 ret.onCompleted(k);
-            } else if(v instanceof ErrorModel) {
+            } else if (v instanceof ErrorModel) {
                 ret.onError(new Throwable(), k);
-            }
-            else if (v instanceof ChildObservableModel) {
+            } else if (v instanceof ChildObservableModel) {
                 ret.onNext(v);
             }
         });
-
-        ret.onCompleted(MAX_TIME);
 
         return ret.asObservable();
     }

@@ -14,7 +14,7 @@ import java.util.List;
 public abstract class BootstrapOperator2<I extends MarbleModel, O extends MarbleModel> extends
         BootstrapOperator<I, O> {
 
-    protected BootstrapOperator2(String label) {
+    public BootstrapOperator2(String label) {
         super(label);
     }
 

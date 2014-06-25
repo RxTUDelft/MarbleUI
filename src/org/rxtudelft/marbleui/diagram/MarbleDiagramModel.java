@@ -37,7 +37,6 @@ public class MarbleDiagramModel {
         //calculate timestamped output
         Observable<Timestamped<MarbleModel>> outputObs = operator.call(ts, inputs).map(marble ->
                 new Timestamped<>(ts.now(), marble));
-        outputObs.subscribe(System.out::println);
 
         // remove old marbles from output
         output.getMarbles().clear();

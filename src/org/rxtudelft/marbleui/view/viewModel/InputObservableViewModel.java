@@ -30,7 +30,6 @@ public class InputObservableViewModel<T extends MarbleModel> implements Observab
                         MarbleDiagramView.color.get()));
             }
             else if(mode.get() instanceof ErrorModel) {
-
                 view.getModel().put((long) c.getX(), new ErrorModel());
             }
             else if(mode.get() instanceof CompletedModel) {

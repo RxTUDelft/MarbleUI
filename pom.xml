@@ -21,8 +21,13 @@
         <dependency>
             <groupId>com.netflix.rxjava</groupId>
             <artifactId>rxjava-string</artifactId>
-        <version>0.18.3</version>
-    </dependency>
+            <version>0.18.3</version>
+        </dependency>
+        <dependency>
+            <groupId>com.netflix.rxjava</groupId>
+            <artifactId>rxjava-math</artifactId>
+            <version>0.18.3</version>
+        </dependency>
         <dependency>
             <groupId>com.liferay.portal</groupId>
             <artifactId>util-java</artifactId>

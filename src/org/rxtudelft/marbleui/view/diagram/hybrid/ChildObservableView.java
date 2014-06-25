@@ -35,6 +35,11 @@ public class ChildObservableView extends NGonObservableView implements MarbleVie
     }
 
     @Override
+    public void placeMarble(long at, MarbleModel m) {
+        super.placeMarble(at - Math.round(offset), m);
+    }
+
+    @Override
     public void turnGhost() {
         this.getLine().setStroke(Color.GRAY);
     }

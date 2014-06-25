@@ -15,6 +15,7 @@ import org.rxtudelft.marbleui.view.diagram.observable.StringObservableView;
 import org.rxtudelft.marbleui.view.diagram.observable.TimestampedObservableView;
 import org.rxtudelft.marbleui.view.viewModel.InputObservableViewModel;
 import org.rxtudelft.marbleui.view.viewModel.OutputObservableViewModel;
+import rx.Observable;
 
 /**
  * Created by ferdy on 6/25/14.
@@ -63,6 +64,8 @@ public class MarbleDiagramView implements View {
             MarbleDiagramView.this.root.getChildren().add(obsV.getNode());
             new InputObservableViewModel(obsV);
         });
+
+        this.root.getChildren().add(new OperatorView(model.getOperator().getLabel(), w, h/5));
 
         ObservableView outObsV = this.getObservableView(model.getOutput());
         new OutputObservableViewModel(outObsV);

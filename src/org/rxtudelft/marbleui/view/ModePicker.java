@@ -46,11 +46,6 @@ public class ModePicker extends HBox {
             b = new DrawButton(50, 50, marbleView.getNode());
             b.clickObs.subscribe(c -> current.setValue(marbleView.getModel()));
 
-            if(marbleView instanceof StringObservableModel) {
-                ((TextArea)b.getChildren().get(0)).addEventHandler(KeyEvent.ANY, e -> {
-                    System.out.println(e);
-                });
-            }
             this.getChildren().add(b);
         }
     }

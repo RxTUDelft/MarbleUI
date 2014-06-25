@@ -18,10 +18,4 @@ public class NGonObservableView extends BaseObservableView<NGonMarbleModel> {
     public NGonMarbleView getMarbleView(MarbleModel m, double t, double w, double h) {
         return new NGonMarbleView((NGonMarbleModel) m, w, h);
     }
-
-    @Override
-    public void placeMarble(long at, MarbleModel m) {
-        super.placeMarble(at, m);
-
-    }
 }

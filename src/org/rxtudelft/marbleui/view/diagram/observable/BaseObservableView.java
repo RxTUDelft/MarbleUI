@@ -75,7 +75,6 @@ public abstract class BaseObservableView<T extends MarbleModel> implements Obser
 
     @Override
     public void placeMarble(long at, MarbleModel m) {
-
         MarbleView marbleView;
         if(m instanceof ErrorModel) {
             marbleView = new ErrorView(getRadius(), getRadius());

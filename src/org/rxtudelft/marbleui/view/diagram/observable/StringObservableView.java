@@ -3,7 +3,6 @@ package org.rxtudelft.marbleui.view.diagram.observable;
 import org.rxtudelft.marbleui.diagram.MarbleModel;
 import org.rxtudelft.marbleui.diagram.ObservableModel;
 import org.rxtudelft.marbleui.diagram.StringMarbleModel;
-import org.rxtudelft.marbleui.view.diagram.marble.MarbleView;
 import org.rxtudelft.marbleui.view.diagram.marble.StringMarbleView;
 
 /**

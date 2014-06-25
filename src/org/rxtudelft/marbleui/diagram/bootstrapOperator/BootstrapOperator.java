@@ -46,4 +46,8 @@ public abstract class BootstrapOperator<I extends MarbleModel, O extends MarbleM
     public String getLabel() {
         return this.label;
     }
+
+    public String toString() {
+        return this.getLabel();
+    }
 }

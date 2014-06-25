@@ -9,6 +9,9 @@ import javafx.beans.property.StringProperty;
 public class StringMarbleModel extends SimpleMarbleModel {
     private StringProperty value;
 
+    public StringMarbleModel(Number nVal) {
+        this("" + nVal);
+    }
     public StringMarbleModel(String value) {
         this.value = new SimpleStringProperty(value);
     }

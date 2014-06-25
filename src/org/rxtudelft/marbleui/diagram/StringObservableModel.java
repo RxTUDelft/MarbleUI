@@ -6,6 +6,6 @@ package org.rxtudelft.marbleui.diagram;
 public class StringObservableModel extends ObservableModel {
     public StringObservableModel() {
         super();
-        this.put(0, new StringMarbleModel(""));
+        this.put(0, new StringMarbleModel(0));
     }
 }
