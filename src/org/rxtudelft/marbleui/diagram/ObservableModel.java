@@ -11,6 +11,7 @@ import rx.subjects.TestSubject;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CompletionException;
+import java.util.concurrent.TimeUnit;
 
 import static javafx.collections.MapChangeListener.Change;
 import static rx.Observable.OnSubscribe;
@@ -52,13 +53,10 @@ public class ObservableModel {
         return changeObs;
     }
 
-    public Observable<MarbleModel> testSubject(TestScheduler testScheduler) {
+    public TestSubject<MarbleModel> testSubject(TestScheduler testScheduler) {
         TestSubject<MarbleModel> ret = TestSubject.create(testScheduler);
 
-        System.out.println("------");
-        System.out.println(this);
         marbles.forEach((k, v) -> {
-            System.out.println(v);
             if (v instanceof SimpleMarbleModel) {
                 ret.onNext(((SimpleMarbleModel) v), k);
             } else if (v instanceof CompletedModel) {
@@ -66,11 +64,12 @@ public class ObservableModel {
             } else if (v instanceof ErrorModel) {
                 ret.onError(new Throwable(), k);
             } else if (v instanceof ChildObservableModel) {
+                System.out.println("Fetch children");
                 ret.onNext(v);
             }
         });
 
-        return ret.asObservable();
+        return ret;
     }
 
     public void clear() {
