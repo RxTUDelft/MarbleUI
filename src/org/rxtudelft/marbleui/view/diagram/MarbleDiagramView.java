@@ -21,7 +21,7 @@ import rx.Observable;
  * Created by ferdy on 6/25/14.
  */
 public class MarbleDiagramView implements View {
-    private MarbleDiagramModel model;
+    public static MarbleDiagramModel model;
     private VBox root;
     private double width;
     private double height;
