@@ -11,7 +11,7 @@ public class ErrorModel extends SimpleMarbleModel {
     }
 
     public ErrorModel() {
-        this.e = new Throwable();
+        e = null;
     }
 
     public Throwable getE() {

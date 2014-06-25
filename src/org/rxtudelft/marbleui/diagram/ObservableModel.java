@@ -8,10 +8,7 @@ import rx.schedulers.TestScheduler;
 import rx.schedulers.Timestamped;
 import rx.subjects.TestSubject;
 
-import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.CompletionException;
-import java.util.concurrent.TimeUnit;
 
 import static javafx.collections.MapChangeListener.Change;
 import static rx.Observable.OnSubscribe;
@@ -64,7 +61,7 @@ public class ObservableModel {
             } else if (v instanceof ErrorModel) {
                 ret.onError(new Throwable(), k);
             } else if (v instanceof ChildObservableModel) {
-                ret.onNext(v);
+                ret.onNext(new FakeChildObservableModel(((ChildObservableModel) v).testSubject(testScheduler)));
             }
         });
 

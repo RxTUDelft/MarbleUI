@@ -3,7 +3,6 @@ package org.rxtudelft.marbleui.view.viewModel;
 import javafx.beans.property.ObjectProperty;
 import javafx.scene.input.MouseEvent;
 import org.rxtudelft.marbleui.diagram.*;
-import org.rxtudelft.marbleui.diagram.NGonMarbleModel;
 import org.rxtudelft.marbleui.view.diagram.MarbleDiagramView;
 import org.rxtudelft.marbleui.view.diagram.observable.NGonObservableView;
 import org.rxtudelft.marbleui.view.diagram.observable.ObservableView;
@@ -43,7 +42,9 @@ public class InputObservableViewModel<T extends MarbleModel> implements Observab
                 view.getModel().put((long) c.getX(), new StringMarbleModel(((StringMarbleModel)mode.get()).getValue()));
             }
             else {
-                System.out.println("Mode: " + MarbleDiagramView.mode.get());
+                System.err.println("InputObservableViewModel. Cannot put the current type of thing on the currently clicked thing. ");
+                System.out.println("InputObservableViewModel. Mode: " + MarbleDiagramView.mode.get());
+                System.out.println("InputObservableViewModel. View: " + view.getClass());
             }
         });
 
