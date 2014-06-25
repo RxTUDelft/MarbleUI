@@ -18,7 +18,9 @@ public class ComplexObservableView extends ObservableView {
     protected ChildObservableView getMarbleView(Long t, MarbleModel m) {
         Node n;
         ChildObservableModel gm = (ChildObservableModel) m;
-        return new ChildObservableView(gm, getR(), t.intValue(), getWidth(), 0.2);
+        ChildObservableView childObservableView = new ChildObservableView(gm, getR(), t.intValue(), getWidth(), 0.2);
+
+        return childObservableView;
     }
 
     @Override

@@ -25,6 +25,7 @@ import java.util.List;
 public class MarbleDiagramView extends Group {
 
     private MarbleDiagramModel diagramModel;
+    private static Observable<MarbleView> mode;
 
     public MarbleDiagramView(MarbleDiagramModel diagramModel) {
         this.diagramModel = diagramModel;
@@ -49,7 +50,7 @@ public class MarbleDiagramView extends Group {
         ModePicker modePicker = new ModePicker(smallMarbleGhost, new CompletedView(25), new ErrorView(25), new ChildObservableView(new ChildObservableModel(), 0, 0, 25, 1));
         sides.subscribe(newN -> smallMarbleGhost.nProperty().setValue(newN));
         controls.getChildren().add(modePicker);
-        Observable<MarbleView> mode = JavaFxObservable.fromObservableValue(modePicker.ghostProperty());
+        mode = JavaFxObservable.fromObservableValue(modePicker.ghostProperty());
 
         root.getChildren().add(controls);
 
@@ -63,7 +64,7 @@ public class MarbleDiagramView extends Group {
             root.getChildren().add(inObs);
 
             //create view model
-            ObservableViewModel vm = new ObservableViewModel(inObs, i, mode);
+            ObservableViewModel vm = new ObservableViewModel(inObs);
 
             //add ghost vm
             ghostViewModel(inObs, sides, colorPicker.getColor());
@@ -100,5 +101,9 @@ public class MarbleDiagramView extends Group {
         else {
             return new SimpleObservableView(obsOutModel, width, height);
         }
+    }
+
+    public static Observable<MarbleView> getMode() {
+        return mode;
     }
 }

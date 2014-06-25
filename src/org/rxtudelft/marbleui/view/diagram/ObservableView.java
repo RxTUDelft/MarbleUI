@@ -12,6 +12,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
 import org.rxtudelft.marbleui.diagram.*;
 import org.rxtudelft.marbleui.diagram.bootstrapOperator.NGonMarbleModel;
+import org.rxtudelft.marbleui.viewModel.ObservableViewModel;
 import rx.observables.JavaFxObservable;
 
 import java.util.*;
@@ -22,9 +23,9 @@ import static java.lang.Math.round;
  * A javafx.scene.Node (really a Group) that represents a whole observable, including marbles.
  */
 public abstract class ObservableView extends Group {
-
     private ObservableModel model;
     //where my ghost should be
+    private ObservableViewModel vm;
     private ObjectProperty<OptionalDouble> ghost;
 
     //node object for my ghost
@@ -226,5 +227,13 @@ public abstract class ObservableView extends Group {
 
     public long xToMs(double x) {
         return round((x / this.width) * ObservableModel.MAX_TIME);
+    }
+
+    public ObservableViewModel getVm() {
+        return vm;
+    }
+
+    public void setVm(ObservableViewModel vm) {
+        this.vm = vm;
     }
 }

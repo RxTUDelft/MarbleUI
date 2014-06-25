@@ -1,10 +1,13 @@
 package org.rxtudelft.marbleui.view.diagram;
 
 import javafx.scene.Node;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import org.rxtudelft.marbleui.diagram.*;
 import org.rxtudelft.marbleui.diagram.bootstrapOperator.NGonMarbleModel;
+import org.rxtudelft.marbleui.viewModel.ObservableViewModel;
+import rx.observables.JavaFxObservable;
 
 /**
  * Created by ferdy on 6/22/14.
@@ -30,6 +33,12 @@ public class ChildObservableView extends MarbleView {
         this.obsLine = new Line(0, 0, dx, dy);
         this.obsLine.setStrokeWidth(2);
         this.obsLine.setStroke(Color.BLACK);
+
+        JavaFxObservable.fromNodeEvents(this.obsLine, MouseEvent.MOUSE_CLICKED).subscribe(e -> {
+                    this.getModel().put((long) (offset + e.getX()), new NGonMarbleModel(4, Color.BLACK));
+                }
+        );
+
         this.getChildren().add(this.obsLine);
 
         m.getMarbles().forEach((t, marble) -> {
@@ -58,7 +67,7 @@ public class ChildObservableView extends MarbleView {
 
         return this;
     }
-
+    
     @Override
     public ChildObservableModel getModel() {
         return (ChildObservableModel) super.getModel();
