@@ -13,7 +13,7 @@ import org.rxtudelft.marbleui.view.viewModel.InputObservableViewModel;
 public class ComplexObservableView extends BaseObservableView {
 
     public ComplexObservableView(ObservableModel model, double w, double h, double r) {
-        super(model, w, 200, r);
+        super(model, w, h, r);
     }
 
     @Override
