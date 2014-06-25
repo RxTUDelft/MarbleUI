@@ -47,7 +47,7 @@ public class MarbleDiagramView implements View {
         ModePicker modePicker = new ModePicker(
                 smallMarbleGhost,
                 new CompletedView(25, 25),
-                new ErrorView(25, 25),
+                new ErrorView(new ErrorModel(), 25, 25),
                 new ChildObservableView(new ChildObservableModel(), 50, 50, 0, 30, 0),
                 new StringInputMarbleView(new StringMarbleModel("input"), 100, 100));
         this.color = modePicker.colorProperty();

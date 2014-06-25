@@ -47,10 +47,13 @@ public class MarbleUI extends Application {
             return ((NGonMarbleModel)m).getNum();
         }));
         diagrams.itemsProperty().get().add(new BootstrapMap(a -> a));
+        diagrams.itemsProperty().get().add(new BootstrapSum());
         diagrams.itemsProperty().get().add(new BootstrapMax());
         diagrams.itemsProperty().get().add(new BootstrapMerge());
         diagrams.itemsProperty().get().add(new BootstrapMergeDelayError());
-//        diagrams.itemsProperty().get().add(new BootstrapParallelMerge(2));
+        diagrams.itemsProperty().get().add(new BootstrapParallelMerge(2));
+        diagrams.itemsProperty().get().add(new BootstrapJoin());
+        diagrams.itemsProperty().get().add(new BootstrapByLine());
         diagrams.itemsProperty().get().add(new BootstrapSplit(" "));
         diagrams.itemsProperty().get().add(new BootstrapTimestamp());
         diagrams.itemsProperty().get().add(new BootstrapWindow(3));
