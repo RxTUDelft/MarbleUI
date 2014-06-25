@@ -15,6 +15,9 @@ import org.rxtudelft.marbleui.view.diagram.marble.CompletedView;
 import org.rxtudelft.marbleui.view.diagram.marble.ErrorView;
 import org.rxtudelft.marbleui.view.diagram.marble.MarbleView;
 
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * Created by ferdy on 6/25/14.
  */
@@ -25,6 +28,7 @@ public abstract class BaseObservableView<T extends MarbleModel> implements Obser
     private Line line;
     private BooleanProperty selected;
     private double radius;
+    private List<Node> marbles;
 
     private double width;
     private double height;
@@ -38,6 +42,8 @@ public abstract class BaseObservableView<T extends MarbleModel> implements Obser
         this.ghost = new SimpleLongProperty(0);
         this.line = obsLine();
         this.selected = new SimpleBooleanProperty(false);
+        this.marbles = new LinkedList<>();
+
 
         Rectangle bg = new Rectangle(w, h);
 
@@ -82,6 +88,7 @@ public abstract class BaseObservableView<T extends MarbleModel> implements Obser
         }
 
         Node n = marbleView.getNode();
+        this.marbles.add(n);
         this.root.getChildren().add(n);
         n.setTranslateX(at);
         n.setTranslateY((getHeight()/2));
@@ -115,5 +122,12 @@ public abstract class BaseObservableView<T extends MarbleModel> implements Obser
 
     public Group getRoot() {
         return root;
+    }
+
+    @Override
+    public void clear() {
+        this.marbles.forEach(m -> {
+            this.getRoot().getChildren().remove(m);
+        });
     }
 }

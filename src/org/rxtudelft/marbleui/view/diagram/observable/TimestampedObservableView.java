@@ -12,7 +12,6 @@ import org.rxtudelft.marbleui.view.diagram.marble.TimestampedNGonMarbleView;
 public class TimestampedObservableView extends NGonObservableView {
     public TimestampedObservableView(ObservableModel model, double w, double h, double r) {
         super(model, w, h, r);
-        System.out.println("obsV");
     }
 
     @Override

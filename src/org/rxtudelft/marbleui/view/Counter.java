@@ -15,7 +15,7 @@ public class Counter extends HBox {
         return decButton(50, 50);
     }
 
-    private DrawButton decButton(int w, int h) {
+    private DrawButton decButton(double w, double h) {
         Line hLine = new Line(0, h/2, w, h/2);
         hLine.setStrokeWidth(2);
 
@@ -26,7 +26,7 @@ public class Counter extends HBox {
         return incButton(50, 50);
     }
 
-    private DrawButton incButton(int w, int h) {
+    private DrawButton incButton(double w, double h) {
         Line hLine = new Line(0, h/2, w, h/2);
         hLine.setStrokeWidth(2);
         Line vLine = new Line(w/2, 0, w/2, h);

@@ -1,5 +1,6 @@
 package org.rxtudelft.marbleui.view.viewModel;
 
+import javafx.beans.property.ObjectProperty;
 import javafx.scene.input.MouseEvent;
 import org.rxtudelft.marbleui.diagram.*;
 import org.rxtudelft.marbleui.diagram.NGonMarbleModel;
@@ -15,28 +16,32 @@ import rx.observables.JavaFxObservable;
 public class InputObservableViewModel<T extends MarbleModel> implements ObservableViewModel<T> {
     private ObservableView<T> view;
     private Observable<MouseEvent> clicks;
+    private ObjectProperty<MarbleModel> mode;
 
     public InputObservableViewModel(ObservableView<T> view) {
         this.view = view;
+        this.mode = MarbleDiagramView.mode;
         this.clicks = JavaFxObservable.fromNodeEvents(view.getNode(), MouseEvent.MOUSE_CLICKED);
 
         this.clicks.subscribe(c -> {
-            System.out.println(MarbleDiagramView.mode.get());
-            if(MarbleDiagramView.mode.get() instanceof NGonMarbleModel && view instanceof NGonObservableView) {
+            if(mode.get() instanceof NGonMarbleModel && view instanceof NGonObservableView) {
                 view.getModel().put((long) c.getX(), new NGonMarbleModel(
                         MarbleDiagramView.corners.get(),
                         MarbleDiagramView.color.get()));
             }
-            else if(MarbleDiagramView.mode.get() instanceof ErrorModel) {
+            else if(mode.get() instanceof ErrorModel) {
 
                 view.getModel().put((long) c.getX(), new ErrorModel());
             }
-            else if(MarbleDiagramView.mode.get() instanceof CompletedModel) {
+            else if(mode.get() instanceof CompletedModel) {
 
                 view.getModel().put((long) c.getX(), new CompletedModel());
             }
-            else if(MarbleDiagramView.mode.get() instanceof ChildObservableModel) {
+            else if(mode.get() instanceof ChildObservableModel) {
                 view.getModel().put((long) c.getX(), new ChildObservableModel());
+            }
+            else if(mode.get() instanceof StringMarbleModel) {
+                view.getModel().put((long) c.getX(), new StringMarbleModel(((StringMarbleModel)mode.get()).getValue()));
             }
             else {
                 System.out.println("Mode: " + MarbleDiagramView.mode.get());
@@ -44,9 +49,10 @@ public class InputObservableViewModel<T extends MarbleModel> implements Observab
         });
 
         this.view.getModel().getChangeObs().subscribe(c -> {
-            if(c.wasAdded()) {
-                view.placeMarble(c.getKey(), c.getValueAdded());
-            }
+            this.view.clear();
+            this.view.getModel().getMarbles().forEach((k, v) -> {
+                this.view.placeMarble(k, v);
+            });
         });
     }
 

@@ -14,7 +14,7 @@ import rx.observables.JavaFxObservable;
 public class DrawButton extends Group {
     public final Observable<? extends MouseEvent> clickObs = JavaFxObservable.fromNodeEvents(this, MouseEvent.MOUSE_CLICKED);
 
-    public DrawButton(int w, int h, Node... nodes) {
+    public DrawButton(double w, double h, Node... nodes) {
         Rectangle bg = new Rectangle(w, h);
         bg.setFill(Color.TRANSPARENT);
         this.getChildren().add(bg);

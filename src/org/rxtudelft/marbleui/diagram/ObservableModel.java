@@ -26,10 +26,6 @@ public class ObservableModel {
     private Timestamped<SimpleMarbleModel> end = new Timestamped<>(MAX_TIME, new CompletedModel());
 
     public ObservableModel() {
-        this(new HashMap<>());
-    }
-
-    public ObservableModel(Map<Long, MarbleModel> marbles) {
         this.marbles = FXCollections.observableHashMap();
         marbles.forEach(this.getMarbles()::put);
 
@@ -68,7 +64,6 @@ public class ObservableModel {
                 ret.onError(new Throwable(), k);
             }
             else if (v instanceof ChildObservableModel) {
-                System.out.println("put complex model on subject");
                 ret.onNext(v);
             }
         });

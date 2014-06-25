@@ -9,10 +9,6 @@ import java.util.Map;
 public class ChildObservableModel extends ObservableModel implements MarbleModel {
 
     public ChildObservableModel() {
-        this(new HashMap<>());
-    }
-
-    public ChildObservableModel(Map<Long, MarbleModel> marbles) {
-        super(marbles);
+        super();
     }
 }

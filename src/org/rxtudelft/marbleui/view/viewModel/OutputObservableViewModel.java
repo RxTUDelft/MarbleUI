@@ -16,9 +16,10 @@ public class OutputObservableViewModel<T extends MarbleModel> implements Observa
         this.view = view;
 
         this.view.getModel().getChangeObs().subscribe(c -> {
-            if(c.wasAdded()) {
-                view.placeMarble(c.getKey(), c.getValueAdded());
-            }
+            this.view.clear();
+            this.view.getModel().getMarbles().forEach((k, v) -> {
+                this.view.placeMarble(k, v);
+            });
         });
     }
 

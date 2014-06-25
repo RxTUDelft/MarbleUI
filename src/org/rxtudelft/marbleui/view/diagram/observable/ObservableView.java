@@ -27,4 +27,6 @@ public interface ObservableView<T extends MarbleModel> extends View {
 
     //where the ghost should be
     public LongProperty ghostProperty();
+
+    public void clear();
 }
