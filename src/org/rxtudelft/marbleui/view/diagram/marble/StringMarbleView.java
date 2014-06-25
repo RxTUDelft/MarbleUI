@@ -6,6 +6,8 @@ import javafx.scene.paint.Color;
 import org.rxtudelft.marbleui.diagram.SimpleMarbleModel;
 import org.rxtudelft.marbleui.diagram.StringMarbleModel;
 
+import java.util.Random;
+
 /**
  * Created by ferdy on 6/25/14.
  */
@@ -16,6 +18,8 @@ public class StringMarbleView extends SimpleMarbleView {
         super(m, w, h);
 
         this.label = new Label(m.getValue());
+        Random r = new Random();
+        this.label.setTranslateY(r.ints(50).findFirst().getAsInt());
     }
     
     @Override

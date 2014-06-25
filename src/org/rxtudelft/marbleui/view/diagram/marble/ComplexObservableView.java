@@ -34,5 +34,11 @@ public class ComplexObservableView extends BaseObservableView {
         this.getModel().getMarbles().forEach((k, v) -> {
             this.placeMarble(k, v);
         });
+
+        this.getMarbles().forEach(child -> {
+            if(child instanceof ChildObservableView) {
+                ((ChildObservableView)child).redraw();
+            }
+        });
     }
 }

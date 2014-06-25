@@ -90,7 +90,7 @@ public abstract class BaseObservableView<T extends MarbleModel> implements Obser
         this.marbles.add(n);
         this.root.getChildren().add(n);
         n.setTranslateX(at);
-        n.setTranslateY((getHeight()/2));
+        n.setTranslateY((getHeight() / 2));
     }
 
     public void rotate(double degrees) {
@@ -136,5 +136,9 @@ public abstract class BaseObservableView<T extends MarbleModel> implements Obser
         this.getModel().getMarbles().forEach((k, v) -> {
             this.placeMarble(k, v);
         });
+    }
+
+    public List<Node> getMarbles() {
+        return marbles;
     }
 }

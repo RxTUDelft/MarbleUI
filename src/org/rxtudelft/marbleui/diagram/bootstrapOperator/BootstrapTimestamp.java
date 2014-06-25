@@ -9,7 +9,7 @@ import org.rxtudelft.marbleui.diagram.TimestampedObservableModel;
 public class BootstrapTimestamp extends BootstrapMap {
     public BootstrapTimestamp() {
         super(o -> o);
-        this.setTimestamp("Timestamp");
+        this.setLabel("Timestamp");
     }
 
     public TimestampedObservableModel getOutObservableModel() {
