@@ -36,7 +36,7 @@ public class ChildObservableView extends NGonObservableView implements MarbleVie
 
     @Override
     public void placeMarble(long at, MarbleModel m) {
-        super.placeMarble(at - Math.round(offset), m);
+        super.placeMarble(at, m);
     }
 
     @Override
