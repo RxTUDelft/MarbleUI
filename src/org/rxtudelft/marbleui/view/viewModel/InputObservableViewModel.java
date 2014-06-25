@@ -48,10 +48,7 @@ public class InputObservableViewModel<T extends MarbleModel> implements Observab
         });
 
         this.view.getModel().getChangeObs().subscribe(c -> {
-            this.view.clear();
-            this.view.getModel().getMarbles().forEach((k, v) -> {
-                this.view.placeMarble(k, v);
-            });
+            this.view.redraw();
         });
     }
 
