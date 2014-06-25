@@ -14,7 +14,7 @@ public class BootstrapCombineLatest extends BootstrapOperator2<NGonMarbleModel, 
     private Func2<NGonMarbleModel, NGonMarbleModel, NGonMarbleModel> zipFn;
 
     public BootstrapCombineLatest(Func2<NGonMarbleModel, NGonMarbleModel, NGonMarbleModel> zipFn) {
-        super("Combine latest");
+        super("CombineLatest");
         this.zipFn = zipFn;
     }
 

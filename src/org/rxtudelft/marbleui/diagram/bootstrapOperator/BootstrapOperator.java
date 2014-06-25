@@ -8,6 +8,7 @@ import rx.functions.Func1;
 import rx.functions.Func2;
 import rx.schedulers.TestScheduler;
 
+import java.lang.String;
 import java.util.List;
 
 /**
@@ -45,6 +46,10 @@ public abstract class BootstrapOperator<I extends MarbleModel, O extends MarbleM
 
     public String getLabel() {
         return this.label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
     }
 
     public String toString() {

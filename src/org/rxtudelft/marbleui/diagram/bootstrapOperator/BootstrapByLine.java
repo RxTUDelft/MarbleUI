@@ -10,7 +10,7 @@ import rx.schedulers.TestScheduler;
  */
 public class BootstrapByLine extends BootstrapStringOperator {
     public BootstrapByLine() {
-        super("From");
+        super("ByLine");
     }
 
     @Override

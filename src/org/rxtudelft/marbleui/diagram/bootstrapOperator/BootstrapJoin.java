@@ -10,7 +10,7 @@ import rx.schedulers.TestScheduler;
  */
 public class BootstrapJoin extends BootstrapStringOperator {
     public BootstrapJoin() {
-        super("Split");
+        super("Join");
     }
 
     @Override

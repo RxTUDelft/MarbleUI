@@ -12,7 +12,7 @@ import rx.schedulers.TestScheduler;
 public class BootstrapSum extends BootstrapStringOperator {
 
     public BootstrapSum() {
-        super("Max");
+        super("Sum");
     }
 
     @Override
