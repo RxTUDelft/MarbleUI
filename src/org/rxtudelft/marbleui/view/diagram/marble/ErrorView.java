@@ -1,5 +1,6 @@
 package org.rxtudelft.marbleui.view.diagram.marble;
 
+import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import org.rxtudelft.marbleui.diagram.ErrorModel;
@@ -11,14 +12,14 @@ import org.rxtudelft.marbleui.diagram.SimpleMarbleModel;
 public class ErrorView extends SimpleMarbleView {
     private Polygon p;
 
-    public ErrorView(double r) {
-        super(new ErrorModel(), r);
+    public ErrorView(double w, double h) {
+        super(new ErrorModel(), w, h);
         this.p = new Polygon(
-                 0, r,
-                 0,-r,
+                 0, w,
+                 0,-w,
                  0, 0,
-                 r, 0,
-                -r, 0,
+                 h, 0,
+                -h, 0,
                  0, 0
         );
 
@@ -26,22 +27,21 @@ public class ErrorView extends SimpleMarbleView {
         this.p.setStroke(Color.BLACK);
         this.p.setStrokeWidth(2);
         this.p.setRotate(45);
-
-        this.getChildren().add(this.p);
     }
 
     @Override
-    Polygon getP() {
+    public void turnGhost() {
+        this.p.setStroke(Color.GRAY);
+    }
+
+    @Override
+    public Node getNode() {
         return p;
     }
 
     @Override
-    public SimpleMarbleModel getModel() {
+    public ErrorModel getModel() {
         return new ErrorModel();
     }
 
-    @Override
-    public ErrorView clone() {
-        return new ErrorView(getRadius());
-    }
 }

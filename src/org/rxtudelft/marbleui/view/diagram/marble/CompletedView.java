@@ -1,5 +1,6 @@
 package org.rxtudelft.marbleui.view.diagram.marble;
 
+import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import org.rxtudelft.marbleui.diagram.CompletedModel;
@@ -9,21 +10,17 @@ import org.rxtudelft.marbleui.diagram.CompletedModel;
  */
 public class CompletedView extends SimpleMarbleView {
     private Polygon p;
-    private double radius;
 
-    public CompletedView(double r) {
-        super(new CompletedModel(), r);
-        this.p = new Polygon(0, -r, 0, r);
-        this.radius = r;
+    public CompletedView(double w, double h) {
+        super(new CompletedModel(), w, h);
+        this.p = new Polygon(0, -h, 0, h);
 
         this.p.setStroke(Color.BLACK);
         this.p.setStrokeWidth(2);
-
-        this.getChildren().add(p);
     }
 
     @Override
-    Polygon getP() {
+    public Node getNode() {
         return p;
     }
 
@@ -33,12 +30,7 @@ public class CompletedView extends SimpleMarbleView {
     }
 
     @Override
-    public CompletedView clone() {
-        return new CompletedView(getRadius());
-    }
-
-    @Override
-    public double getRadius() {
-        return radius;
+    public void turnGhost() {
+        this.p.setStroke(Color.GRAY);
     }
 }

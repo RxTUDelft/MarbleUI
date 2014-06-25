@@ -3,34 +3,33 @@ package org.rxtudelft.marbleui.view.diagram.marble;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import org.rxtudelft.marbleui.diagram.MarbleModel;
+import org.rxtudelft.marbleui.diagram.SimpleMarbleModel;
 
 /**
  * Abstract class for everything that can be a marble.
  * Can be simple or or composite
  */
-public abstract class SimpleMarbleView extends MarbleView {
-    abstract Polygon getP();
-    private double r;
+public abstract class SimpleMarbleView implements MarbleView {
+    private SimpleMarbleModel model;
+    private double width;
+    private double height;
 
-    protected SimpleMarbleView(MarbleModel m, double r) {
-        super(m);
-        this.r = r;
+    protected SimpleMarbleView(SimpleMarbleModel m, double w, double h) {
+        this.model = m;
+        this.width = w;
+        this.height = h;
     }
-
-    public abstract MarbleModel getModel();
 
     @Override
-    public SimpleMarbleView turnGhost() {
-        this.getP().setFill(Color.TRANSPARENT);
-        this.getP().setStroke(Color.GRAY);
-        this.getP().setStrokeWidth(2);
-
-        return this;
+    public SimpleMarbleModel getModel() {
+        return this.model;
     }
 
-    public abstract SimpleMarbleView clone();
+    public double getWidth() {
+        return width;
+    }
 
-    public double getRadius() {
-        return this.r;
+    public double getHeight() {
+        return height;
     }
 }
