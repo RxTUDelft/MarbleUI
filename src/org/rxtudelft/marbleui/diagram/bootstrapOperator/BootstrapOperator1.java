@@ -15,6 +15,10 @@ import java.util.List;
 public abstract class BootstrapOperator1<I extends MarbleModel, O extends MarbleModel> extends
         BootstrapOperator<I, O> {
 
+    protected BootstrapOperator1(String label) {
+        super(label);
+    }
+
     public Observable<O> call(Scheduler s, List<Observable<I>> observables) {
         return this.call1(s, observables.get(0));
     }

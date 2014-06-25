@@ -27,6 +27,8 @@ public class ErrorView extends SimpleMarbleView {
         this.p.setStroke(Color.BLACK);
         this.p.setStrokeWidth(2);
         this.p.setRotate(45);
+        this.p.setTranslateX(w/2);
+        this.p.setTranslateY(h/2);
     }
 
     @Override

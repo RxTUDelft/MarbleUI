@@ -6,14 +6,19 @@ import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.transform.Rotate;
+import org.rxtudelft.marbleui.diagram.CompletedModel;
+import org.rxtudelft.marbleui.diagram.ErrorModel;
 import org.rxtudelft.marbleui.diagram.MarbleModel;
 import org.rxtudelft.marbleui.diagram.ObservableModel;
+import org.rxtudelft.marbleui.view.diagram.marble.CompletedView;
+import org.rxtudelft.marbleui.view.diagram.marble.ErrorView;
 import org.rxtudelft.marbleui.view.diagram.marble.MarbleView;
 
 /**
  * Created by ferdy on 6/25/14.
  */
-public class BaseObservableView<T extends MarbleModel> implements ObservableView<T> {
+public abstract class BaseObservableView<T extends MarbleModel> implements ObservableView<T> {
     private ObservableModel model;
     private LongProperty ghost;
     private Group root;
@@ -31,16 +36,21 @@ public class BaseObservableView<T extends MarbleModel> implements ObservableView
         this.radius = r;
         this.root = new Group();
         this.ghost = new SimpleLongProperty(0);
-        this.line = new Line(r, h/2, w - r, h/2);
+        this.line = obsLine();
         this.selected = new SimpleBooleanProperty(false);
 
         Rectangle bg = new Rectangle(w, h);
+
         bg.setFill(Color.TRANSPARENT);
         this.root.prefWidth(w);
         this.root.prefHeight(h);
 
         this.root.getChildren().add(bg);
         this.root.getChildren().add(line);
+    }
+
+    protected Line obsLine() {
+        return new Line(getRadius(), getHeight()/2, getWidth() - getRadius(), getHeight()/2);
     }
 
     @Override
@@ -58,17 +68,27 @@ public class BaseObservableView<T extends MarbleModel> implements ObservableView
     }
 
     @Override
-    public void placeMarble(long at, MarbleView m) {
-        Node n = m.getNode();
+    public void placeMarble(long at, MarbleModel m) {
+
+        MarbleView marbleView;
+        if(m instanceof ErrorModel) {
+            marbleView = new ErrorView(getRadius(), getRadius());
+        }
+        else if(m instanceof CompletedModel) {
+            marbleView = new CompletedView(getRadius(), getRadius());
+        }
+        else {
+            marbleView = this.getMarbleView(m, at, getRadius(), getRadius());
+        }
+
+        Node n = marbleView.getNode();
         this.root.getChildren().add(n);
         n.setTranslateX(at);
-        n.setTranslateY((getHeight()/2)-(m.getHeight()/2));
+        n.setTranslateY((getHeight()/2));
     }
 
     public void rotate(double degrees) {
-//        this.root.setTranslateY(-getHeight()/2);
-        this.root.setRotate(degrees);
-//        this.root.setTranslateY(getHeight()/2);
+        this.root.getTransforms().add(new Rotate(degrees, 0, getHeight() / 2));
     }
 
     @Override
@@ -91,5 +111,9 @@ public class BaseObservableView<T extends MarbleModel> implements ObservableView
 
     public double getRadius() {
         return radius;
+    }
+
+    public Group getRoot() {
+        return root;
     }
 }

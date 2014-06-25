@@ -9,6 +9,10 @@ import rx.Scheduler;
  */
 public class BootstrapDistinct extends BootstrapOperator1<SimpleMarbleModel, SimpleMarbleModel> {
 
+    public BootstrapDistinct() {
+        super("Distinct");
+    }
+
     @Override
     public Observable<SimpleMarbleModel> call1(Scheduler s, Observable<SimpleMarbleModel> in1) {
         return in1.distinct();

@@ -17,6 +17,8 @@ public class CompletedView extends SimpleMarbleView {
 
         this.p.setStroke(Color.BLACK);
         this.p.setStrokeWidth(2);
+        this.p.setTranslateX(w/2);
+        this.p.setTranslateY(h/2);
     }
 
     @Override

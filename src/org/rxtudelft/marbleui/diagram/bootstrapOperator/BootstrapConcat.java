@@ -9,6 +9,10 @@ import rx.Scheduler;
  */
 public class BootstrapConcat extends BootstrapOperator2<SimpleMarbleModel, SimpleMarbleModel> {
 
+    public BootstrapConcat() {
+        super("Concat");
+    }
+
     @Override
     public Observable call2(Scheduler s, Observable in1, Observable in2) {
         return Observable.concat(in1, in2);

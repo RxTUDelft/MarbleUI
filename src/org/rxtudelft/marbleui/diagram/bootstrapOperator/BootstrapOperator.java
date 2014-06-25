@@ -15,6 +15,12 @@ import java.util.List;
 public abstract class BootstrapOperator<I extends MarbleModel, O extends MarbleModel> implements
         Func2<Scheduler, List<Observable<I>>, Observable<O>> {
 
+    private String label;
+
+    protected BootstrapOperator(String label) {
+        this.label = label;
+    }
+
     @Override
     public abstract Observable<O> call(Scheduler s, List<Observable<I>> is);
 
@@ -23,4 +29,8 @@ public abstract class BootstrapOperator<I extends MarbleModel, O extends MarbleM
     }
 
     abstract public List<ObservableModel> getInObservableModels();
+
+    public String getLabel() {
+        return this.label;
+    }
 }

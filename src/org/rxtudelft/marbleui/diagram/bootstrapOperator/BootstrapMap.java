@@ -13,6 +13,7 @@ public class BootstrapMap extends BootstrapOperator1<SimpleMarbleModel, SimpleMa
     private Func1<SimpleMarbleModel, SimpleMarbleModel> mapping;
 
     public BootstrapMap(Func1<SimpleMarbleModel, SimpleMarbleModel> mapping) {
+        super("Map");
         this.mapping = mapping;
     }
 

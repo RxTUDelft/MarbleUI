@@ -1,21 +1,15 @@
-package org.rxtudelft.marbleui;
+package org.rxtudelft.marbleui.view;
 
 import javafx.application.Application;
-
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import org.rxtudelft.marbleui.diagram.MarbleDiagramModel;
-import org.rxtudelft.marbleui.diagram.ObservableModel;
-import org.rxtudelft.marbleui.diagram.SimpleMarbleModel;
 import org.rxtudelft.marbleui.diagram.bootstrapOperator.*;
 import org.rxtudelft.marbleui.view.diagram.MarbleDiagramView;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- *
+ * Created by ferdy on 6/25/14.
  */
 public class MarbleUI extends Application {
     public static void main(String[] args) {
@@ -28,12 +22,12 @@ public class MarbleUI extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         stage.setTitle("MarbleUI");
+        MarbleDiagramModel diagram;
+        diagram = new MarbleDiagramModel(new BootstrapMap(a -> a));
+//        diagram = new MarbleDiagramModel(new BootstrapByLine());
+//        diagram = new MarbleDiagramModel(new BootstrapParallelMerge(3));
 
-        //setup diagram model
-//        MarbleDiagramModel diagramModel = new MarbleDiagramModel(new BootstrapDistinct());
-        MarbleDiagramModel diagramModel = new MarbleDiagramModel(new BootstrapParallelMerge(2));
-
-        stage.setScene(new Scene(new MarbleDiagramView(diagramModel), width, height, Color.WHITE));
+        stage.setScene(new Scene(new MarbleDiagramView(diagram, width, height).getNode(), width, height, Color.WHITE));
 
         stage.show();
     }

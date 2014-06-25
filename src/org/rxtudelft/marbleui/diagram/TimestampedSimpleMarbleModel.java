@@ -1,7 +1,6 @@
 package org.rxtudelft.marbleui.diagram;
 
 import javafx.scene.paint.Color;
-import org.rxtudelft.marbleui.diagram.bootstrapOperator.NGonMarbleModel;
 
 /**
  * Created by ferdy on 6/19/14.

@@ -11,6 +11,7 @@ public class BootstrapWindow extends BootstrapOperator1<SimpleMarbleModel, Child
     private int windowSize;
 
     public BootstrapWindow(int windowSize) {
+        super("Window");
         this.windowSize = windowSize;
     }
 

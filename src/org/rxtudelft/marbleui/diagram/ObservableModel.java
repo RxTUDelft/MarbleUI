@@ -38,8 +38,6 @@ public class ObservableModel {
                 subscriber.onNext((Change<Long, MarbleModel>)change);
             });
         });
-
-//        this.put(this.end.getTimestampMillis(), this.end.getValue());
     }
 
     public void put(long at, MarbleModel marble) {
@@ -58,8 +56,8 @@ public class ObservableModel {
         return changeObs;
     }
 
-    public Observable<SimpleMarbleModel> testSubject(TestScheduler testScheduler) {
-        TestSubject<SimpleMarbleModel> ret = TestSubject.create(testScheduler);
+    public Observable<MarbleModel> testSubject(TestScheduler testScheduler) {
+        TestSubject<MarbleModel> ret = TestSubject.create(testScheduler);
 
         marbles.forEach((k,v) -> {
             if(v instanceof SimpleMarbleModel) {
@@ -68,6 +66,10 @@ public class ObservableModel {
                 ret.onCompleted(k);
             } else if(v instanceof ErrorModel) {
                 ret.onError(new Throwable(), k);
+            }
+            else if (v instanceof ChildObservableModel) {
+                System.out.println("put complex model on subject");
+                ret.onNext(v);
             }
         });
 

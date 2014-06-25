@@ -5,17 +5,16 @@ import javafx.beans.property.ObjectProperty;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import org.rxtudelft.marbleui.diagram.*;
-import org.rxtudelft.marbleui.diagram.bootstrapOperator.NGonMarbleModel;
+import org.rxtudelft.marbleui.diagram.NGonMarbleModel;
 import org.rxtudelft.marbleui.view.ModePicker;
-import org.rxtudelft.marbleui.view.diagram.marble.CompletedView;
-import org.rxtudelft.marbleui.view.diagram.marble.ErrorView;
-import org.rxtudelft.marbleui.view.diagram.marble.MarbleView;
-import org.rxtudelft.marbleui.view.diagram.marble.NGonMarbleView;
+import org.rxtudelft.marbleui.view.diagram.hybrid.ChildObservableView;
+import org.rxtudelft.marbleui.view.diagram.marble.*;
 import org.rxtudelft.marbleui.view.diagram.observable.NGonObservableView;
 import org.rxtudelft.marbleui.view.diagram.observable.ObservableView;
+import org.rxtudelft.marbleui.view.diagram.observable.StringObservableView;
+import org.rxtudelft.marbleui.view.diagram.observable.TimestampedObservableView;
 import org.rxtudelft.marbleui.view.viewModel.InputObservableViewModel;
-import rx.Observable;
-import rx.observables.JavaFxObservable;
+import org.rxtudelft.marbleui.view.viewModel.OutputObservableViewModel;
 
 /**
  * Created by ferdy on 6/25/14.
@@ -44,7 +43,12 @@ public class MarbleDiagramView implements View {
 
         //setup controls
         NGonMarbleView smallMarbleGhost = new NGonMarbleView(ngonGhost, 25, 25);
-        ModePicker modePicker = new ModePicker(smallMarbleGhost, new CompletedView(25, 25), new ErrorView(25, 25));
+        ModePicker modePicker = new ModePicker(
+                smallMarbleGhost,
+                new CompletedView(25, 25),
+                new ErrorView(25, 25),
+                new ChildObservableView(new ChildObservableModel(), 50, 50, 0, 30, 0),
+                new StringInputMarbleView(new StringMarbleModel("input"), 100, 100));
         this.color = modePicker.colorProperty();
         this.corners = modePicker.cornersProperty();
         this.mode = modePicker.modeProperty();
@@ -61,17 +65,19 @@ public class MarbleDiagramView implements View {
         });
 
         ObservableView outObsV = this.getObservableView(model.getOutput());
-        new InputObservableViewModel(outObsV);
+        new OutputObservableViewModel(outObsV);
         this.root.getChildren().add(outObsV.getNode());
-
     }
 
     private ObservableView getObservableView(ObservableModel obsModel) {
         if(obsModel instanceof TimestampedObservableModel) {
-            return null;
+            return new TimestampedObservableView(obsModel, getWidth(), getHeight()/5, 40);
         }
         else if(obsModel instanceof ComplexObservableModel) {
-            return null;
+            return new ComplexObservableView(obsModel, getWidth(), getHeight()/5, 40);
+        }
+        else if(obsModel instanceof StringObservableModel) {
+            return new StringObservableView(obsModel, getWidth(), getHeight()/5, 40);
         }
         else {
             return new NGonObservableView(obsModel, getWidth(), getHeight()/5, 40);

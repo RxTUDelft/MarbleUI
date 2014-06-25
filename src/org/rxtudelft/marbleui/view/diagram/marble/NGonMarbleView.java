@@ -1,12 +1,10 @@
 package org.rxtudelft.marbleui.view.diagram.marble;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.ObjectProperty;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
-import org.rxtudelft.marbleui.diagram.bootstrapOperator.NGonMarbleModel;
+import org.rxtudelft.marbleui.diagram.NGonMarbleModel;
 
 import java.util.stream.DoubleStream;
 import java.util.stream.Stream;
@@ -30,6 +28,13 @@ public class NGonMarbleView extends SimpleMarbleView {
         this.p.setStrokeWidth(2);
 
         this.setPoints(m.getNum());
+
+        m.colorProperty().addListener((p, o, n) -> {
+            ((Polygon)NGonMarbleView.this.getNode()).setFill(n);
+        });
+        m.numProperty().addListener((p, o, n) -> {
+            NGonMarbleView.this.setPoints(n.intValue());
+        });
     }
 
     protected void setPoints(int n) {
@@ -58,6 +63,6 @@ public class NGonMarbleView extends SimpleMarbleView {
     }
 
     public double getRadius() {
-        return Math.min(getWidth(), getHeight())/2;
+        return Math.min(getWidth(), getHeight());
     }
 }

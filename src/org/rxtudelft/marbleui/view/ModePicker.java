@@ -4,10 +4,16 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
+import javafx.scene.control.TextArea;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import org.rxtudelft.marbleui.diagram.MarbleModel;
+import org.rxtudelft.marbleui.diagram.StringObservableModel;
 import org.rxtudelft.marbleui.view.diagram.marble.MarbleView;
+
+import java.security.Key;
 
 /**
  * Created by jeff on 19-6-14.
@@ -39,6 +45,12 @@ public class ModePicker extends HBox {
             marbleView.turnGhost();
             b = new DrawButton(50, 50, marbleView.getNode());
             b.clickObs.subscribe(c -> current.setValue(marbleView.getModel()));
+
+            if(marbleView instanceof StringObservableModel) {
+                ((TextArea)b.getChildren().get(0)).addEventHandler(KeyEvent.ANY, e -> {
+                    System.out.println(e);
+                });
+            }
             this.getChildren().add(b);
         }
     }

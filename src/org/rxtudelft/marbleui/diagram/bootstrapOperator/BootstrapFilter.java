@@ -13,6 +13,7 @@ public class BootstrapFilter extends BootstrapOperator1<SimpleMarbleModel, Simpl
     private Func1<SimpleMarbleModel, Boolean> filter;
 
     public BootstrapFilter(Func1<SimpleMarbleModel, Boolean> filter) {
+        super("Filter");
         this.filter = filter;
     }
 

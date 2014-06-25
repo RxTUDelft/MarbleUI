@@ -13,6 +13,7 @@ public class BootstrapCombineLatest extends BootstrapOperator2<SimpleMarbleModel
     private Func2<SimpleMarbleModel, SimpleMarbleModel, SimpleMarbleModel> zipFn;
 
     public BootstrapCombineLatest(Func2<SimpleMarbleModel, SimpleMarbleModel, SimpleMarbleModel> zipFn) {
+        super("Combine latest");
         this.zipFn = zipFn;
     }
 

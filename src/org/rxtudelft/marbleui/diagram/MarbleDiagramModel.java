@@ -31,8 +31,8 @@ public class MarbleDiagramModel {
         TestScheduler ts = new TestScheduler();
 
         //create list of input rxObservables
-        List<Observable<SimpleMarbleModel>> inputs = this.inputs.stream()
-                .map(o -> o.testSubject(ts)).collect(Collectors.<Observable<SimpleMarbleModel>>toList());
+        List<Observable<MarbleModel>> inputs = this.inputs.stream()
+                .map(o -> o.testSubject(ts)).collect(Collectors.<Observable<MarbleModel>>toList());
         
         //calculate timestamped output
         Observable<Timestamped<MarbleModel>> outputObs = operator.call(ts, inputs).map(marble ->

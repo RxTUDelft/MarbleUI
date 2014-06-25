@@ -12,6 +12,7 @@ public class BootstrapGroupBy<K> extends BootstrapOperator1<SimpleMarbleModel, C
     private Func1<? super SimpleMarbleModel, K> groupFunc;
 
     public BootstrapGroupBy(Func1<? super SimpleMarbleModel, K> groupFunc) {
+        super("GroupBy");
         this.groupFunc = groupFunc;
     }
 
