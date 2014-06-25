@@ -36,14 +36,14 @@ public class MarbleDiagramModel {
         
         //calculate timestamped output
         Observable<Timestamped<MarbleModel>> outputObs = operator.call(ts, inputs).map(marble ->
-                new Timestamped<>(ts.now(), marble));
+                new Timestamped<>(ts.now(), (MarbleModel) marble));
 
         // remove old marbles from output
         output.getMarbles().clear();
 
         //put all marbles on output
         outputObs.subscribe( o -> MarbleDiagramModel.this.output.put(o.getTimestampMillis(), o.getValue()),
-                e -> MarbleDiagramModel.this.output.put(ts.now(), new ErrorModel()),
+                e -> MarbleDiagramModel.this.output.put(ts.now(), new ErrorModel(e)),
                 () -> MarbleDiagramModel.this.output.put(ts.now(), new CompletedModel())
         );
 
