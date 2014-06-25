@@ -2,9 +2,8 @@ package org.rxtudelft.marbleui.diagram.bootstrapOperator;
 
 import org.rxtudelft.marbleui.diagram.MarbleModel;
 import org.rxtudelft.marbleui.diagram.ObservableModel;
-import org.rxtudelft.marbleui.diagram.SimpleMarbleModel;
 import rx.Observable;
-import rx.Scheduler;
+import rx.schedulers.TestScheduler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,11 +18,11 @@ public abstract class BootstrapOperator2<I extends MarbleModel, O extends Marble
         super(label);
     }
 
-    public Observable<O> call(Scheduler s, List<Observable<I>> observables) {
+    public Observable<O> call(TestScheduler s, List<Observable<I>> observables) {
         return this.call2(s, observables.get(0), observables.get(1));
     }
 
-    public abstract Observable<O> call2(Scheduler s, Observable<I> in1, Observable<I> in2);
+    public abstract Observable<O> call2(TestScheduler s, Observable<I> in1, Observable<I> in2);
 
     @Override
     public List<ObservableModel> getInObservableModels() {

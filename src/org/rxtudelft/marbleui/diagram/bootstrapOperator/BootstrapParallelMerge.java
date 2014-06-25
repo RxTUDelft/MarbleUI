@@ -1,9 +1,9 @@
 package org.rxtudelft.marbleui.diagram.bootstrapOperator;
 
-import javafx.scene.paint.Color;
-import org.rxtudelft.marbleui.diagram.*;
+import org.rxtudelft.marbleui.diagram.ChildObservableModel;
+import org.rxtudelft.marbleui.diagram.ComplexObservableModel;
+import org.rxtudelft.marbleui.diagram.ObservableModel;
 import rx.Observable;
-import rx.Scheduler;
 import rx.schedulers.TestScheduler;
 
 import java.util.ArrayList;
@@ -21,13 +21,8 @@ public class BootstrapParallelMerge extends BootstrapOperator1<ChildObservableMo
     }
 
     @Override
-    public Observable<ChildObservableModel> call1(Scheduler s, Observable<ChildObservableModel> in1) {
-        ChildObservableModel merged = new ChildObservableModel();
-
-        Observable.parallelMerge(in1.map(inGroup -> {
-            //Create an obs for all in streams
-            return inGroup.testSubject((TestScheduler)s);
-        }), distributeOver);
+    public Observable<ChildObservableModel> call1(TestScheduler s, Observable<ChildObservableModel> in1) {
+        Observable.parallelMerge(in1.map(modelToObservable((TestScheduler) s)), distributeOver);
 
         return Observable.from();
     }

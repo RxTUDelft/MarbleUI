@@ -2,7 +2,7 @@ package org.rxtudelft.marbleui.diagram.bootstrapOperator;
 
 import org.rxtudelft.marbleui.diagram.SimpleMarbleModel;
 import rx.Observable;
-import rx.Scheduler;
+import rx.schedulers.TestScheduler;
 
 /**
  * Created by ferdy on 6/18/14.
@@ -14,7 +14,7 @@ public class BootstrapDistinct extends BootstrapOperator1<SimpleMarbleModel, Sim
     }
 
     @Override
-    public Observable<SimpleMarbleModel> call1(Scheduler s, Observable<SimpleMarbleModel> in1) {
+    public Observable<SimpleMarbleModel> call1(TestScheduler s, Observable<SimpleMarbleModel> in1) {
         return in1.distinct();
     }
 }
