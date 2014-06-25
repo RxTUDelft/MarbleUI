@@ -1,4 +1,4 @@
-package org.rxtudelft.marbleui.view.diagram;
+package org.rxtudelft.marbleui.view.diagram.marble;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
@@ -6,10 +6,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ObservableList;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Polygon;
-import org.rxtudelft.marbleui.diagram.MarbleModel;
-import org.rxtudelft.marbleui.diagram.SimpleMarbleModel;
 import org.rxtudelft.marbleui.diagram.bootstrapOperator.NGonMarbleModel;
 import rx.observables.JavaFxObservable;
 

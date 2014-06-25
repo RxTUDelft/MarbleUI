@@ -1,4 +1,4 @@
-package org.rxtudelft.marbleui.view.diagram;
+package org.rxtudelft.marbleui.view.diagram.marble;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;

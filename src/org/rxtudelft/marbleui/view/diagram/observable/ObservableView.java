@@ -1,4 +1,4 @@
-package org.rxtudelft.marbleui.view.diagram;
+package org.rxtudelft.marbleui.view.diagram.observable;
 
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
@@ -12,6 +12,10 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
 import org.rxtudelft.marbleui.diagram.*;
 import org.rxtudelft.marbleui.diagram.bootstrapOperator.NGonMarbleModel;
+import org.rxtudelft.marbleui.view.diagram.marble.CompletedView;
+import org.rxtudelft.marbleui.view.diagram.marble.ErrorView;
+import org.rxtudelft.marbleui.view.diagram.marble.MarbleView;
+import org.rxtudelft.marbleui.view.diagram.marble.NGonMarbleView;
 import org.rxtudelft.marbleui.viewModel.ObservableViewModel;
 import rx.observables.JavaFxObservable;
 
