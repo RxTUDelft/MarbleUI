@@ -50,6 +50,7 @@ public class MarbleUI extends Application {
         diagrams.itemsProperty().get().add(new BootstrapSum());
         diagrams.itemsProperty().get().add(new BootstrapMax());
         diagrams.itemsProperty().get().add(new BootstrapMerge());
+        diagrams.itemsProperty().get().add(new BootstrapConcat());
         diagrams.itemsProperty().get().add(new BootstrapMergeDelayError());
         diagrams.itemsProperty().get().add(new BootstrapParallelMerge(2));
         diagrams.itemsProperty().get().add(new BootstrapJoin());

@@ -64,7 +64,6 @@ public class ObservableModel {
             } else if (v instanceof ErrorModel) {
                 ret.onError(new Throwable(), k);
             } else if (v instanceof ChildObservableModel) {
-                System.out.println("Fetch children");
                 ret.onNext(v);
             }
         });

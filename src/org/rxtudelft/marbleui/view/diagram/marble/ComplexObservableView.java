@@ -18,7 +18,7 @@ public class ComplexObservableView extends BaseObservableView {
 
     @Override
     public MarbleView getMarbleView(MarbleModel m, double t, double w, double h) {
-        ChildObservableView childObservableView = new ChildObservableView((ObservableModel) m, getWidth() - t, h, getRadius(), 30, t);
+        ChildObservableView childObservableView = new ChildObservableView((ObservableModel) m, getWidth() - t, h, getRadius(), 20, t);
         new InputObservableViewModel<>(childObservableView);
 
         childObservableView.getModel().getChangeObs().subscribe(a -> {

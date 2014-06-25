@@ -65,7 +65,7 @@ public class MarbleDiagramView implements View {
             new InputObservableViewModel(obsV);
         });
 
-        this.root.getChildren().add(new OperatorView(model.getOperator().getLabel(), w, h/5));
+        this.root.getChildren().add(new OperatorView(model.getOperator().getLabel(), w, h/7));
 
         ObservableView outObsV = this.getObservableView(model.getOutput());
         new OutputObservableViewModel(outObsV);
@@ -74,16 +74,16 @@ public class MarbleDiagramView implements View {
 
     private ObservableView getObservableView(ObservableModel obsModel) {
         if(obsModel instanceof TimestampedObservableModel) {
-            return new TimestampedObservableView(obsModel, getWidth(), getHeight()/5, 40);
+            return new TimestampedObservableView(obsModel, getWidth(), getHeight()/7, 40);
         }
         else if(obsModel instanceof ComplexObservableModel) {
-            return new ComplexObservableView(obsModel, getWidth(), getHeight()/5, 40);
+            return new ComplexObservableView(obsModel, getWidth(), getHeight()/7, 40);
         }
         else if(obsModel instanceof StringObservableModel) {
-            return new StringObservableView(obsModel, getWidth(), getHeight()/5, 40);
+            return new StringObservableView(obsModel, getWidth(), getHeight()/7, 40);
         }
         else {
-            return new NGonObservableView(obsModel, getWidth(), getHeight()/5, 40);
+            return new NGonObservableView(obsModel, getWidth(), getHeight()/7, 40);
         }
     }
 
