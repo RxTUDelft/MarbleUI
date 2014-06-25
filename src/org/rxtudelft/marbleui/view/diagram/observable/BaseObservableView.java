@@ -129,4 +129,12 @@ public abstract class BaseObservableView<T extends MarbleModel> implements Obser
             this.getRoot().getChildren().remove(m);
         });
     }
+
+    @Override
+    public void redraw() {
+        this.clear();
+        this.getModel().getMarbles().forEach((k, v) -> {
+            this.placeMarble(k, v);
+        });
+    }
 }
