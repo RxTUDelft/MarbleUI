@@ -22,9 +22,8 @@ public class BootstrapParallelMerge extends BootstrapOperator1<ChildObservableMo
 
     @Override
     public Observable<ChildObservableModel> call1(TestScheduler s, Observable<ChildObservableModel> in1) {
-        Observable.parallelMerge(in1.map(modelToObservable((TestScheduler) s)), distributeOver);
-
-        return Observable.from();
+        return Observable.parallelMerge(in1.map(modelToObservable(s)), distributeOver)
+                .map(observableToModel(s));
     }
 
     @Override

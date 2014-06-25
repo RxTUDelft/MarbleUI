@@ -20,13 +20,7 @@ public class BootstrapGroupBy<K> extends BootstrapOperator1<SimpleMarbleModel, C
 
     @Override
     public Observable<ChildObservableModel> call1(TestScheduler s, Observable<SimpleMarbleModel> in1) {
-        return in1.groupBy(this.groupFunc).map(group -> {
-            ChildObservableModel groupModel = new ChildObservableModel();
-            group.timestamp().subscribe(marble -> {
-                groupModel.put(s.now(), marble.getValue());
-            });
-            return groupModel;
-        });
+        return in1.groupBy(this.groupFunc).map(observableToModel(s));
     }
 
     public ComplexObservableModel getOutObservableModel() {
