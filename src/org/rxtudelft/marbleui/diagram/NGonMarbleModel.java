@@ -44,16 +44,16 @@ public class NGonMarbleModel extends SimpleMarbleModel {
 
         NGonMarbleModel that = (NGonMarbleModel) o;
 
-        if (num != that.num) return false;
-        if (color != null ? !color.equals(that.color) : that.color != null) return false;
+        if (color != null ? !color.get().equals(that.color.get()) : that.color != null) return false;
+        if (num != null ? num.get() != that.num.get() : that.num != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = num.get();
-        result = 31 * result + (color != null ? color.hashCode() : 0);
+        int result = num != null ? Integer.hashCode(num.get()) : 0;
+        result = 31 * result + (color != null ? color.get().hashCode() : 0);
         return result;
     }
 }
