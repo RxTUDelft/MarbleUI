@@ -2,6 +2,7 @@ package org.rxtudelft.marbleui.diagram.bootstrapOperator;
 
 import org.rxtudelft.marbleui.diagram.ChildObservableModel;
 import org.rxtudelft.marbleui.diagram.ComplexObservableModel;
+import org.rxtudelft.marbleui.diagram.FakeChildObservableModel;
 import org.rxtudelft.marbleui.diagram.ObservableModel;
 import rx.Observable;
 import rx.schedulers.TestScheduler;
@@ -12,7 +13,7 @@ import java.util.List;
 /**
  * Created by ferdy on 6/23/14.
  */
-public class BootstrapParallelMerge extends BootstrapOperator1<ChildObservableModel, ChildObservableModel> {
+public class BootstrapParallelMerge extends BootstrapOperator1<FakeChildObservableModel, ChildObservableModel> {
     private int distributeOver;
 
     public BootstrapParallelMerge(int distributeOver) {
@@ -21,8 +22,8 @@ public class BootstrapParallelMerge extends BootstrapOperator1<ChildObservableMo
     }
 
     @Override
-    public Observable<ChildObservableModel> call1(TestScheduler s, Observable<ChildObservableModel> in1) {
-        return Observable.parallelMerge(in1.map(modelToObservable(s)), distributeOver)
+    public Observable<ChildObservableModel> call1(TestScheduler s, Observable<FakeChildObservableModel> in1) {
+        return Observable.parallelMerge(in1.map(FakeChildObservableModel::getObservable), distributeOver)
                 .map(observableToModel(s));
     }
 
@@ -32,5 +33,10 @@ public class BootstrapParallelMerge extends BootstrapOperator1<ChildObservableMo
         inObsModels.add(new ComplexObservableModel());
 
         return inObsModels;
+    }
+
+    @Override
+    public ObservableModel getOutObservableModel() {
+        return new ComplexObservableModel();
     }
 }

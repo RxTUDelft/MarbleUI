@@ -38,10 +38,6 @@ public abstract class BootstrapOperator<I extends MarbleModel, O extends MarbleM
         return new ObservableModel();
     }
 
-    protected static Func1<ChildObservableModel, Observable<MarbleModel>> modelToObservable(TestScheduler s) {
-        return inGroup -> inGroup.testSubject(s);
-    }
-
     abstract public List<ObservableModel> getInObservableModels();
 
     public String getLabel() {
