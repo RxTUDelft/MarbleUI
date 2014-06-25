@@ -22,9 +22,17 @@ public class ComplexObservableView extends BaseObservableView {
         new InputObservableViewModel<>(childObservableView);
 
         childObservableView.getModel().getChangeObs().subscribe(a -> {
-            MarbleDiagramView.model.calcOutput();
+//            MarbleDiagramView.model.calcOutput();
         });
 
         return childObservableView;
+    }
+
+    @Override
+    public void redraw() {
+        this.clear();
+        this.getModel().getMarbles().forEach((k, v) -> {
+            this.placeMarble(k, v);
+        });
     }
 }
