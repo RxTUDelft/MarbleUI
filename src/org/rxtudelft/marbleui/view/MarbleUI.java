@@ -39,6 +39,7 @@ public class MarbleUI extends Application {
             return new NGonMarbleModel(Math.min(a.getNum(), b.getNum()), b.getColor());
         }));
         diagrams.itemsProperty().get().add(new BootstrapDistinct());
+        diagrams.itemsProperty().get().add(new BootstrapDistinctUntilChanged());
         diagrams.itemsProperty().get().add(new BootstrapFilter(a -> {
             return a.getColor().getGreen() > a.getColor().getRed();
         }));
